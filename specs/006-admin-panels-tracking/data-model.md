@@ -18,7 +18,7 @@
 | avatar_url | TEXT | | URL de avatar |
 | role | TEXT | NOT NULL, CHECK IN (customer, admin_hl, admin_kc, superadmin) | Rol del usuario |
 | created_at | TIMESTAMPTZ | DEFAULT NOW() | Fecha de creación |
-| updated_at | TIMESTAMPTS | DEFAULT NOW() | Fecha de actualización |
+| updated_at | TIMESTAMPTZ | DEFAULT NOW() | Fecha de actualización |
 
 **RLS Policies**:
 - Users can manage own profile: `auth.uid() = id`

@@ -25,12 +25,12 @@
 
 **Purpose**: Tipos, utilidades base y clientes Supabase
 
-- [ ] T001 Create types in src/types/auth.ts (UserRole, AuthResponse) per data-model.md
-- [ ] T002 [P] Create types in src/types/profile.ts (Profile, Address, PhoneFormat) per data-model.md
-- [ ] T003 [P] Create type guard isValidEmail in src/lib/utils/validators.ts per research.md §8
-- [ ] T004 [P] Create type guard isValidRole in src/lib/utils/validators.ts per research.md §9
-- [ ] T005 Create Supabase browser client in src/lib/supabase/client.ts per research.md §1
-- [ ] T006 [P] Create Supabase server client in src/lib/supabase/server.ts per research.md §1
+- [X] T001 Create types in src/types/auth.ts (UserRole, AuthResponse) per data-model.md
+- [X] T002 [P] Create types in src/types/profile.ts (Profile, Address, PhoneFormat) per data-model.md
+- [X] T003 [P] Create type guard isValidEmail in src/lib/utils/validators.ts per research.md §8
+- [X] T004 [P] Create type guard isValidRole in src/lib/utils/validators.ts per research.md §9
+- [X] T005 Create Supabase browser client in src/lib/supabase/client.ts per research.md §1
+- [X] T006 [P] Create Supabase server client in src/lib/supabase/server.ts per research.md §1
 
 ---
 
@@ -40,10 +40,10 @@
 
 **⚠️ CRITICAL**: No auth screen work can begin until this phase is complete
 
-- [ ] T007 [AuthBE] Implement signIn Server Action in src/lib/actions/sign-in.ts (email, password, rememberMe) per spec §3.3
-- [ ] T008 [AuthBE] Implement signUp Server Action in src/lib/actions/sign-up.ts (email, password, fullName) with auto profile creation per spec §3.3 + §3.4
-- [ ] T009 [AuthBE] Implement signOut Server Action in src/lib/actions/sign-out.ts per spec §3.3
-- [ ] T010 [AuthBE] Implement resetPassword Server Action in src/lib/actions/reset-password.ts per spec §3.3
+- [X] T007 [AuthBE] Implement signIn Server Action in src/lib/actions/sign-in.ts (email, password, rememberMe) per spec §3.3
+- [X] T008 [AuthBE] Implement signUp Server Action in src/lib/actions/sign-up.ts (email, password, fullName) with auto profile creation per spec §3.3 + §3.4
+- [X] T009 [AuthBE] Implement signOut Server Action in src/lib/actions/sign-out.ts per spec §3.3
+- [X] T010 [AuthBE] Implement resetPassword Server Action in src/lib/actions/reset-password.ts per spec §3.3
 
 **Checkpoint**: Server Actions functional — auth flow backend ready
 
@@ -57,13 +57,13 @@
 
 ### Implementation for User Story 1
 
-- [ ] T011 [P] [US1] Create auth layout in src/app/(auth)/layout.tsx (sin header/footer, route group)
-- [ ] T012 [P] [US1] Create loading overlay component in src/components/auth/loading-overlay.tsx per spec §3.1 (fondo difuminado, sin spinner genérico)
-- [ ] T013 [P] [US1] Create auth form shared component in src/components/auth/auth-form.tsx (tarjeta centrada max-w-[440px], inputs, botones) per spec §3.1
-- [ ] T014 [US1] Create login page in src/app/(auth)/login/page.tsx (email, password, Recordarme, OAuth Google, links) per spec §3.1
-- [ ] T015 [US1] Create register page in src/app/(auth)/register/page.tsx (fullName, email, password, confirm password) per spec §3.1
-- [ ] T016 [US1] Create forgot-password page in src/app/(auth)/forgot-password/page.tsx (email, mensaje confirmación) per spec §3.1
-- [ ] T017 [US1] Create auth error page in src/components/auth/error-page.tsx (reintentar + WhatsApp) per spec §3.2
+- [X] T011 [P] [US1] Create auth layout in src/app/(auth)/layout.tsx (sin header/footer, route group)
+- [X] T012 [P] [US1] Create loading overlay component in src/components/auth/loading-overlay.tsx per spec §3.1 (fondo difuminado, sin spinner genérico)
+- [X] T013 [P] [US1] Create auth form shared component in src/components/auth/auth-form.tsx (tarjeta centrada max-w-[440px], inputs, botones) per spec §3.1
+- [X] T014 [US1] Create login page in src/app/(auth)/login/page.tsx (email, password, Recordarme, OAuth Google, links) per spec §3.1
+- [X] T015 [US1] Create register page in src/app/(auth)/register/page.tsx (fullName, email, password, confirm password) per spec §3.1
+- [X] T016 [US1] Create forgot-password page in src/app/(auth)/forgot-password/page.tsx (email, mensaje confirmación) per spec §3.1
+- [X] T017 [US1] Create auth error page in src/components/auth/error-page.tsx (reintentar + WhatsApp) per spec §3.2
 
 **Checkpoint**: Auth screens functional with validation and loading states
 
@@ -77,9 +77,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T018 [US2] Create middleware in src/lib/supabase/middleware.ts (session verification, role check) per spec §3.6
-- [ ] T019 [US2] Register middleware in src/middleware.ts (Next.js middleware config) per plan.md
-- [ ] T020 [US2] Implement admin route isolation (admin_hl → /admin/libros, admin_kc → /admin/productos) per spec §3.6
+- [X] T018 [US2] Create middleware in src/lib/supabase/middleware.ts (session verification, role check) per spec §3.6
+- [X] T019 [US2] Register middleware in src/middleware.ts (Next.js middleware config) per plan.md
+- [X] T020 [US2] Implement admin route isolation (admin_hl → /admin/libros, admin_kc → /admin/productos) per spec §3.6
 
 **Checkpoint**: Route protection functional — role-based access control working
 
@@ -93,11 +93,11 @@
 
 ### Implementation for User Story 3
 
-- [ ] T021 [P] [US3] Create phone input component in src/components/ui/phone-input.tsx (VE +58 / Internacional selector) per spec §3.5
-- [ ] T022 [US3] Create profile page in src/app/(shop)/perfil/page.tsx (edit name, phone) per spec §3.5
-- [ ] T023 [US3] Implement address CRUD in src/app/(shop)/perfil/page.tsx (add, edit, delete, is_default) per spec §3.5
-- [ ] T024 [US3] Create address form component in src/components/profile/address-form.tsx per data-model.md Address entity
-- [ ] T024b [US3] Verify addresses table RLS policies are active (SELECT, INSERT, UPDATE, DELETE per user_id) per data-model.md
+- [X] T021 [P] [US3] Create phone input component in src/components/ui/phone-input.tsx (VE +58 / Internacional selector) per spec §3.5
+- [X] T022 [US3] Create profile page in src/app/(shop)/perfil/page.tsx (edit name, phone) per spec §3.5
+- [X] T023 [US3] Implement address CRUD in src/app/(shop)/perfil/page.tsx (add, edit, delete, is_default) per spec §3.5
+- [X] T024 [US3] Create address form component in src/components/profile/address-form.tsx per data-model.md Address entity
+- [X] T024b [US3] Verify addresses table RLS policies are active (SELECT, INSERT, UPDATE, DELETE per user_id) per data-model.md
 
 **Checkpoint**: Profile management functional — user can edit info and manage addresses
 
@@ -111,9 +111,9 @@
 
 ### Tests for User Story 4
 
-- [ ] T025 [P] [US4] Create validator tests in tests/unit/validators.test.ts (isValidEmail, isValidRole) per spec §3.7
-- [ ] T026 [P] [US4] Create auth action tests in tests/unit/auth-actions.test.ts (signIn, signUp, signOut, resetPassword) per spec §3.7
-- [ ] T027 [P] [US4] Create middleware tests in tests/unit/middleware.test.ts (role verification, redirects) per spec §3.7
+- [X] T025 [P] [US4] Create validator tests in tests/unit/validators.test.ts (isValidEmail, isValidRole) per spec §3.7
+- [X] T026 [P] [US4] Create auth action tests in tests/unit/auth-actions.test.ts (signIn, signUp, signOut, resetPassword) per spec §3.7
+- [X] T027 [P] [US4] Create middleware tests in tests/unit/middleware.test.ts (role verification, redirects) per spec §3.7
 
 **Checkpoint**: Test suite passing — >80% coverage achieved
 
@@ -123,10 +123,10 @@
 
 **Purpose**: Final adjustments and documentation
 
-- [ ] T028 Verify accessibility (keyboard navigation, aria-labels) in all auth screens per spec §3.1
-- [ ] T029 Verify all error messages are in Spanish per spec §3.1
-- [ ] T030 Run quickstart.md validation scenarios per quickstart.md
-- [ ] T031 [P] Update docs/REQUIREMENTS.md with auth module status
+- [X] T028 Verify accessibility (keyboard navigation, aria-labels) in all auth screens per spec §3.1
+- [X] T029 Verify all error messages are in Spanish per spec §3.1
+- [X] T030 Run quickstart.md validation scenarios per quickstart.md
+- [X] T031 [P] Update docs/REQUIREMENTS.md with auth module status
 
 ---
 

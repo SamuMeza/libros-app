@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { HeaderProps } from '@/types';
+import Link from 'next/link';
+import type { HeaderProps, Brand } from '@/types';
 
 const NAV_ITEMS = [
   { label: 'Libros', href: '/libros', brand: 'hl' as Brand },
@@ -12,23 +13,21 @@ const NAV_ITEMS = [
 
 export default function Header({ cartCount = 0 }: HeaderProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const drawerRef = useRef<HTMLDivElement>(null);
-  const hamburgerRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === 'undefined') return false;
     const stored = localStorage.getItem('theme-preference');
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        setIsDark(parsed.mode === 'dark');
+        return parsed.mode === 'dark';
       } catch {
-        setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
       }
-    } else {
-      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
     }
-  }, []);
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   const toggleDrawer = useCallback(() => {
     setIsDrawerOpen((prev) => !prev);
@@ -150,7 +149,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
       </button>
 
       {/* Branding */}
-      <a href="/" className="flex items-center" aria-label="Hecho Letras y KamCat - Inicio">
+      <Link href="/" className="flex items-center" aria-label="Hecho Letras y KamCat - Inicio">
           <span className="hidden md:inline font-bold text-hl-primary" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'var(--font-h3)' }}>
             Hecho Letras
           </span>
@@ -169,7 +168,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
           <span className="md:hidden font-bold text-kc-primary" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'var(--font-h3)' }}>
             KC
           </span>
-      </a>
+      </Link>
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-8 mx-auto" aria-label="Navegación principal">

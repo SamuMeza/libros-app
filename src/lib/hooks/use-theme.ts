@@ -46,15 +46,16 @@ function applyTheme(theme: Theme): void {
 }
 
 export default function useTheme() {
-  const [theme, setTheme] = useState<Theme>('light');
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return 'light';
+    const stored = getStoredTheme();
+    return stored ?? getSystemTheme();
+  });
+  const [isLoaded] = useState(() => typeof window !== 'undefined');
 
   useEffect(() => {
-    const stored = getStoredTheme();
-    const initial = stored ?? getSystemTheme();
-    setTheme(initial);
-    applyTheme(initial);
-    setIsLoaded(true);
+    const current = getStoredTheme() ?? getSystemTheme();
+    applyTheme(current);
 
     // Listen for system preference changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');

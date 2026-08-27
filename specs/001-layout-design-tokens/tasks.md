@@ -25,12 +25,12 @@
 
 **Purpose**: Inicialización del proyecto y estructura básica
 
-- [ ] T001 Create styles directory structure in src/styles/
-- [ ] T002 [P] Create components/layout directory in src/components/layout/
-- [ ] T003 [P] Create components/shared directory in src/components/shared/
-- [ ] T004 [P] Create lib/hooks directory in src/lib/hooks/
-- [ ] T005 [P] Create tests/utils directory in tests/utils/
-- [ ] T006 [P] Create tests/components directory in tests/components/
+- [x] T001 Create styles directory structure in src/styles/
+- [x] T002 [P] Create components/layout directory in src/components/layout/
+- [x] T003 [P] Create components/shared directory in src/components/shared/
+- [x] T004 [P] Create lib/hooks directory in src/lib/hooks/
+- [x] T005 [P] Create tests/utils directory in tests/utils/
+- [x] T006 [P] Create tests/components directory in tests/components/
 
 ---
 
@@ -40,13 +40,13 @@
 
 **⚠️ CRITICAL**: No se puede comenzar trabajo en user stories hasta completar esta fase
 
-- [ ] T007 Create base CSS variables file in src/styles/brand-variables.css with :root definitions
-- [ ] T008 [P] Implement dark mode media query in src/styles/brand-variables.css
-- [ ] T009 [P] Add brand-hl and brand-kc utility classes in src/styles/brand-variables.css
-- [ ] T010 Configure Playfair Display font via next/font in src/app/layout.tsx
-- [ ] T011 [P] Configure Inter font via next/font in src/app/layout.tsx
-- [ ] T012 [P] Create use-theme hook for dark mode persistence in src/lib/hooks/use-theme.ts
-- [ ] T013 Import brand-variables.css in src/app/layout.tsx
+- [x] T007 Create base CSS variables file in src/styles/brand-variables.css with :root definitions
+- [x] T008 [P] Implement dark mode media query in src/styles/brand-variables.css
+- [x] T009 [P] Add brand-hl and brand-kc utility classes in src/styles/brand-variables.css
+- [x] T010 Configure Playfair Display font via next/font in src/app/layout.tsx
+- [x] T011 [P] Configure Inter font via next/font in src/app/layout.tsx
+- [x] T012 [P] Create use-theme hook for dark mode persistence in src/lib/hooks/use-theme.ts
+- [x] T013 Import brand-variables.css in src/app/layout.tsx
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -60,20 +60,20 @@
 
 ### Tests for User Story 1
 
-- [ ] T014 [P] [US1] Create CSS token utilities test in tests/utils/css-tokens.test.ts
-- [ ] T015 [P] [US1] Test brand color for HL in tests/utils/css-tokens.test.ts
-- [ ] T016 [P] [US1] Test brand color for KC in tests/utils/css-tokens.test.ts
-- [ ] T017 [P] [US1] Test dark mode variant in tests/utils/css-tokens.test.ts
+- [x] T014 [P] [US1] Create CSS token utilities test in tests/utils/css-tokens.test.ts
+- [x] T015 [P] [US1] Test brand color for HL in tests/utils/css-tokens.test.ts
+- [x] T016 [P] [US1] Test brand color for KC in tests/utils/css-tokens.test.ts
+- [x] T017 [P] [US1] Test dark mode variant in tests/utils/css-tokens.test.ts
 
 ### Implementation for User Story 1
 
-- [ ] T018 [P] [US1] Define color tokens (HL, KC, semantic) in src/styles/brand-variables.css
-- [ ] T019 [P] [US1] Define spacing tokens (space-1 to space-24) in src/styles/brand-variables.css
-- [ ] T020 [P] [US1] Define border radius tokens in src/styles/brand-variables.css
-- [ ] T021 [P] [US1] Define shadow tokens in src/styles/brand-variables.css
-- [ ] T022 [US1] Add responsive typography variables in src/styles/brand-variables.css
-- [ ] T023 [US1] Implement dark mode overrides in src/styles/brand-variables.css
-- [ ] T024 [US1] Add transition utilities for theme switching in src/styles/brand-variables.css
+- [x] T018 [P] [US1] Define color tokens (HL, KC, semantic) in src/styles/brand-variables.css
+- [x] T019 [P] [US1] Define spacing tokens (space-1 to space-24) in src/styles/brand-variables.css
+- [x] T020 [P] [US1] Define border radius tokens in src/styles/brand-variables.css
+- [x] T021 [P] [US1] Define shadow tokens in src/styles/brand-variables.css
+- [x] T022 [US1] Add responsive typography variables in src/styles/brand-variables.css
+- [x] T023 [US1] Implement dark mode overrides in src/styles/brand-variables.css
+- [x] T024 [US1] Add transition utilities for theme switching in src/styles/brand-variables.css
 
 **Checkpoint**: Design system base complete - all CSS variables and typography ready
 
@@ -87,21 +87,21 @@
 
 ### Tests for User Story 2
 
-- [ ] T025 [P] [US2] Create header component test in tests/components/header.test.tsx
-- [ ] T026 [P] [US2] Test branding with correct colors in tests/components/header.test.tsx
-- [ ] T027 [P] [US2] Test mobile drawer toggle in tests/components/header.test.tsx
-- [ ] T028 [P] [US2] Test cart badge count in tests/components/header.test.tsx
-- [ ] T029 [P] [US2] Test navigation routes in tests/components/header.test.tsx
+- [x] T025 [P] [US2] Create header component test in tests/components/header.test.tsx
+- [x] T026 [P] [US2] Test branding with correct colors in tests/components/header.test.tsx
+- [x] T027 [P] [US2] Test mobile drawer toggle in tests/components/header.test.tsx
+- [x] T028 [P] [US2] Test cart badge count in tests/components/header.test.tsx
+- [x] T029 [P] [US2] Test navigation routes in tests/components/header.test.tsx
 
 ### Implementation for User Story 2
 
-- [ ] T030 [P] [US2] Create Header component structure in src/components/layout/header.tsx
-- [ ] T031 [P] [US2] Implement branding section with dual colors in src/components/layout/header.tsx
-- [ ] T032 [P] [US2] Add desktop navigation with underline animation in src/components/layout/header.tsx
-- [ ] T033 [US2] Implement mobile drawer with slide animation in src/components/layout/header.tsx
-- [ ] T034 [US2] Add interactive badges (cart, theme toggle, search, favorites, account) in src/components/layout/header.tsx
-- [ ] T035 [US2] Implement keyboard navigation and aria-labels in src/components/layout/header.tsx
-- [ ] T036 [US2] Add backdrop-blur and fixed positioning in src/components/layout/header.tsx
+- [x] T030 [P] [US2] Create Header component structure in src/components/layout/header.tsx
+- [x] T031 [P] [US2] Implement branding section with dual colors in src/components/layout/header.tsx
+- [x] T032 [P] [US2] Add desktop navigation with underline animation in src/components/layout/header.tsx
+- [x] T033 [US2] Implement mobile drawer with slide animation in src/components/layout/header.tsx
+- [x] T034 [US2] Add interactive badges (cart, theme toggle, search, favorites, account) in src/components/layout/header.tsx
+- [x] T035 [US2] Implement keyboard navigation and aria-labels in src/components/layout/header.tsx
+- [x] T036 [US2] Add backdrop-blur and fixed positioning in src/components/layout/header.tsx
 
 **Checkpoint**: Header fully functional with desktop and mobile views
 
@@ -115,20 +115,20 @@
 
 ### Tests for User Story 3
 
-- [ ] T037 [P] [US3] Create footer component test in tests/components/footer.test.tsx
-- [ ] T038 [P] [US3] Test all column sections render in tests/components/footer.test.tsx
-- [ ] T039 [P] [US3] Test social links display in tests/components/footer.test.tsx
-- [ ] T040 [P] [US3] Test responsive behavior in tests/components/footer.test.tsx
+- [x] T037 [P] [US3] Create footer component test in tests/components/footer.test.tsx
+- [x] T038 [P] [US3] Test all column sections render in tests/components/footer.test.tsx
+- [x] T039 [P] [US3] Test social links display in tests/components/footer.test.tsx
+- [x] T040 [P] [US3] Test responsive behavior in tests/components/footer.test.tsx
 
 ### Implementation for User Story 3
 
-- [ ] T041 [P] [US3] Create Footer component structure in src/components/layout/footer.tsx
-- [ ] T042 [P] [US3] Implement brand column with logo and tagline in src/components/layout/footer.tsx
-- [ ] T043 [P] [US3] Add quick links column in src/components/layout/footer.tsx
-- [ ] T044 [P] [US3] Add legal links column in src/components/layout/footer.tsx
-- [ ] T045 [P] [US3] Add contact and social media column in src/components/layout/footer.tsx
-- [ ] T046 [US3] Implement responsive grid layout in src/components/layout/footer.tsx
-- [ ] T047 [US3] Add copyright section at bottom in src/components/layout/footer.tsx
+- [x] T041 [P] [US3] Create Footer component structure in src/components/layout/footer.tsx
+- [x] T042 [P] [US3] Implement brand column with logo and tagline in src/components/layout/footer.tsx
+- [x] T043 [P] [US3] Add quick links column in src/components/layout/footer.tsx
+- [x] T044 [P] [US3] Add legal links column in src/components/layout/footer.tsx
+- [x] T045 [P] [US3] Add contact and social media column in src/components/layout/footer.tsx
+- [x] T046 [US3] Implement responsive grid layout in src/components/layout/footer.tsx
+- [x] T047 [US3] Add copyright section at bottom in src/components/layout/footer.tsx
 
 **Checkpoint**: Footer complete with all 4 columns and responsive behavior
 
@@ -142,22 +142,22 @@
 
 ### Tests for User Story 4
 
-- [ ] T048 [P] [US4] Create product-card component test in tests/components/product-card.test.tsx
-- [ ] T049 [P] [US4] Test 3:4 ratio for HL books in tests/components/product-card.test.tsx
-- [ ] T050 [P] [US4] Test 1:1 ratio for KC products in tests/components/product-card.test.tsx
-- [ ] T051 [P] [US4] Test badge display for stock status in tests/components/product-card.test.tsx
-- [ ] T052 [P] [US4] Test onAddToCart callback in tests/components/product-card.test.tsx
+- [x] T048 [P] [US4] Create product-card component test in tests/components/product-card.test.tsx
+- [x] T049 [P] [US4] Test 3:4 ratio for HL books in tests/components/product-card.test.tsx
+- [x] T050 [P] [US4] Test 1:1 ratio for KC products in tests/components/product-card.test.tsx
+- [x] T051 [P] [US4] Test badge display for stock status in tests/components/product-card.test.tsx
+- [x] T052 [P] [US4] Test onAddToCart callback in tests/components/product-card.test.tsx
 
 ### Implementation for User Story 4
 
-- [ ] T053 [P] [US4] Create ProductCard component structure in src/components/shared/product-card.tsx
-- [ ] T054 [P] [US4] Define TypeScript interfaces for product and brand in src/components/shared/product-card.tsx
-- [ ] T055 [P] [US4] Implement image container with aspect ratio in src/components/shared/product-card.tsx
-- [ ] T056 [US4] Add dynamic badges (EN STOCK, POR ENCARGO, PERSONALIZABLE) in src/components/shared/product-card.tsx
-- [ ] T057 [US4] Implement floating add-to-cart button in src/components/shared/product-card.tsx
-- [ ] T058 [US4] Add product information section (brand, title, author/category, price) in src/components/shared/product-card.tsx
-- [ ] T059 [US4] Implement hover effects with elevation and shadow in src/components/shared/product-card.tsx
-- [ ] T060 [US4] Add accessibility attributes (alt text, aria-label) in src/components/shared/product-card.tsx
+- [x] T053 [P] [US4] Create ProductCard component structure in src/components/shared/product-card.tsx
+- [x] T054 [P] [US4] Define TypeScript interfaces for product and brand in src/components/shared/product-card.tsx
+- [x] T055 [P] [US4] Implement image container with aspect ratio in src/components/shared/product-card.tsx
+- [x] T056 [US4] Add dynamic badges (EN STOCK, POR ENCARGO, PERSONALIZABLE) in src/components/shared/product-card.tsx
+- [x] T057 [US4] Implement floating add-to-cart button in src/components/shared/product-card.tsx
+- [x] T058 [US4] Add product information section (brand, title, author/category, price) in src/components/shared/product-card.tsx
+- [x] T059 [US4] Implement hover effects with elevation and shadow in src/components/shared/product-card.tsx
+- [x] T060 [US4] Add accessibility attributes (alt text, aria-label) in src/components/shared/product-card.tsx
 
 **Checkpoint**: ProductCard reusable across both brands with all required features
 
@@ -171,29 +171,29 @@
 
 ### Tests for User Story 5
 
-- [ ] T061 [P] [US5] Create toast component test in tests/components/toast.test.tsx
-- [ ] T062 [P] [US5] Test auto-dismiss after 5 seconds in tests/components/toast.test.tsx
-- [ ] T063 [P] [US5] Test variant colors in tests/components/toast.test.tsx
-- [ ] T064 [P] [US5] Test close button in tests/components/toast.test.tsx
-- [ ] T065 [P] [US5] Create modal component test in tests/components/modal.test.tsx
-- [ ] T066 [P] [US5] Test Escape key close in tests/components/modal.test.tsx
-- [ ] T067 [P] [US5] Test focus trap in tests/components/modal.test.tsx
-- [ ] T068 [P] [US5] Test body scroll prevention in tests/components/modal.test.tsx
+- [x] T061 [P] [US5] Create toast component test in tests/components/toast.test.tsx
+- [x] T062 [P] [US5] Test auto-dismiss after 5 seconds in tests/components/toast.test.tsx
+- [x] T063 [P] [US5] Test variant colors in tests/components/toast.test.tsx
+- [x] T064 [P] [US5] Test close button in tests/components/toast.test.tsx
+- [x] T065 [P] [US5] Create modal component test in tests/components/modal.test.tsx
+- [x] T066 [P] [US5] Test Escape key close in tests/components/modal.test.tsx
+- [x] T067 [P] [US5] Test focus trap in tests/components/modal.test.tsx
+- [x] T068 [P] [US5] Test body scroll prevention in tests/components/modal.test.tsx
 
 ### Implementation for User Story 5
 
-- [ ] T069 [P] [US5] Create Toast component structure in src/components/shared/toast.tsx
-- [ ] T070 [P] [US5] Implement toast variants (success, error, info) in src/components/shared/toast.tsx
-- [ ] T071 [US5] Add auto-dismiss timer (5 seconds) in src/components/shared/toast.tsx
-- [ ] T072 [US5] Implement stacking behavior (max 3 visible) in src/components/shared/toast.tsx
-- [ ] T073 [P] [US5] Create Modal component structure in src/components/shared/modal.tsx
-- [ ] T074 [P] [US5] Implement overlay with backdrop-blur in src/components/shared/modal.tsx
-- [ ] T075 [US5] Add Escape key handler in src/components/shared/modal.tsx
-- [ ] T076 [US5] Implement focus trap in src/components/shared/modal.tsx
-- [ ] T077 [US5] Add body scroll prevention in src/components/shared/modal.tsx
-- [ ] T078 [P] [US5] Create Skeleton component structure in src/components/shared/skeleton.tsx
-- [ ] T079 [P] [US5] Implement product card skeleton with aspect ratios in src/components/shared/skeleton.tsx
-- [ ] T080 [US5] Add pulse animation (2 seconds) in src/components/shared/skeleton.tsx
+- [x] T069 [P] [US5] Create Toast component structure in src/components/shared/toast.tsx
+- [x] T070 [P] [US5] Implement toast variants (success, error, info) in src/components/shared/toast.tsx
+- [x] T071 [US5] Add auto-dismiss timer (5 seconds) in src/components/shared/toast.tsx
+- [x] T072 [US5] Implement stacking behavior (max 3 visible) in src/components/shared/toast.tsx
+- [x] T073 [P] [US5] Create Modal component structure in src/components/shared/modal.tsx
+- [x] T074 [P] [US5] Implement overlay with backdrop-blur in src/components/shared/modal.tsx
+- [x] T075 [US5] Add Escape key handler in src/components/shared/modal.tsx
+- [x] T076 [US5] Implement focus trap in src/components/shared/modal.tsx
+- [x] T077 [US5] Add body scroll prevention in src/components/shared/modal.tsx
+- [x] T078 [P] [US5] Create Skeleton component structure in src/components/shared/skeleton.tsx
+- [x] T079 [P] [US5] Implement product card skeleton with aspect ratios in src/components/shared/skeleton.tsx
+- [x] T080 [US5] Add pulse animation (2 seconds) in src/components/shared/skeleton.tsx
 
 **Checkpoint**: All transversal components functional
 
@@ -203,15 +203,15 @@
 
 **Purpose**: Mejoras que afectan múltiples user stories
 
-- [ ] T081 [P] Run all unit tests and verify 100% pass rate
-- [ ] T082 [P] Verify code coverage > 80% with vitest
-- [ ] T083 [P] Run lint check and fix any issues
-- [ ] T084 Verify no px values used in any component (only rem, em, vw, vh, %)
-- [ ] T085 Test dark mode persistence across page reloads
-- [ ] T086 Verify responsive behavior at all breakpoints
-- [ ] T087 Test keyboard navigation for all interactive elements
-- [ ] T088 Verify WCAG 2.1 AA compliance with Lighthouse accessibility audit (score >90)
-- [ ] T089 Run quickstart.md validation scenarios
+- [x] T081 [P] Run all unit tests and verify 100% pass rate
+- [x] T082 [P] Verify code coverage > 80% with vitest
+- [x] T083 [P] Run lint check and fix any issues
+- [x] T084 Verify no px values used in any component (only rem, em, vw, vh, %)
+- [x] T085 Test dark mode persistence across page reloads
+- [x] T086 Verify responsive behavior at all breakpoints
+- [x] T087 Test keyboard navigation for all interactive elements
+- [x] T088 Verify WCAG 2.1 AA compliance with Lighthouse accessibility audit (score >90)
+- [x] T089 Run quickstart.md validation scenarios
 
 ---
 

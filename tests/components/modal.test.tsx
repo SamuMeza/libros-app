@@ -48,7 +48,7 @@ describe('Modal Component', () => {
         </Modal>
       );
       const overlay = screen.getByRole('dialog').parentElement;
-      fireEvent.click(overlay);
+      fireEvent.click(overlay!);
       expect(onClose).toHaveBeenCalled();
     });
   });

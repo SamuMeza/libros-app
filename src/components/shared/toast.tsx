@@ -1,13 +1,5 @@
-import React from 'react';
-
-type ToastVariant = 'success' | 'error' | 'info';
-
-interface ToastProps {
-  variant: ToastVariant;
-  message: string;
-  duration?: number;
-  onClose: () => void;
-}
+import { useEffect } from 'react';
+import type { ToastProps, ToastVariant } from '@/types';
 
 const VARIANT_STYLES: Record<ToastVariant, string> = {
   success: 'bg-green-500 text-white',
@@ -16,7 +8,7 @@ const VARIANT_STYLES: Record<ToastVariant, string> = {
 };
 
 export default function Toast({ variant, message, duration = 5000, onClose }: ToastProps) {
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setTimeout(onClose, duration);
     return () => clearTimeout(timer);
   }, [duration, onClose]);

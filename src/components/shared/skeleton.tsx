@@ -1,17 +1,9 @@
-import React from 'react';
-
-interface SkeletonProps {
-  className?: string;
-}
+import type { SkeletonProps, ProductCardSkeletonProps } from '@/types';
 
 export function Skeleton({ className = '' }: SkeletonProps) {
   return (
     <div className={`animate-pulse bg-muted rounded ${className}`} />
   );
-}
-
-interface ProductCardSkeletonProps {
-  aspectRatio?: '3/4' | '1/1';
 }
 
 export function ProductCardSkeleton({ aspectRatio = '3/4' }: ProductCardSkeletonProps) {

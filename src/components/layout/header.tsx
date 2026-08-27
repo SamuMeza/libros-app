@@ -1,12 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-
-type Brand = 'hl' | 'kc';
-
-interface HeaderProps {
-  cartCount?: number;
-}
+import type { HeaderProps } from '@/types';
 
 const NAV_ITEMS = [
   { label: 'Libros', href: '/libros', brand: 'hl' as Brand },
@@ -156,30 +151,24 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
 
       {/* Branding */}
       <a href="/" className="flex items-center" aria-label="Hecho Letras y KamCat - Inicio">
-        <span
-          className="hidden md:inline"
-          style={{
-            fontFamily: 'var(--font-playfair), Georgia, serif',
-            fontSize: 'var(--font-h3)',
-            fontWeight: 700,
-          }}
-        >
-          <span style={{ color: 'var(--hl-primary)' }}>Hecho Letras</span>
-          <span style={{ color: 'var(--text-muted)', margin: '0 0.25em' }}>&amp;</span>
-          <span style={{ color: 'var(--kc-primary)' }}>KamCat</span>
-        </span>
-        <span
-          className="md:hidden"
-          style={{
-            fontFamily: 'var(--font-playfair), Georgia, serif',
-            fontSize: 'var(--font-h3)',
-            fontWeight: 700,
-          }}
-        >
-          <span style={{ color: 'var(--hl-primary)' }}>HL</span>
-          <span style={{ color: 'var(--text-muted)', margin: '0 0.15em' }}>&amp;</span>
-          <span style={{ color: 'var(--kc-primary)' }}>KC</span>
-        </span>
+          <span className="hidden md:inline font-bold text-hl-primary" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'var(--font-h3)' }}>
+            Hecho Letras
+          </span>
+          <span className="hidden md:inline text-text-muted mx-1" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'var(--font-h3)' }}>
+            &amp;
+          </span>
+          <span className="hidden md:inline font-bold text-kc-primary" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'var(--font-h3)' }}>
+            KamCat
+          </span>
+          <span className="md:hidden font-bold text-hl-primary" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'var(--font-h3)' }}>
+            HL
+          </span>
+          <span className="md:hidden text-text-muted" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'var(--font-h3)', margin: '0 0.15em' }}>
+            &amp;
+          </span>
+          <span className="md:hidden font-bold text-kc-primary" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'var(--font-h3)' }}>
+            KC
+          </span>
       </a>
 
       {/* Desktop Navigation */}

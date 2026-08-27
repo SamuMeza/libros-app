@@ -1,11 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  maxWidth?: string;
-}
+import { useEffect, useRef } from 'react';
+import type { ModalProps } from '@/types';
 
 export default function Modal({ isOpen, onClose, children, maxWidth = '450px' }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);

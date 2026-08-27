@@ -1,22 +1,4 @@
-import React from 'react';
-
-type Brand = 'hl' | 'kc';
-
-interface Product {
-  id: string;
-  name: string;
-  author?: string;
-  category?: string;
-  price: number;
-  image: string;
-  stockStatus: 'in_stock' | 'pre_order' | 'customizable';
-}
-
-interface ProductCardProps {
-  product: Product;
-  brand: Brand;
-  onAddToCart: (productId: string) => void;
-}
+import type { ProductCardProps, Product } from '@/types';
 
 const STOCK_LABELS: Record<Product['stockStatus'], string> = {
   in_stock: 'EN STOCK',

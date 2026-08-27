@@ -10,24 +10,24 @@ describe('Header Component', () => {
   });
 
   describe('Branding', () => {
-    it('should render "Hecho Letras" with HL primary color', () => {
+    it('should render "Hecho Letras" with HL primary color class', () => {
       // ARRANGE & ACT
       render(<Header />);
 
       // ASSERT
       const hlText = screen.getByText('Hecho Letras');
       expect(hlText).toBeInTheDocument();
-      expect(hlText).toHaveStyle({ color: 'var(--hl-primary)' });
+      expect(hlText).toHaveClass('text-hl-primary');
     });
 
-    it('should render "KamCat" with KC primary color', () => {
+    it('should render "KamCat" with KC primary color class', () => {
       // ARRANGE & ACT
       render(<Header />);
 
       // ASSERT
       const kcText = screen.getByText('KamCat');
       expect(kcText).toBeInTheDocument();
-      expect(kcText).toHaveStyle({ color: 'var(--kc-primary)' });
+      expect(kcText).toHaveClass('text-kc-primary');
     });
   });
 

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent, getAllByText } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import ProductCard from '@/components/shared/product-card';
 
@@ -23,16 +23,20 @@ const mockKCProduct = {
 
 describe('ProductCard Component', () => {
   describe('Branding', () => {
-    it('should render HL brand indicator in info section', () => {
+    it('should render HL brand in badge and info section', () => {
       render(<ProductCard product={mockHLProduct} brand="hl" onAddToCart={vi.fn()} />);
       const brandElements = screen.getAllByText('Hecho Letras');
-      expect(brandElements.length).toBeGreaterThanOrEqual(1);
+      expect(brandElements).toHaveLength(2);
+      expect(brandElements[0]).toHaveClass('bg-hl-primary');
+      expect(brandElements[1]).toHaveClass('text-hl-primary');
     });
 
-    it('should render KC brand indicator in info section', () => {
+    it('should render KC brand in badge and info section', () => {
       render(<ProductCard product={mockKCProduct} brand="kc" onAddToCart={vi.fn()} />);
       const brandElements = screen.getAllByText('KamCat');
-      expect(brandElements.length).toBeGreaterThanOrEqual(1);
+      expect(brandElements).toHaveLength(2);
+      expect(brandElements[0]).toHaveClass('bg-kc-primary');
+      expect(brandElements[1]).toHaveClass('text-kc-primary');
     });
   });
 

@@ -29,6 +29,11 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 
 **Ruta:** `src/app/(shop)/libros/page.tsx`
 
+**Metadata SEO:**
+- Título: "Libros — Hecho Letras"
+- Descripción: "Explora nuestro catálogo de libros. Encuentra títulos por género, precio y disponibilidad. Envíos a toda Venezuela."
+- Open Graph: usa default del layout padre
+
 **Sidebar de Filtros:**
 - Filtro por Categorías/Género: checkboxes con recuento de libros por categoría
 - Filtro por Rango de Precios: controles numéricos min/max
@@ -42,6 +47,7 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 
 **Ordenamiento:**
 - Selector con opciones: Relevancia, Precio (menor a mayor), Precio (mayor a menor), Novedades, A-Z
+- "Relevancia": libros destacados (`is_featured = true`) primero, luego por fecha de creación (más recientes primero)
 
 **Grid de Resultados:**
 - 4 columnas en desktop, 3 en tablet, 2 en mobile
@@ -61,7 +67,8 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 - [ ] El filtro de disponibilidad distingue "en stock" vs "por encargo"
 - [ ] El ordenamiento funciona correctamente en todas las opciones
 - [ ] La paginación muestra 24 libros por página
-- [ ] Los resultados vacímos muestran un mensaje amigable con sugerencia
+- [ ] Los resultados vacíos muestran: mensaje "No encontramos libros con esos filtros", botón "Limpiar filtros" y sugerencia de términos de búsqueda relacionados
+- [ ] Si Supabase no responde, se muestra "No pudimos cargar el catálogo. Verifica tu conexión e intenta de nuevo." con botón de reintentar
 - [ ] El sidebar es colapsable en mobile con botón de toggle
 - [ ] Los parámetros de filtros se reflejan en la URL (compartible)
 - [ ] El estado de carga muestra skeleton cards consistentes con el layout final
@@ -80,6 +87,7 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 - Galería inferior de miniaturas (`80px`) con borde activo en `--hl-primary`
 - Transición de imagen: `transition-all duration-200 ease-in-out` (200ms)
 - Las imágenes se obtienen del campo `images TEXT[]` de la tabla `books` (primera imagen = portada)
+- Si una imagen falla al cargar (URL rota, timeout), se muestra una imagen genérica de libros como fallback
 
 **Columna Derecha — Información:**
 - Badge de marca: "Hecho Letras"
@@ -96,6 +104,7 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 - Lista de accesorios complementarios fabricados por KamCat
 - Cada extra muestra: nombre, precio adicional, checkbox para agregar
 - Extras por defecto pre-seleccionados según configuración en `book_extras`
+- Si un extra apunta a un producto que ya no existe en `products`, se omite silenciosamente (no se muestra en la UI)
 - Accesorios típicos: Marcapáginas laminado, Stickers temáticos, Lámpara de lectura LED
 
 **Selector de Cantidad:**
@@ -147,7 +156,9 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 - [ ] El mensaje tiene un límite de 500 caracteres con contador visible
 - [ ] El envío exitoso muestra un mensaje de confirmación
 - [ ] Los errores de envío muestran mensajes descriptivos en español
+- [ ] Si el envío falla por error de red/servidor, se muestra "No pudimos enviar tu solicitud. Intenta de nuevo." con botón de reintentar, preservando los datos del formulario
 - [ ] El formulario se resetea después de un envío exitoso
+- [ ] El formulario NO persiste estado entre recargas — se resetea al navegar fuera o recargar la página
 - [ ] Los datos se almacenan en la tabla `contact_requests` con estado `pending`
 
 ### 3.4 Server Actions de Libros
@@ -155,10 +166,10 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 **Ubicación:** `src/lib/actions/` (un archivo por Server Action, cada uno con `export default`)
 
 **Acciones:**
-- `getBooks(filters)` — Consulta libros con filtros, búsqueda, ordenamiento y paginación
-- `getBookBySlug(slug)` — Obtiene un libro por su slug con categoría y extras
-- `getBookExtras(bookId)` — Obtiene los extras configurados para un libro
-- `submitBookRequest(data)` — Registra una solicitud de libro no catalogado
+- `getBooks(filters)` — Consulta libros con filtros, búsqueda, ordenamiento y paginación (acceso público)
+- `getBookBySlug(slug)` — Obtiene un libro por su slug con categoría y extras (acceso público)
+- `getBookExtras(bookId)` — Obtiene los extras configurados para un libro (acceso público)
+- `submitBookRequest(data)` — Registra una solicitud de libro no catalogado (acceso público con sesión opcional — asocia `user_id` si el usuario está autenticado)
 
 **Parámetros de `getBooks`:**
 - `categoryIds`: UUID[] — Filtro por categorías (OR dentro del grupo)
@@ -192,6 +203,13 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 - Página de detalle carga en < 1.5 segundos
 - Paginación responde en < 300ms
 
+### Accesibilidad
+- Cumplimiento WCAG 2.1 nivel AA para todos los componentes interactivos
+- Navegación completa por teclado en sidebar de filtros, galería de imágenes y acordeones
+- ARIA labels en todos los elementos interactivos (botones, checkboxes, inputs, galería)
+- Manejo de foco visible en sidebar drawer mobile y transiciones de galería
+- Contraste de colores mínimo 4.5:1 para texto normal, 3:1 para texto grande
+
 ### Cualitativos
 - Los usuarios pueden encontrar libros usando filtros y búsqueda sin frustración
 - La información del libro es clara y completa para tomar una decisión de compra
@@ -222,7 +240,7 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 ## 7. Fuera de Alcance
 
 - Gestión administrativa de libros (CRUD, uploads) — Feature 006
-- Agregar al carrito y checkout — Feature 004
+- Agregar al carrito y checkout — Feature 005
 - Sistema de favoritos — Feature futura
 - Comparación de libros — Feature futura
 - Reseñas y calificaciones de usuarios — Feature futura
@@ -254,3 +272,13 @@ Hecho Letras es la marca de libros de la plataforma, ofreciendo títulos por enc
 - Q: ¿Dónde debe ubicarse el formulario de solicitud de libros no catalogados? → A: Sección al final de la página de catálogo `/libros` (después de los resultados y paginación).
 - Q: La tabla `books` no tiene campo `slug` pero el spec asume slugs únicos. ¿Cómo se resuelve? → A: Agregar `slug TEXT UNIQUE NOT NULL` a la tabla `books` con índice. Generado a partir del título con normalización (lowercase, sin tildes, guiones).
 - Q: ¿De dónde sale el contenido de los acordeones informativos (envío, pago, cuotas)? → A: Contenido hardcodeado en el componente `book-accordions.tsx`. No se consulta desde BD ni CMS.
+- Q: ¿Qué debe mostrar el componente cuando una imagen de libro falla al cargar? → A: Se muestra una imagen genérica de libros como fallback.
+- Q: ¿Qué acciones sugerir al usuario cuando la búsqueda o filtros no retornan resultados? → A: Mensaje "No encontramos libros con esos filtros" + botón "Limpiar filtros" + sugerencia de términos de búsqueda relacionados.
+- Q: ¿Se requiere cumplimiento WCAG 2.1 nivel AA para los componentes de catálogo y detalle? → A: Sí, WCAG 2.1 AA completo — navegación por teclado, ARIA labels, manejo de foco, contraste mínimo 4.5:1.
+- Q: ¿Qué debe ocurrir cuando el envío del formulario de solicitud de libros falla por error de red/servidor? → A: Mensaje "No pudimos enviar tu solicitud. Intenta de nuevo." + botón reintentar + preservar datos del formulario.
+- Q: ¿Qué metadata SEO debe generar la página de catálogo `/libros`? → A: Título "Libros — Hecho Letras" + descripción estática de 160 chars sobre el catálogo. Open Graph usa default del layout padre.
+- Q: ¿Quién puede ejecutar cada Server Action — hay restricciones de autorización? → A: Lectura (getBooks, getBookBySlug, getBookExtras) pública para todos. Escritura (submitBookRequest) con sesión opcional — asocia user_id si autenticado.
+- Q: ¿Qué debe mostrar la página de catálogo cuando Supabase no responde? → A: Mensaje "No pudimos cargar el catálogo. Verifica tu conexión e intenta de nuevo." con botón de reintentar.
+- Q: ¿Cómo debe ordenar el catálogo cuando el usuario selecciona 'Relevancia'? → A: Libros destacados (is_featured = true) primero, luego por fecha de creación (más recientes primero).
+- Q: ¿Debe conservarse el estado del formulario de solicitud si el usuario recarga la página? → A: No persistir. El formulario se resetea al navegar fuera o recargar la página.
+- Q: ¿Qué debe ocurrir cuando un libro tiene extras configurados pero el producto asociado ya no existe? → A: Se omite silenciosamente el extra inválido; solo se muestran los extras con productos válidos en `products`.

@@ -32,14 +32,20 @@ Implementar carrito unificado con soporte para libros (HL) y productos (KamCat),
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-No constitution file exists. Proceeding with standard project conventions from AGENTS.md:
-- Server Components por defecto, 'use client' solo cuando se requiera interactividad
-- SIEMPRE usar export default para componentes principales
-- PROHIBIDO el uso de any — usar tipos explícitos
-- Server Actions en src/lib/actions/[dominio].ts con retorno estándar { success, data?, error? }
-- Validación manual de entradas (sin zod)
-- Variables CSS por marca (--hl-primary, --kc-primary)
-- Unidades relativas CSS (rem, em, vw, vh, %) — PROHIBIDO px
+| Principle | Status | Notes |
+|-----------|--------|-------|
+| Runtime: bun | ✅ PASS | bun como runtime y package manager |
+| Idioma: español | ✅ PASS | Toda documentación en español |
+| Sin zod | ✅ PASS | Validación manual + type guards |
+| CSS relativo (sin px) | ✅ PASS | Tailwind CSS con unidades relativas |
+| Server Components por defecto | ✅ PASS | Páginas usan Server Components |
+| `use client` solo con hooks/eventos | ✅ PASS | Carrito y checkout requieren interactividad |
+| `export default` por archivo | ✅ PASS | Componentes principales usan export default |
+| Sin `any` | ✅ PASS | TypeScript estricto |
+| Server Actions retorno estándar | ✅ PASS | { success, data?, error? } en todas las acciones |
+| Validación manual (sin zod) | ✅ PASS | Type guards en server actions |
+| Aislamiento de marcas | ✅ PASS | --hl-primary y --kc-primary en tokens separados |
+| RLS obligatorio | ✅ PASS | Todas las tablas tienen RLS |
 
 ## Project Structure
 
@@ -97,7 +103,7 @@ src/
     └── payment.ts                    # Interfaces de pagos
 ```
 
-**Structure Decision**: Next.js App Router con route groups `(shop)`. Componentes en `src/components/cart/` y `src/components/checkout/` para dominios específicos. Server Actions en `src/lib/actions/cart.ts`, `orders.ts`, `payments.ts`. Tipos en `src/types/cart.ts`, `order.ts`, `payment.ts`.
+**Structure Decision**: Next.js App Router con route groups `(shop)`. Componentes en `src/components/cart/` y `src/components/checkout/` para dominios específicos. Server Actions en `src/lib/actions/cart.ts`, `orders.ts`, `payments.ts` (múltiples acciones por archivo de dominio — décidado en reconciliación de specs 004-006). Tipos en `src/types/cart.ts`, `order.ts`, `payment.ts`.
 
 ## Complexity Tracking
 

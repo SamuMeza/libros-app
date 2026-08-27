@@ -120,7 +120,7 @@ El filtro usa `plainto_tsquery('spanish', ...)` para queries de usuario.
 - `getBookExtras(bookId)` retorna los extras con datos del producto (nombre, precio, imagen)
 - Los extras con `is_default = TRUE` se pre-seleccionan en el UI
 - El precio total se calcula: `(libro.precio * cantidad) + sum(extras seleccionados * cantidad)`
-- La integración con el carrito es responsabilidad de Feature 004
+- La integración con el carrito es responsabilidad de Feature 005
 
 ---
 

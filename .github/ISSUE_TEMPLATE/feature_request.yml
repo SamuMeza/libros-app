@@ -1,0 +1,39 @@
+name: 🚀 Nueva Funcionalidad (Feature)
+description: Proponer una nueva funcionalidad o requerimiento para el proyecto.
+title: "feat: "
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por proponer una nueva característica. Por favor completa los siguientes campos.
+  - type: textarea
+    id: description
+    attributes:
+      label: Descripción de la Funcionalidad
+      description: ¿Qué problema resuelve o qué valor agrega a Hecho Letras / KamCat?
+      placeholder: Describe detalladamente el requerimiento...
+    validations:
+      required: true
+  - type: dropdown
+    id: brand
+    attributes:
+      label: Marca / Alcance
+      options:
+        - Hecho Letras (Libros)
+        - KamCat (Papelería)
+        - Tienda Unificada / Carrito / Checkout
+        - Panel de Administración
+        - Infraestructura / Testing
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Criterios de Aceptación
+      description: Lista de condiciones para dar por terminada la feature.
+      placeholder: |
+        - [ ] Criterio 1
+        - [ ] Criterio 2
+    validations:
+      required: true

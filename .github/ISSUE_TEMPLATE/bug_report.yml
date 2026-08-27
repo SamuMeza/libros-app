@@ -1,0 +1,34 @@
+name: 🐛 Reporte de Bug
+description: Reportar un error, fallo visual o comportamiento inesperado.
+title: "fix: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Completa este formulario para que podamos reproducir y solucionar el error rápidamente.
+  - type: textarea
+    id: description
+    attributes:
+      label: Descripción del Bug
+      description: Explica qué sucede de forma clara.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: Pasos para Reproducir
+      description: ¿Cómo provocas el fallo?
+      placeholder: |
+        1. Ir a '/libros'
+        2. Hacer clic en '...'
+        3. Ver error '...'
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Comportamiento Esperado
+      description: ¿Qué debería haber ocurrido?
+    validations:
+      required: true

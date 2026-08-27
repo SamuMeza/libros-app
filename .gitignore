@@ -1,6 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# =============================================================================
+# DEPENDENCIAS
+# =============================================================================
 /node_modules
 /.pnp
 .pnp.*
@@ -9,33 +11,149 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.bun/
 
-# testing
-/coverage
-
-# next.js
+# =============================================================================
+# NEXT.JS - BUILD & OUTPUT
+# =============================================================================
 /.next/
 /out/
-
-# production
 /build
+/dist/
+/export/
+next-env.d.ts
+*.tsbuildinfo
 
-# misc
+# =============================================================================
+# ENVIRONMENT VARIABLES (SENSIBLE)
+# =============================================================================
+.env
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+
+# =============================================================================
+# VERCEL & DEPLOYMENT
+# =============================================================================
+.vercel
+.vercel.json
+
+# =============================================================================
+# TESTING & COVERAGE
+# =============================================================================
+/coverage
+/.vitest/
+*.lcov
+.nyc_output/
+
+# =============================================================================
+# IDE & EDITORS
+# =============================================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# =============================================================================
+# OPERATING SYSTEM
+# =============================================================================
 .DS_Store
-*.pem
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.AppleDouble
+.LSOverride
 
-# debug
+# =============================================================================
+# LOGS & DEBUG
+# =============================================================================
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+lerna-debug.log*
+pnpm-debug.log*
+logs/
+*.log
 
-# env files (can opt-in for committing if needed)
-.env*
+# =============================================================================
+# TEMPORARY & CACHE FILES
+# =============================================================================
+*.tmp
+*.temp
+.cache/
+.tmp/
+.temp/
+*.bak
+*.swp
+*.swo
 
-# vercel
-.vercel
+# =============================================================================
+# BUN SPECIFIC
+# =============================================================================
+# bun.lockb se genera automáticamente, pero bun.lock SÍ se commitea
+# (El usuario ya tiene bun.lock en su repo)
 
-# typescript
+# =============================================================================
+# TYPESCRIPT
+# =============================================================================
 *.tsbuildinfo
 next-env.d.ts
+
+# =============================================================================
+# CERTIFICATES & KEYS (SENSIBLE)
+# =============================================================================
+*.pem
+*.key
+*.secret
+*.crt
+
+# =============================================================================
+# AI & DEVELOPMENT TOOLS (CONFIGURACIÓN LOCAL)
+# =============================================================================
+# AGENTS.md SÍ se commitea (es parte del proyecto)
+# .opencode/ SÍ se commitea si tiene configuración compartida
+.opencode/local/
+.agents/local/
+
+# =============================================================================
+# SPECKIT & DOCUMENTATION
+# =============================================================================
+# specs/ y .specify/ (templates, workflows, scripts) SÍ se commitean para el equipo
+# Solo ignoramos archivos efímeros de sesión local en .specify si aplican:
+.specify/memory/
+
+
+# =============================================================================
+# DATABASE LOCAL (SUPABASE, ETC)
+# =============================================================================
+.supabase/
+*.sqlite
+*.sqlite3
+*.db
+
+# =============================================================================
+# MISC
+# =============================================================================
+*.pem
+*.log
+debug/
+error/
+dump.rdb
+dump.aof
+*.orig
+*.patch
+*.diff

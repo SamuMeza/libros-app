@@ -65,8 +65,14 @@ export default function AddressForm({ address, onSubmit, onCancel }: AddressForm
           id="label"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+              style={{
+                backgroundColor: 'var(--bg-primary)',
+                borderColor: 'var(--border)',
+                borderRadius: 'var(--radius-md)',
+              }}
           placeholder="Casa, Oficina, etc."
+          aria-label="Etiqueta de dirección"
         />
       </div>
 
@@ -79,9 +85,15 @@ export default function AddressForm({ address, onSubmit, onCancel }: AddressForm
           id="street"
           value={street}
           onChange={(e) => setStreet(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+              style={{
+                backgroundColor: 'var(--bg-primary)',
+                borderColor: 'var(--border)',
+                borderRadius: 'var(--radius-md)',
+              }}
           placeholder="Calle, avenida, etc."
           required
+          aria-label="Dirección"
         />
       </div>
 
@@ -95,9 +107,15 @@ export default function AddressForm({ address, onSubmit, onCancel }: AddressForm
             id="city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+              style={{
+                backgroundColor: 'var(--bg-primary)',
+                borderColor: 'var(--border)',
+                borderRadius: 'var(--radius-md)',
+              }}
             placeholder="Caracas"
             required
+            aria-label="Ciudad"
           />
         </div>
 
@@ -110,9 +128,15 @@ export default function AddressForm({ address, onSubmit, onCancel }: AddressForm
             id="state"
             value={state}
             onChange={(e) => setState(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+              style={{
+                backgroundColor: 'var(--bg-primary)',
+                borderColor: 'var(--border)',
+                borderRadius: 'var(--radius-md)',
+              }}
             placeholder="Miranda"
             required
+            aria-label="Estado"
           />
         </div>
       </div>
@@ -127,8 +151,14 @@ export default function AddressForm({ address, onSubmit, onCancel }: AddressForm
             id="zipCode"
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+              style={{
+                backgroundColor: 'var(--bg-primary)',
+                borderColor: 'var(--border)',
+                borderRadius: 'var(--radius-md)',
+              }}
             placeholder="1010"
+            aria-label="Código postal"
           />
         </div>
 
@@ -141,8 +171,14 @@ export default function AddressForm({ address, onSubmit, onCancel }: AddressForm
             id="phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+              style={{
+                backgroundColor: 'var(--bg-primary)',
+                borderColor: 'var(--border)',
+                borderRadius: 'var(--radius-md)',
+              }}
             placeholder="04141234567"
+            aria-label="Teléfono de contacto"
           />
         </div>
       </div>
@@ -154,6 +190,7 @@ export default function AddressForm({ address, onSubmit, onCancel }: AddressForm
           checked={isDefault}
           onChange={(e) => setIsDefault(e.target.checked)}
           className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+          aria-label="Establecer como dirección predeterminada"
         />
         <label htmlFor="isDefault" className="text-sm text-gray-700">
           Establecer como dirección predeterminada

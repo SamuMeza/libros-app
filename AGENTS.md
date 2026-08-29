@@ -50,6 +50,8 @@ src/
 ├── components/
 │   ├── ui/               # Componentes base Radix / Shadcn
 │   ├── layout/           # Header, Footer, Sidebar, BrandSwitch
+│   ├── auth/             # Componentes de autenticación (auth-form, loading-overlay, error-page)
+│   ├── profile/          # Componentes de perfil (address-form)
 │   ├── books/            # Componentes de Hecho Letras
 │   ├── products/         # Componentes de KamCat
 │   ├── cart/             # Carrito unificado
@@ -63,6 +65,9 @@ src/
 │   └── utils/            # Funciones puras, helpers de cálculo, formateo y validadores
 ├── types/                # Interfaces y tipos de TypeScript por dominio
 └── styles/               # Tokens y variables CSS por marca
+tests/
+├── unit/                 # Tests unitarios (Vitest)
+└── integration/          # Tests de integración (Vitest)
 ```
 
 ---
@@ -98,6 +103,7 @@ src/
 ## 🧪 Estrategia de Testing (Vitest & Bun.WebView)
 
 ### 1. Testing Unitario e Integración (Vitest)
+- **TDD obligatorio: ciclo RED → GREEN → REFACTOR.** Primero se escribe el test que define el comportamiento esperado (falla), luego se implementa la mínima código que lo haga pasar, y finalmente se refactoriza. **PROHIBIDO** escribir la implementación primero y adaptar los tests después. Esta regla se refuerza a partir de la Feature 002 porque la convergencia detectó que los tests se escribieron después de la implementación, permitiendo gaps funcionales que el testing temprano habría evitado.
 - Patrón **AAA (Arrange-Act-Assert)** obligatorio.
 - **PROHIBIDO** llamadas a APIs reales en tests unitarios (usar `vi.mock()`).
 - Cobertura de edge cases obligatoria (inputs vacíos, valores extremos, errores).

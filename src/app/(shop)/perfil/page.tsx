@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import PhoneInput from '@/components/ui/phone-input'
 import AddressForm from '@/components/profile/address-form'
+import { isValidPhoneVE, isValidPhoneInternational } from '@/lib/utils/validators'
 import type { Profile, Address, PhoneFormat, ProfileUpdateData, AddressCreateData, AddressUpdateData } from '@/types/profile'
 
 export default function ProfilePage() {
@@ -76,6 +77,18 @@ export default function ProfilePage() {
       if (!user) {
         router.push('/login')
         return
+      }
+
+      if (phone) {
+        const isValid = phoneFormat === 've'
+          ? isValidPhoneVE(phone)
+          : isValidPhoneInternational(phone)
+        if (!isValid) {
+          setError(phoneFormat === 've'
+            ? 'El teléfono debe tener 10 dígitos'
+            : 'El teléfono internacional no es válido')
+          return
+        }
       }
 
       const updateData: ProfileUpdateData = {

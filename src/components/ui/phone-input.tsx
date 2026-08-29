@@ -28,7 +28,13 @@ export default function PhoneInput({ value, onChange, format }: PhoneInputProps)
       <select
         value={localFormat}
         onChange={handleFormatChange}
-        className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="w-24 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+        style={{
+          backgroundColor: 'var(--bg-primary)',
+          borderColor: 'var(--border)',
+          borderRadius: 'var(--radius-md)',
+        }}
+        aria-label="Formato de teléfono"
       >
         <option value="ve">VE +58</option>
         <option value="international">Intl +XX</option>
@@ -38,7 +44,13 @@ export default function PhoneInput({ value, onChange, format }: PhoneInputProps)
         value={value}
         onChange={handleChange}
         placeholder={localFormat === 've' ? '04141234567' : '+1234567890'}
-        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+        style={{
+          backgroundColor: 'var(--bg-primary)',
+          borderColor: 'var(--border)',
+          borderRadius: 'var(--radius-md)',
+        }}
+        aria-label="Número de teléfono"
       />
     </div>
   )

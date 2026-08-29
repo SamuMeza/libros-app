@@ -94,13 +94,15 @@ describe('signUp', () => {
     expect(result.error).toContain('requeridos')
   })
 
-  it('should call Supabase signUp', async () => {
+  it('should call Supabase signUp and create profile', async () => {
     const mockSignUp = vi.fn().mockResolvedValue({
       data: { user: { id: '1', email: 'test@example.com' }, session: {} },
       error: null,
     })
+    const mockInsert = vi.fn().mockResolvedValue({ error: null })
     vi.mocked(createClient).mockResolvedValue({
       auth: { signUp: mockSignUp },
+      from: vi.fn().mockReturnValue({ insert: mockInsert }),
     } as never)
 
     const result = await signUp({ email: 'test@example.com', password: 'password123', fullName: 'John Doe' })
@@ -112,6 +114,27 @@ describe('signUp', () => {
         data: { full_name: 'John Doe' },
       },
     })
+    expect(mockInsert).toHaveBeenCalledWith({
+      id: '1',
+      full_name: 'John Doe',
+      role: 'customer',
+    })
+  })
+
+  it('should return error if profile creation fails', async () => {
+    const mockSignUp = vi.fn().mockResolvedValue({
+      data: { user: { id: '1', email: 'test@example.com' }, session: {} },
+      error: null,
+    })
+    const mockInsert = vi.fn().mockResolvedValue({ error: { message: 'RLS policy violation' } })
+    vi.mocked(createClient).mockResolvedValue({
+      auth: { signUp: mockSignUp },
+      from: vi.fn().mockReturnValue({ insert: mockInsert }),
+    } as never)
+
+    const result = await signUp({ email: 'test@example.com', password: 'password123', fullName: 'John Doe' })
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('perfil')
   })
 })
 

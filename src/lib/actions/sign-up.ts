@@ -38,6 +38,22 @@ export default async function signUp(data: SignUpData): Promise<AuthResponse> {
       return { success: false, error: error.message }
     }
 
+    if (!authData.user) {
+      return { success: false, error: 'No se pudo crear el usuario' }
+    }
+
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert({
+        id: authData.user.id,
+        full_name: data.fullName.trim(),
+        role: 'customer',
+      })
+
+    if (profileError) {
+      return { success: false, error: 'Error al crear el perfil. Inténtalo de nuevo.' }
+    }
+
     return {
       success: true,
       data: {

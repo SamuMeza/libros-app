@@ -2,13 +2,15 @@
 
 **Feature**: 006-admin-panels-tracking
 **Date**: 2026-08-27
-**Location**: `src/lib/actions/`
+**Location**: `src/lib/actions/admin/` (acciones admin separadas de las de usuario en specs previas)
 
-## Payment Verification Actions
+> **Nota de arquitectura**: Las acciones admin de esta feature usan prefijo `admin` en el nombre para evitar colisiones con acciones de usuario en specs 005 (cart/checkout). Los archivos están en `src/lib/actions/admin/` para separación de concerns.
 
-### getPayments
+## Payment Verification Actions (`src/lib/actions/admin/payments.ts`)
 
-**Purpose**: Obtener lista de pagos con filtros y paginación
+### getAdminPayments
+
+**Purpose**: Obtener lista de pagos con filtros y paginación (admin)
 
 **Input**:
 ```typescript
@@ -108,9 +110,9 @@
 
 ---
 
-## Order Management Actions
+## Order Management Actions (`src/lib/actions/admin/orders.ts`)
 
-### getOrders
+### getAdminOrders
 
 **Purpose**: Obtener sub-órdenes del admin con filtros y paginación
 
@@ -141,7 +143,7 @@
 
 ---
 
-### getOrder
+### getAdminOrder
 
 **Purpose**: Obtener detalle completo de una sub-orden
 
@@ -206,7 +208,7 @@
 
 ---
 
-## Tracking Actions
+## Tracking Actions (`src/lib/actions/admin/tracking.ts`)
 
 ### addTrackingNote
 
@@ -266,7 +268,7 @@
 
 ---
 
-## Client Actions (Shop)
+## Client Actions (`src/lib/actions/orders.ts`)
 
 ### getClientOrders
 

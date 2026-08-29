@@ -34,7 +34,7 @@
 **⚠️ CRITICAL**: No se puede trabajar en user stories hasta completar esta fase
 
 - [ ] T005 Configurar cliente Supabase para admin en src/lib/supabase/server.ts (con rol admin)
-- [ ] T006 [P] Crear Server Actions base en src/lib/actions/payments.ts, orders.ts, tracking.ts con estructura { success, data?, error? }
+- [ ] T006 [P] Crear Server Actions base en src/lib/actions/admin/payments.ts, admin/orders.ts, admin/tracking.ts con estructura { success, data?, error? }
 - [ ] T007 [P] Crear utilidades de cálculo en src/lib/utils/order-helpers.ts (transiciones de estado)
 - [ ] T008 [P] Crear utilidades de validación en src/lib/utils/payment-helpers.ts (montos, formatos)
 - [ ] T009 Configurar middleware de autenticación para rutas admin en src/middleware.ts
@@ -57,11 +57,11 @@
 - [ ] T013 [P] [US1] Crear componente PaymentFilters en src/components/admin/payment-filters.tsx
 - [ ] T014 [P] [US1] Crear componente PaymentActions en src/components/admin/payment-actions.tsx
 - [ ] T015 [US1] Crear página /pagos en src/app/(admin)/pagos/page.tsx
-- [ ] T016 [US1] Implementar Server Action getPayments en src/lib/actions/payments.ts (con filtros y paginación)
-- [ ] T017 [US1] Implementar Server Action approvePayment en src/lib/actions/payments.ts
-- [ ] T018 [US1] Implementar Server Action rejectPayment en src/lib/actions/payments.ts
+- [ ] T016 [US1] Implementar Server Action getAdminPayments en src/lib/actions/admin/payments.ts (con filtros y paginación)
+- [ ] T017 [US1] Implementar Server Action approvePayment en src/lib/actions/admin/payments.ts
+- [ ] T018 [US1] Implementar Server Action rejectPayment en src/lib/actions/admin/payments.ts
 - [ ] T019 [US1] Implementar lógica de transición de estado en src/lib/utils/order-helpers.ts
-- [ ] T020 [US1] Implementar envío de email de notificación en src/lib/actions/payments.ts
+- [ ] T020 [US1] Implementar envío de email de notificación en src/lib/actions/admin/payments.ts
 - [ ] T021 [US1] Crear Zustand store para filtros de pagos en src/lib/hooks/use-payment-filters.ts
 
 **Checkpoint**: En este punto, User Story 1 debe estar completamente funcional y testeable independientemente
@@ -82,13 +82,13 @@
 - [ ] T025 [P] [US2] Crear componente TrackingForm en src/components/admin/tracking-form.tsx
 - [ ] T026 [P] [US2] Crear componente OrderFilters en src/components/admin/order-filters.tsx
 - [ ] T027 [US2] Crear página /pedidos en src/app/(admin)/pedidos/page.tsx
-- [ ] T028 [US2] Implementar Server Action getOrders en src/lib/actions/orders.ts (filtrado por marca)
-- [ ] T029 [US2] Implementar Server Action getOrder en src/lib/actions/orders.ts (detalle completo)
-- [ ] T030 [US2] Implementar Server Action updateOrderStatus en src/lib/actions/orders.ts (con validación)
-- [ ] T031 [US2] Implementar Server Action addTrackingNote en src/lib/actions/tracking.ts
-- [ ] T032 [US2] Implementar Server Action getTrackingNotes en src/lib/actions/tracking.ts
+- [ ] T028 [US2] Implementar Server Action getAdminOrders en src/lib/actions/admin/orders.ts (filtrado por marca)
+- [ ] T029 [US2] Implementar Server Action getAdminOrder en src/lib/actions/admin/orders.ts (detalle completo)
+- [ ] T030 [US2] Implementar Server Action updateOrderStatus en src/lib/actions/admin/orders.ts (con validación)
+- [ ] T031 [US2] Implementar Server Action addTrackingNote en src/lib/actions/admin/tracking.ts
+- [ ] T032 [US2] Implementar Server Action getTrackingNotes en src/lib/actions/admin/tracking.ts
 - [ ] T033 [US2] Implementar validación de transiciones de estado en src/lib/utils/order-helpers.ts
-- [ ] T034 [US2] Implementar envío de email de notificación en src/lib/actions/orders.ts
+- [ ] T034 [US2] Implementar envío de email de notificación en src/lib/actions/admin/orders.ts
 - [ ] T035 [US2] Crear Zustand store para filtros de pedidos en src/lib/hooks/use-order-filters.ts
 - [ ] T036 [US2] Crear Zustand store para drawer en src/lib/hooks/use-order-drawer.ts
 

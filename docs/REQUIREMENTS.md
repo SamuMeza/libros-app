@@ -38,7 +38,7 @@
 - **RF-CK2**: Selección de método de pago:
   - **Pago Móvil**: Datos de cuenta bancaria + subida de comprobante.
   - **Binance (USDT)**: Aplicación de descuento configurado + datos de billetera + subida de comprobante.
-  - **Plan de Pagos (solo Libros)**: Cálculo y desglose de cuotas quincenales (2 a 4 cuotas).
+  - **Plan de Pagos (solo Libros)**: Cálculo y desglose de cuotas quincenales (2 a 4 cuotas) con monto y tasa de interés configurables por administrador.
 - **RF-CK3**: Generación automática de orden maestra y sub-órdenes por marca (`hl` y `kc`).
 
 ---
@@ -46,7 +46,7 @@
 ## 5. Módulo: Gestión de Pedidos y Tracking
 - **RF-OR1**: Historial de pedidos para el cliente con estados detallados por marca.
 - **RF-OR2**: Panel de administración segmentado por rol (`admin_hl` y `admin_kc`) para gestionar sub-órdenes de forma independiente.
-- **RF-OR3**: Flujo de estados: `pending_payment` → `payment_verified` → `preparing` → `shipped` → `in_transit` → `delivered`.
+- **RF-OR3**: Flujo de estados: `pending_payment` → `payment_verified` → `preparing` → `shipped` → `in_transit` → `delivered`. Incluye transición a `cancelled` desde cualquier estado no terminal.
 - **RF-OR4**: Bitácora de seguimiento geográfico (`tracking_notes`) para informar el avance del paquete (ej: Ciudad origen → Hub central → En entrega).
 
 ---

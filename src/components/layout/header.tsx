@@ -176,13 +176,14 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
           <a
             key={item.href}
             href={item.href}
-            className="relative py-1 transition-colors"
+            className="relative py-1 transition-colors nav-underline"
             style={{
               fontFamily: 'var(--font-inter), sans-serif',
               fontSize: 'var(--font-nav)',
               fontWeight: 500,
               color: 'var(--text-secondary)',
-            }}
+              '--underline-color': item.brand === 'hl' ? 'var(--hl-primary)' : item.brand === 'kc' ? 'var(--kc-primary)' : 'var(--text-primary)',
+            } as React.CSSProperties}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = 'var(--text-primary)';
             }}
@@ -305,7 +306,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
       <div
         id="mobile-drawer"
         ref={drawerRef}
-        className="fixed top-0 right-0 h-full md:hidden theme-transition"
+        className="fixed top-0 right-0 h-full md:hidden"
         style={{
           width: '75vw',
           maxWidth: '20rem',
@@ -313,6 +314,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
           backgroundColor: 'var(--bg-primary)',
           boxShadow: 'var(--shadow-lg)',
           transform: isDrawerOpen ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 300ms ease-in-out',
           paddingTop: '4rem',
         }}
         role="dialog"

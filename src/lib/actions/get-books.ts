@@ -1,12 +1,15 @@
 'use server';
 
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 import type { BookFilters, BookListResult, BookSort } from '@/types/books';
 
 const DEFAULT_PAGE_SIZE = 24;
 const MAX_PAGE_SIZE = 100;
 
-function applySorting(query: ReturnType<ReturnType<typeof createServerClient>['from']>, sort?: BookSort) {
+type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>;
+type BooksQuery = ReturnType<ReturnType<SupabaseServerClient['from']>['select']>;
+
+function applySorting(query: BooksQuery, sort?: BookSort): BooksQuery {
   switch (sort) {
     case 'price_asc':
       return query.order('price', { ascending: true });
@@ -23,7 +26,7 @@ function applySorting(query: ReturnType<ReturnType<typeof createServerClient>['f
 }
 
 export default async function getBooks(filters: BookFilters = {}): Promise<BookListResult> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const page = Math.max(1, filters.page ?? 1);
   const pageSize = Math.min(MAX_PAGE_SIZE, Math.max(1, filters.pageSize ?? DEFAULT_PAGE_SIZE));

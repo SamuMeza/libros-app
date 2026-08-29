@@ -5,15 +5,15 @@ export interface AuthResponse {
   data?: {
     user: {
       id: string
-      email: string
-      user_metadata: Record<string, unknown>
+      email?: string
+      user_metadata?: Record<string, unknown>
     }
-    session: {
+    session?: {
       access_token: string
       refresh_token: string
-      expires_in: number
-      expires_at: number
-    }
+      expires_in?: number
+      expires_at?: number
+    } | null
   }
   error?: string
 }

@@ -271,7 +271,13 @@ export default function ProfilePage() {
               </h3>
               <AddressForm
                 address={editingAddress ?? undefined}
-                onSubmit={editingAddress ? handleAddressUpdate : handleAddressCreate}
+                onSubmit={async (data) => {
+                  if (editingAddress) {
+                    await handleAddressUpdate(data as AddressUpdateData)
+                  } else {
+                    await handleAddressCreate(data as AddressCreateData)
+                  }
+                }}
                 onCancel={() => {
                   setShowAddressForm(false)
                   setEditingAddress(null)

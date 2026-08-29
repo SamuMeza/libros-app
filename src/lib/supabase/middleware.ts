@@ -1,5 +1,5 @@
 import { createServerClient, parseCookieHeader } from '@supabase/ssr'
-import type { NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import type { UserRole } from '@/types/auth'
 
 export function createClient(request: NextRequest) {

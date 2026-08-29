@@ -27,7 +27,7 @@ export type PhoneFormat = 've' | 'international'
 
 export interface ProfileUpdateData {
   full_name?: string
-  phone?: string
+  phone?: string | null
 }
 
 export interface AddressCreateData {

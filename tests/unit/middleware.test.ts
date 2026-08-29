@@ -25,7 +25,7 @@ describe('middleware', () => {
     vi.mocked(createClient).mockReturnValue({
       supabase: {
         auth: { getUser: vi.fn().mockResolvedValue({ data: { user: { id: '1' } }, error: null }) },
-      },
+      } as unknown as ReturnType<typeof createClient>['supabase'],
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
@@ -44,7 +44,7 @@ describe('middleware', () => {
     vi.mocked(createClient).mockReturnValue({
       supabase: {
         auth: { getUser: vi.fn().mockResolvedValue({ data: { user: null }, error: null }) },
-      },
+      } as unknown as ReturnType<typeof createClient>['supabase'],
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
@@ -63,7 +63,7 @@ describe('middleware', () => {
     vi.mocked(createClient).mockReturnValue({
       supabase: {
         auth: { getUser: vi.fn().mockResolvedValue({ data: { user: null }, error: null }) },
-      },
+      } as unknown as ReturnType<typeof createClient>['supabase'],
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
@@ -83,7 +83,7 @@ describe('middleware', () => {
     vi.mocked(createClient).mockReturnValue({
       supabase: {
         auth: { getUser: vi.fn().mockResolvedValue({ data: { user: { id: '1' } }, error: null }) },
-      },
+      } as unknown as ReturnType<typeof createClient>['supabase'],
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
@@ -102,7 +102,7 @@ describe('middleware', () => {
     vi.mocked(createClient).mockReturnValue({
       supabase: {
         auth: { getUser: vi.fn().mockResolvedValue({ data: { user: { id: '1' } }, error: null }) },
-      },
+      } as unknown as ReturnType<typeof createClient>['supabase'],
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
@@ -123,7 +123,7 @@ describe('middleware', () => {
     vi.mocked(createClient).mockReturnValue({
       supabase: {
         auth: { getUser: vi.fn().mockResolvedValue({ data: { user: { id: '1' } }, error: null }) },
-      },
+      } as unknown as ReturnType<typeof createClient>['supabase'],
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
@@ -144,7 +144,7 @@ describe('middleware', () => {
     vi.mocked(createClient).mockReturnValue({
       supabase: {
         auth: { getUser: vi.fn().mockResolvedValue({ data: { user: { id: '1' } }, error: null }) },
-      },
+      } as unknown as ReturnType<typeof createClient>['supabase'],
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createBrowserClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import submitBookRequest from '@/lib/actions/submit-book-request';
 
 const MAX_MESSAGE_LENGTH = 500;
@@ -31,8 +31,8 @@ export default function BookRequestForm() {
   const [serverError, setServerError] = useState('');
 
   useEffect(() => {
-    const supabase = createBrowserClient();
-    supabase.auth.getUser().then(({ data }) => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }: { data: { user: { email?: string; user_metadata?: Record<string, unknown> } | null } }) => {
       if (data.user) {
         const fullName = [data.user.user_metadata?.full_name, data.user.user_metadata?.name]
           .filter(Boolean)

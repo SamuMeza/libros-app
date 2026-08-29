@@ -1,10 +1,10 @@
 'use server';
 
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 import type { BookWithCategory } from '@/types/books';
 
 export default async function getBookBySlug(slug: string): Promise<BookWithCategory | null> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from('books')

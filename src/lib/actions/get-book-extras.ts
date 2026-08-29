@@ -1,10 +1,10 @@
 'use server';
 
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 import type { BookExtraWithProduct } from '@/types/books';
 
 export default async function getBookExtras(bookId: string): Promise<BookExtraWithProduct[]> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from('book_extras')

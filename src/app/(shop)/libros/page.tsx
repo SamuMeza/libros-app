@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import getBooks from '@/lib/actions/get-books';
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 import type { BookFilters } from '@/types/books';
 import BookCard from '@/components/books/book-card';
 import EmptyState from '@/components/shared/empty-state';
@@ -19,7 +19,7 @@ interface CatalogPageProps {
 }
 
 async function getCategoriesWithCount() {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from('categories')
     .select('id, name')

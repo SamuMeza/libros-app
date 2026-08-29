@@ -1,6 +1,6 @@
 'use server';
 
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 import type { ContactRequestCreate } from '@/types/books';
 
 interface SubmitBookRequestResult {
@@ -32,7 +32,7 @@ export default async function submitBookRequest(data: ContactRequestCreate): Pro
     return { success: false, error: validationError };
   }
 
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const { data: { user } } = await supabase.auth.getUser();
 

@@ -89,10 +89,6 @@ export default function CatalogClient({ filters, result, categories }: CatalogCl
     router.push(`/libros?${params.toString()}`);
   }
 
-  function handleClearFilters() {
-    router.push('/libros');
-  }
-
   return (
     <>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

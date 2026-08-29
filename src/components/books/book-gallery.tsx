@@ -38,7 +38,11 @@ export default function BookGallery({ images, title }: BookGalleryProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative aspect-[2/3] overflow-hidden rounded-xl bg-hl-secondary/5">
+      <div
+        className="relative aspect-[2/3] overflow-hidden rounded-xl bg-hl-secondary/5"
+        role="img"
+        aria-label={`${title} - imagen ${selectedIndex + 1} de ${images.length}`}
+      >
         {isMainFailed ? (
           BOOK_FALLBACK
         ) : (
@@ -60,6 +64,7 @@ export default function BookGallery({ images, title }: BookGalleryProps) {
               key={idx}
               onClick={() => setSelectedIndex(idx)}
               aria-label={`Ver imagen ${idx + 1}`}
+              aria-current={idx === selectedIndex ? 'true' : undefined}
               className={`relative h-20 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
                 idx === selectedIndex ? 'border-hl-accent' : 'border-transparent hover:border-hl-primary/20'
               }`}

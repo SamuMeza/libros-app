@@ -41,6 +41,7 @@ export default async function submitBookRequest(data: ContactRequestCreate): Pro
     .insert({
       book_title: data.book_title.trim(),
       book_author: data.book_author?.trim() || null,
+      requester_name: data.requester_name?.trim() || null,
       email: data.email.trim(),
       phone: data.phone?.trim() || null,
       message: data.message?.trim() || null,

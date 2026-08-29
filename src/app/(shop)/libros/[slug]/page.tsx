@@ -3,9 +3,8 @@ import type { Metadata } from 'next';
 import getBookBySlug from '@/lib/actions/get-book-by-slug';
 import getBookExtras from '@/lib/actions/get-book-extras';
 import BookGallery from '@/components/books/book-gallery';
-import BookExtras from '@/components/books/book-extras';
-import BookQuantity from '@/components/books/book-quantity';
 import BookAccordions from '@/components/books/book-accordions';
+import BookDetailClient from '@/components/books/book-detail-client';
 import Breadcrumb from '@/components/ui/breadcrumb';
 
 interface BookDetailPageProps {
@@ -129,28 +128,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
               </dl>
             </div>
 
-            <div className="space-y-4">
-              <div>
-                <h2 className="mb-2 text-sm font-semibold text-hl-primary">Extras</h2>
-                <BookExtras
-                  extras={extras}
-                  selectedExtras={extras.filter((e) => e.is_default).map((e) => e.id)}
-                  onSelectionChange={() => {}}
-                />
-              </div>
-
-              <div>
-                <h2 className="mb-2 text-sm font-semibold text-hl-primary">Cantidad</h2>
-                <BookQuantity value={1} onChange={() => {}} />
-              </div>
-
-              <button
-                disabled={book.status === 'out_of_stock'}
-                className="w-full rounded-xl bg-hl-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-hl-accent/90 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {book.status === 'out_of_stock' ? 'Agotado' : 'Agregar al carrito'}
-              </button>
-            </div>
+            <BookDetailClient extras={extras} bookStatus={book.status} />
 
             <BookAccordions />
           </div>

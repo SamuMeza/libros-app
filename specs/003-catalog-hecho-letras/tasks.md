@@ -213,6 +213,16 @@ With multiple developers:
 
 ---
 
+## Phase 8: Convergence
+
+**Purpose**: Integración de BookDetailClient en página de detalle, persistencia de requester_name y accesibilidad
+
+- [X] T041 CRITICAL Integrar `BookDetailClient` en `src/app/(shop)/libros/[slug]/page.tsx` — reemplazar el bloque de extras/quantity/button (líneas 132-153) con `<BookDetailClient extras={extras} bookStatus={book.status} />` para conectar estado real de extras seleccionados, cantidad y botón agregar al carrito (F1, spec §3.2 CA-7, CA-8, CA-9)
+- [X] T042 HIGH Agregar columna `requester_name TEXT` a tabla `contact_requests` en `docs/DATABASE.md` y actualizar Server Action `src/lib/actions/submit-book-request.ts` para insertar `requester_name` en el INSERT (F2, spec §3.3 CA-11)
+- [X] T043 MEDIUM Agregar `role="img"`, `aria-label` a imagen principal y `aria-current="true"` a miniatura seleccionada en `src/components/books/book-gallery.tsx` (F3, spec §3.2 CA-13)
+- [X] T044 MEDIUM Verificar y agregar `aria-expanded` a acordeones en `src/components/books/book-accordions.tsx` si no está presente (F4, spec §3.2 CA-13)
+- [X] T045 LOW Eliminar función muerta `handleClearFilters` de `src/components/books/catalog-client.tsx` o conectarla a un botón visible (F5, cleanup)
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

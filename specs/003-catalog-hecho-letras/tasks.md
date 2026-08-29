@@ -25,9 +25,9 @@
 
 **Purpose**: Tipos, utilidades base y helpers
 
-- [ ] T001 Create types in src/types/books.ts (Book, BookStatus, StockStatus, BookSort, BookFilters, BookListResult, BookExtra, BookExtraWithProduct, ContactRequest) per data-model.md
-- [ ] T002 [P] Create slug generation helper in src/lib/utils/slug-helpers.ts (generateSlug, slug collision handling) per research.md §2
-- [ ] T003 [P] Create search helper in src/lib/utils/search-helpers.ts (FTS query builder, ts_rank) per research.md §1
+- [X] T001 Create types in src/types/books.ts (Book, BookStatus, StockStatus, BookSort, BookFilters, BookListResult, BookExtra, BookExtraWithProduct, ContactRequest) per data-model.md
+- [X] T002 [P] Create slug generation helper in src/lib/utils/slug-helpers.ts (generateSlug, slug collision handling) per research.md §2
+- [X] T003 [P] Create search helper in src/lib/utils/search-helpers.ts (FTS query builder, ts_rank) per research.md §1
 
 ---
 
@@ -37,10 +37,10 @@
 
 **⚠️ CRITICAL**: No catalog/detail work can begin until this phase is complete
 
-- [ ] T004 Implement getBooks Server Action in src/lib/actions/get-books.ts (filtros combinados, búsqueda FTS, ordenamiento, paginación) per spec §3.4
-- [ ] T005 [P] Implement getBookBySlug Server Action in src/lib/actions/get-book-by-slug.ts (libro con categoría y extras) per spec §3.4
-- [ ] T006 [P] Implement getBookExtras Server Action in src/lib/actions/get-book-extras.ts (extras ordenados por sort_order) per spec §3.4
-- [ ] T007 [P] Implement submitBookRequest Server Action in src/lib/actions/submit-book-request.ts (validación, user_id opcional) per spec §3.3 + §3.4
+- [X] T004 Implement getBooks Server Action in src/lib/actions/get-books.ts (filtros combinados, búsqueda FTS, ordenamiento, paginación) per spec §3.4
+- [X] T005 [P] Implement getBookBySlug Server Action in src/lib/actions/get-book-by-slug.ts (libro con categoría y extras) per spec §3.4
+- [X] T006 [P] Implement getBookExtras Server Action in src/lib/actions/get-book-extras.ts (extras ordenados por sort_order) per spec §3.4
+- [X] T007 [P] Implement submitBookRequest Server Action in src/lib/actions/submit-book-request.ts (validación, user_id opcional) per spec §3.3 + §3.4
 
 **Checkpoint**: Server Actions functional — data fetching backend ready
 
@@ -54,14 +54,14 @@
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Create book card component in src/components/books/book-card.tsx (imagen, título, autor, precio, badge) per spec §3.1
-- [ ] T009 [P] [US1] Create skeleton book card in src/components/shared/skeleton-book-card.tsx — render 24 skeletons matching final layout per spec §3.1 CA-12
-- [ ] T010 [P] [US1] Create empty state component in src/components/shared/empty-state.tsx per spec §3.1
-- [ ] T011 [P] [US1] Create filter sidebar component in src/components/shared/filter-sidebar.tsx (categorías con recuento, precio, disponibilidad, sticky, drawer mobile) per spec §3.1
-- [ ] T012 [P] [US1] Create search bar component in src/components/shared/search-bar.tsx (debounce 500ms) per spec §3.1
-- [ ] T013 [P] [US1] Create sort selector component in src/components/shared/sort-selector.tsx (5 opciones) per spec §3.1
-- [ ] T014 [P] [US1] Create pagination component in src/components/shared/pagination.tsx (botones 40px, estado activo) per spec §3.1
-- [ ] T015 [US1] Create catalog page in src/app/(shop)/libros/page.tsx (Server Component, grid 4/3/2 cols, filtros en URL, loading states) per spec §3.1
+- [X] T008 [P] [US1] Create book card component in src/components/books/book-card.tsx (imagen, título, autor, precio, badge) per spec §3.1
+- [X] T009 [P] [US1] Create skeleton book card in src/components/shared/skeleton-book-card.tsx — render 24 skeletons matching final layout per spec §3.1 CA-12
+- [X] T010 [P] [US1] Create empty state component in src/components/shared/empty-state.tsx per spec §3.1
+- [X] T011 [P] [US1] Create filter sidebar component in src/components/shared/filter-sidebar.tsx (categorías con recuento, precio, disponibilidad, sticky, drawer mobile) per spec §3.1
+- [X] T012 [P] [US1] Create search bar component in src/components/shared/search-bar.tsx (debounce 500ms) per spec §3.1
+- [X] T013 [P] [US1] Create sort selector component in src/components/shared/sort-selector.tsx (5 opciones) per spec §3.1
+- [X] T014 [P] [US1] Create pagination component in src/components/shared/pagination.tsx (botones 40px, estado activo) per spec §3.1
+- [X] T015 [US1] Create catalog page in src/app/(shop)/libros/page.tsx (Server Component, grid 4/3/2 cols, filtros en URL, loading states) per spec §3.1
 
 **Checkpoint**: Catálogo funcional — browsable con filtros, búsqueda, orden y paginación
 
@@ -75,13 +75,13 @@
 
 ### Implementation for User Story 2
 
-- [ ] T016 [P] [US2] Create book gallery component in src/components/books/book-gallery.tsx (imagen principal 2:3, miniaturas 80px, transición) per spec §3.2
-- [ ] T017 [P] [US2] Create book extras component in src/components/books/book-extras.tsx (checkboxes, precio adicional, is_default) per spec §3.2
-- [ ] T018 [P] [US2] Create book quantity component in src/components/books/book-quantity.tsx (control -/1+, max 10, editable) per spec §3.2
-- [ ] T019 [P] [US2] Create book accordions component in src/components/books/book-accordions.tsx (envío, pago, cuotas) per spec §3.2
-- [ ] T020 [P] [US2] Create accordion base component in src/components/ui/accordion.tsx per spec §3.2
-- [ ] T021 [P] [US2] Create breadcrumb component in src/components/ui/breadcrumb.tsx per spec §3.2
-- [ ] T022 [US2] Create book detail page in src/app/(shop)/libros/[slug]/page.tsx (Server Component, generateMetadata, galería, info, extras, quantity, accordions) per spec §3.2
+- [X] T016 [P] [US2] Create book gallery component in src/components/books/book-gallery.tsx (imagen principal 2:3, miniaturas 80px, transición) per spec §3.2
+- [X] T017 [P] [US2] Create book extras component in src/components/books/book-extras.tsx (checkboxes, precio adicional, is_default) per spec §3.2
+- [X] T018 [P] [US2] Create book quantity component in src/components/books/book-quantity.tsx (control -/1+, max 10, editable) per spec §3.2
+- [X] T019 [P] [US2] Create book accordions component in src/components/books/book-accordions.tsx (envío, pago, cuotas) per spec §3.2
+- [X] T020 [P] [US2] Create accordion base component in src/components/ui/accordion.tsx per spec §3.2
+- [X] T021 [P] [US2] Create breadcrumb component in src/components/ui/breadcrumb.tsx per spec §3.2
+- [X] T022 [US2] Create book detail page in src/app/(shop)/libros/[slug]/page.tsx (Server Component, generateMetadata, galería, info, extras, quantity, accordions) per spec §3.2
 
 **Checkpoint**: Detalle de libro funcional — galería, extras, cantidad e información completa
 
@@ -95,8 +95,8 @@
 
 ### Implementation for User Story 3
 
-- [ ] T023 [US3] Create book request form component in src/components/books/book-request-form.tsx (campos, validación, contador 500 chars, pre-fill para autenticados) per spec §3.3
-- [ ] T024 [US3] Integrate book request form into catalog page in src/app/(shop)/libros/page.tsx (sección después de paginación) per spec §3.3
+- [X] T023 [US3] Create book request form component in src/components/books/book-request-form.tsx (campos, validación, contador 500 chars, pre-fill para autenticados) per spec §3.3
+- [X] T024 [US3] Integrate book request form into catalog page in src/app/(shop)/libros/page.tsx (sección después de paginación) per spec §3.3
 
 **Checkpoint**: Formulario de solicitud funcional — accesible para autenticados y anónimos
 
@@ -106,11 +106,11 @@
 
 **Purpose**: Ajustes finales, accesibilidad y SEO
 
-- [ ] T025 Run quickstart.md validation scenarios per quickstart.md
-- [ ] T026 Verify accessibility (keyboard navigation, aria-labels) in all catalog and detail components per spec §3.1 + §3.2
-- [ ] T027 Verify SEO metadata (generateMetadata, Open Graph) in detail page per spec §3.2
-- [ ] T028 Verify all error messages are in Spanish per spec §3.1 + §3.2
-- [ ] T029 Measure performance against SC-01 to SC-04: Búsqueda <500ms, Catálogo <2s, Detalle <1.5s, Paginación <300ms (Lighthouse ad-hoc o timing manual, sin infraestructura CI)
+- [X] T025 Run quickstart.md validation scenarios per quickstart.md
+- [X] T026 Verify accessibility (keyboard navigation, aria-labels) in all catalog and detail components per spec §3.1 + §3.2
+- [X] T027 Verify SEO metadata (generateMetadata, Open Graph) in detail page per spec §3.2
+- [X] T028 Verify all error messages are in Spanish per spec §3.1 + §3.2
+- [X] T029 Measure performance against SC-01 to SC-04: Búsqueda <500ms, Catálogo <2s, Detalle <1.5s, Paginación <300ms (Lighthouse ad-hoc o timing manual, sin infraestructura CI)
 
 ---
 

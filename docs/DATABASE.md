@@ -245,6 +245,7 @@ CREATE TABLE contact_requests (
   user_id UUID REFERENCES auth.users(id),
   book_title TEXT NOT NULL,
   book_author TEXT,
+  requester_name TEXT,
   email TEXT NOT NULL,
   phone TEXT,
   message TEXT,

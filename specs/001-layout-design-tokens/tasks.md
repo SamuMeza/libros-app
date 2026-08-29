@@ -311,3 +311,17 @@ With multiple developers:
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+
+---
+
+## Phase 9: Convergence
+
+**Purpose**: Brechas detectadas entre spec/plan y la implementación actual tras auditoría de código
+
+- [x] T090 Implementar underline animado en navegación desktop del header per spec §3.3 (missing)
+- [x] T091 CRITICAL: Implementar focus trap en modal para accesibilidad per T076, spec §3.6.2 (missing)
+- [x] T092 CRITICAL: Agregar `aria-live="polite"` a componente toast per spec §3.6.1 L148 (missing)
+- [x] T093 Agregar link "Inicio" e información de contacto al footer per spec §3.4 (partial)
+- [x] T094 Crear gestor de stacking de toast con máximo 3 visibles per T072, spec §3.6.1 (missing)
+- [x] T095 Agregar transición fade-in/out de 200ms al modal per spec §3.6.2 L161 (missing)
+- [x] T096 Agregar transición CSS al drawer mobile para animación de slide per spec §3.5 (missing)

@@ -17,6 +17,7 @@ export default function Toast({ variant, message, duration = 5000, onClose }: To
     <div
       className={`flex items-center justify-between px-4 py-3 rounded-lg shadow-lg ${VARIANT_STYLES[variant]}`}
       role="alert"
+      aria-live="polite"
     >
       <span className="text-sm font-medium">{message}</span>
       <button

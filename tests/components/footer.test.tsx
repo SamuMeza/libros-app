@@ -47,7 +47,8 @@ describe('Footer Component', () => {
 
     it('should render Contacto link with correct href', () => {
       render(<Footer />);
-      const link = screen.getByText('Contacto').closest('a');
+      const links = screen.getAllByText('Contacto');
+      const link = links.find((el) => el.tagName === 'A');
       expect(link).toHaveAttribute('href', '/contact');
     });
   });

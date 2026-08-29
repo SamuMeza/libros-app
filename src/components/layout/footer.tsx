@@ -21,6 +21,7 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Enlaces</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><a href="/" className="hover:text-primary transition-colors">Inicio</a></li>
               <li><a href="/libros" className="hover:text-primary transition-colors">Libros</a></li>
               <li><a href="/papeleria" className="hover:text-primary transition-colors">Papelería</a></li>
               <li><a href="/about" className="hover:text-primary transition-colors">Sobre nosotros</a></li>
@@ -39,13 +40,19 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 4: Social */}
+          {/* Column 4: Social & Contact */}
           <div>
             <h4 className="font-semibold mb-4">Síguenos</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="https://instagram.com" className="hover:text-primary transition-colors">Instagram</a></li>
               <li><a href="https://facebook.com" className="hover:text-primary transition-colors">Facebook</a></li>
               <li><a href="https://tiktok.com" className="hover:text-primary transition-colors">TikTok</a></li>
+            </ul>
+            <h4 className="font-semibold mt-6 mb-4">Contacto</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>+58 414 123 4567</li>
+              <li>+58 424 987 6543</li>
+              <li>info@hechoyletras.com</li>
             </ul>
           </div>
         </div>

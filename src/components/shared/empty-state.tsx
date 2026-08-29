@@ -1,4 +1,12 @@
-export default function EmptyState({ message, suggestions }: { message: string; suggestions?: string[] }) {
+import Link from 'next/link';
+
+interface EmptyStateProps {
+  message: string;
+  suggestions?: string[];
+  action?: { label: string; href: string };
+}
+
+export default function EmptyState({ message, suggestions, action }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-hl-primary/20 bg-hl-secondary/5 px-8 py-16 text-center">
       <svg className="mb-4 h-16 w-16 text-hl-primary/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -12,6 +20,14 @@ export default function EmptyState({ message, suggestions }: { message: string; 
             <li key={s}>• {s}</li>
           ))}
         </ul>
+      )}
+      {action && (
+        <Link
+          href={action.href}
+          className="mt-6 rounded-lg bg-hl-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-hl-accent/90"
+        >
+          {action.label}
+        </Link>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createBrowserClient } from '@/lib/supabase/client';
 import submitBookRequest from '@/lib/actions/submit-book-request';
 
 const MAX_MESSAGE_LENGTH = 500;
@@ -8,6 +9,7 @@ const MAX_MESSAGE_LENGTH = 500;
 interface FormState {
   book_title: string;
   book_author: string;
+  requester_name: string;
   email: string;
   phone: string;
   message: string;
@@ -16,6 +18,7 @@ interface FormState {
 const INITIAL_STATE: FormState = {
   book_title: '',
   book_author: '',
+  requester_name: '',
   email: '',
   phone: '',
   message: '',
@@ -27,11 +30,32 @@ export default function BookRequestForm() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [serverError, setServerError] = useState('');
 
+  useEffect(() => {
+    const supabase = createBrowserClient();
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        const fullName = [data.user.user_metadata?.full_name, data.user.user_metadata?.name]
+          .filter(Boolean)
+          .join(' ')
+          .trim();
+        const email = data.user.email ?? '';
+        setForm((prev) => ({
+          ...prev,
+          requester_name: prev.requester_name || fullName,
+          email: prev.email || email,
+        }));
+      }
+    });
+  }, []);
+
   function validate(): boolean {
     const newErrors: Partial<Record<keyof FormState, string>> = {};
 
     if (!form.book_title.trim()) {
       newErrors.book_title = 'El título del libro es obligatorio';
+    }
+    if (!form.requester_name.trim()) {
+      newErrors.requester_name = 'Tu nombre es obligatorio';
     }
     if (!form.email.trim()) {
       newErrors.email = 'El email es obligatorio';
@@ -56,6 +80,7 @@ export default function BookRequestForm() {
     const result = await submitBookRequest({
       book_title: form.book_title,
       book_author: form.book_author || undefined,
+      requester_name: form.requester_name || undefined,
       email: form.email,
       phone: form.phone || undefined,
       message: form.message || undefined,
@@ -66,8 +91,13 @@ export default function BookRequestForm() {
       setForm(INITIAL_STATE);
     } else {
       setStatus('error');
-      setServerError(result.error ?? 'Error al enviar la solicitud');
+      setServerError(result.error ?? 'No pudimos enviar tu solicitud. Por favor, verifica los datos e intenta de nuevo.');
     }
+  }
+
+  function handleRetry() {
+    setStatus('idle');
+    setServerError('');
   }
 
   if (status === 'success') {
@@ -116,6 +146,23 @@ export default function BookRequestForm() {
           className="mt-1 w-full rounded-lg border border-hl-primary/20 px-3 py-2 text-sm focus:border-hl-accent focus:outline-none focus:ring-1 focus:ring-hl-accent/30"
           placeholder="Ej: Gabriel García Márquez"
         />
+      </div>
+
+      <div>
+        <label htmlFor="requester_name" className="block text-sm font-medium text-hl-primary">
+          Tu nombre <span className="text-red-500">*</span>
+        </label>
+        <input
+          id="requester_name"
+          type="text"
+          value={form.requester_name}
+          onChange={(e) => setForm({ ...form, requester_name: e.target.value })}
+          className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-1 ${
+            errors.requester_name ? 'border-red-500 focus:ring-red-500/30' : 'border-hl-primary/20 focus:border-hl-accent focus:ring-hl-accent/30'
+          }`}
+          placeholder="Ej: María García"
+        />
+        {errors.requester_name && <p className="mt-1 text-xs text-red-600">{errors.requester_name}</p>}
       </div>
 
       <div>
@@ -176,7 +223,16 @@ export default function BookRequestForm() {
       </div>
 
       {serverError && (
-        <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{serverError}</p>
+        <div className="rounded-lg bg-red-50 p-3">
+          <p className="text-sm text-red-700">{serverError}</p>
+          <button
+            type="button"
+            onClick={handleRetry}
+            className="mt-2 text-xs font-medium text-red-800 underline hover:text-red-900"
+          >
+            Reintentar envío
+          </button>
+        </div>
       )}
 
       <button

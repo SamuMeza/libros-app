@@ -1,19 +1,59 @@
+import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import getBooks from '@/lib/actions/get-books';
+import { createServerClient } from '@/lib/supabase/server';
 import type { BookFilters } from '@/types/books';
 import BookCard from '@/components/books/book-card';
-import SkeletonBookCard from '@/components/shared/skeleton-book-card';
 import EmptyState from '@/components/shared/empty-state';
-import FilterSidebar from '@/components/shared/filter-sidebar';
-import SearchBar from '@/components/shared/search-bar';
-import SortSelector from '@/components/shared/sort-selector';
-import Pagination from '@/components/shared/pagination';
+import SkeletonBookCard from '@/components/shared/skeleton-book-card';
 import BookRequestForm from '@/components/books/book-request-form';
+import CatalogClient from '@/components/books/catalog-client';
+
+export const metadata: Metadata = {
+  title: 'Libros — Hecho Letras',
+  description: 'Explora nuestro catálogo de libros. Encuentra títulos por género, precio y disponibilidad. Envíos a toda Venezuela.',
+};
 
 interface CatalogPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export default async function CatalogPage({ searchParams }: CatalogPageProps) {
+async function getCategoriesWithCount() {
+  const supabase = await createServerClient();
+  const { data } = await supabase
+    .from('categories')
+    .select('id, name')
+    .eq('brand', 'hl')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+
+  if (!data) return [];
+
+  const categories = await Promise.all(
+    data.map(async (cat) => {
+      const { count } = await supabase
+        .from('books')
+        .select('*', { count: 'exact', head: true })
+        .eq('category_id', cat.id)
+        .eq('is_active', true);
+      return { id: cat.id, name: cat.name, count: count ?? 0 };
+    })
+  );
+
+  return categories.filter((c) => c.count > 0);
+}
+
+function CatalogSkeleton() {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {Array.from({ length: 24 }).map((_, i) => (
+        <SkeletonBookCard key={i} />
+      ))}
+    </div>
+  );
+}
+
+async function CatalogContent({ searchParams }: CatalogPageProps) {
   const params = await searchParams;
 
   const filters: BookFilters = {
@@ -36,6 +76,46 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     result = { books: [], total: 0, page: 1, pageSize: 24, totalPages: 0 };
   }
 
+  const categories = await getCategoriesWithCount();
+
+  if (error) {
+    return (
+      <EmptyState
+        message="No pudimos cargar el catálogo. Verifica tu conexión e intenta de nuevo."
+        suggestions={['Recarga la página', 'Verifica tu conexión a internet']}
+        action={{ label: 'Reintentar', href: '/libros' }}
+      />
+    );
+  }
+
+  if (result.books.length === 0) {
+    return (
+      <EmptyState
+        message="No encontramos libros que coincidan con tu búsqueda."
+        suggestions={[
+          'Intenta con otros filtros',
+          'Revisa la ortografía del término de búsqueda',
+          'Explora todas las categorías disponibles',
+        ]}
+        action={{ label: 'Limpiar filtros', href: '/libros' }}
+      />
+    );
+  }
+
+  const bookCards = result.books.map((book) => (
+    <BookCard key={book.id} book={book} />
+  ));
+
+  return (
+    <CatalogClient
+      filters={filters}
+      result={{ ...result, books: bookCards }}
+      categories={categories}
+    />
+  );
+}
+
+export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   return (
     <div className="brand-hl">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -44,68 +124,19 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           <p className="mt-2 text-hl-primary/60">Explora nuestra colección de libros Hecho Letras</p>
         </header>
 
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="w-full sm:max-w-md">
-            <SearchBar value={filters.search ?? ''} onSearch={() => {}} />
+        <Suspense fallback={<CatalogSkeleton />}>
+          <CatalogContent searchParams={searchParams} />
+        </Suspense>
+
+        <section className="mt-12 rounded-xl border border-hl-primary/10 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-hl-primary">¿No encuentras tu libro?</h2>
+          <p className="mt-2 text-sm text-hl-primary/60">
+            Si el libro que buscas no está en nuestro catálogo, envíanos una solicitud y lo buscaremos para ti.
+          </p>
+          <div className="mt-4">
+            <BookRequestForm />
           </div>
-          <SortSelector value={filters.sort ?? 'relevance'} onChange={() => {}} />
-        </div>
-
-        <div className="flex gap-8">
-          <FilterSidebar
-            categories={[]}
-            filters={filters}
-            onFilterChange={() => {}}
-            isOpen={false}
-            onClose={() => {}}
-          />
-
-          <main className="flex-1">
-            {error ? (
-              <EmptyState
-                message="Hubo un error al cargar el catálogo. Por favor, intenta de nuevo."
-                suggestions={['Verifica tu conexión a internet', 'Recarga la página']}
-              />
-            ) : result.books.length === 0 ? (
-              <EmptyState
-                message="No encontramos libros que coincidan con tu búsqueda."
-                suggestions={[
-                  'Intenta con otros filtros',
-                  'Revisa la ortografía del término de búsqueda',
-                  'Explora todas las categorías disponibles',
-                ]}
-              />
-            ) : (
-              <>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {result.books.map((book) => (
-                    <BookCard key={book.id} book={book} />
-                  ))}
-                </div>
-
-                <div className="mt-8">
-                  <Pagination
-                    page={result.page}
-                    totalPages={result.totalPages}
-                    onPageChange={() => {}}
-                    total={result.total}
-                    pageSize={result.pageSize}
-                  />
-                </div>
-              </>
-            )}
-
-            <section className="mt-12 rounded-xl border border-hl-primary/10 bg-white p-6 shadow-sm">
-              <h2 className="text-xl font-semibold text-hl-primary">¿No encuentras tu libro?</h2>
-              <p className="mt-2 text-sm text-hl-primary/60">
-                Si el libro que buscas no está en nuestro catálogo, envíanos una solicitud y lo buscaremos para ti.
-              </p>
-              <div className="mt-4">
-                <BookRequestForm />
-              </div>
-            </section>
-          </main>
-        </div>
+        </section>
       </div>
     </div>
   );

@@ -10,7 +10,8 @@ interface BookExtrasProps {
 }
 
 export default function BookExtras({ extras, selectedExtras, onSelectionChange }: BookExtrasProps) {
-  if (!extras || extras.length === 0) return null;
+  const validExtras = (extras ?? []).filter((e) => e.products !== null);
+  if (validExtras.length === 0) return null;
 
   function toggle(id: string) {
     onSelectionChange(
@@ -20,7 +21,7 @@ export default function BookExtras({ extras, selectedExtras, onSelectionChange }
     );
   }
 
-  const totalPrice = extras
+  const totalPrice = validExtras
     .filter((e) => selectedExtras.includes(e.id))
     .reduce((sum, e) => sum + e.products.price, 0);
 
@@ -29,7 +30,7 @@ export default function BookExtras({ extras, selectedExtras, onSelectionChange }
       <h3 className="text-sm font-semibold text-hl-primary">Extras KamCat</h3>
       <p className="mt-1 text-xs text-hl-primary/50">Agrega productos personalizados a tu pedido</p>
       <div className="mt-3 space-y-2">
-        {extras.map((extra) => (
+        {validExtras.map((extra) => (
           <label
             key={extra.id}
             className="flex cursor-pointer items-center gap-3 rounded-lg border border-hl-primary/10 p-3 transition-colors hover:bg-hl-secondary/5"

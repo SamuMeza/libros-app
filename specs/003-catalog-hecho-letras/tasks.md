@@ -195,6 +195,24 @@ With multiple developers:
 
 ---
 
+## Phase 7: Convergence
+
+**Purpose**: Brechas entre implementación actual y spec/plan — interactividad, robustez y Cumplimiento
+
+- [X] T030 CRITICAL Crear componente client wrapper `src/components/books/catalog-client.tsx` con `useRouter`/`useSearchParams` para manejar interactivity de filtros, búsqueda, orden y paginación — conectar callbacks vacíos en `page.tsx` (F1, US1)
+- [X] T031 CRITICAL Crear componente client wrapper `src/components/books/book-detail-client.tsx` con estado para extras seleccionados y cantidad — conectar callbacks vacíos en `[slug]/page.tsx` (F2, US2)
+- [X] T032 HIGH Agregar `generateMetadata` a `src/app/(shop)/libros/page.tsx` con título "Libros — Hecho Letras" y descripción estática de 160 chars (F3, spec §3.1)
+- [X] T033 HIGH Poblar categorías desde Supabase en el Server Component del catálogo y pasarlas al `FilterSidebar` con recuento de libros por categoría (F4, spec §3.1)
+- [X] T034 HIGH Agregar `onError` handler en `book-gallery.tsx` para mostrar imagen fallback genérica cuando una imagen falla al cargar (F5, spec §3.2 CA-10)
+- [X] T035 HIGH Filtrar en `book-extras.tsx` los extras donde `products` es null (producto inexistente) — omitir silenciosamente antes de renderizar (F6, spec §3.2 Q12)
+- [X] T036 HIGH Agregar campo "Nombre del solicitante" (obligatorio) al `book-request-form.tsx`, implementar pre-fill desde perfil de usuario autenticado, y agregar botón reintentar en error de red preservando datos (F7, spec §3.3)
+- [X] T037 HIGH Implementar estado de loading en `page.tsx` del catálogo mostrando 24 `SkeletonBookCard` durante carga inicial y cambio de filtros (F8, spec §3.1 CA-14)
+- [X] T038 MEDIUM Actualizar mensaje de error en catálogo a "No pudimos cargar el catálogo. Verifica tu conexión e intenta de nuevo." con botón de reintentar funcional (F9, spec §3.1 CA-10)
+- [X] T039 MEDIUM Agregar botón "Limpiar filtros" al `EmptyState` del catálogo que resetee todos los parámetros de URL (F10, spec §3.1 CA-9)
+- [X] T040 MEDIUM Actualizar mensaje de error en `book-request-form.tsx` a "No pudimos enviar tu solicitud. Intenta de nuevo." con botón reintentar que preserve datos del formulario (F11, spec §3.3 CA-6)
+
+---
+
 ## Notes
 
 - [P] tasks = different files, no dependencies

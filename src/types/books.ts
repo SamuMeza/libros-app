@@ -75,6 +75,7 @@ export interface ContactRequest {
   user_id: string | null;
   book_title: string;
   book_author: string | null;
+  requester_name: string | null;
   email: string;
   phone: string | null;
   message: string | null;
@@ -85,6 +86,7 @@ export interface ContactRequest {
 export interface ContactRequestCreate {
   book_title: string;
   book_author?: string;
+  requester_name?: string;
   email: string;
   phone?: string;
   message?: string;

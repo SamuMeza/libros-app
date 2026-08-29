@@ -10,6 +10,22 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* --- Hecho Letras --- */
+  --color-hl-primary: var(--hl-primary);
+  --color-hl-secondary: var(--hl-secondary);
+  --color-hl-accent: var(--hl-accent);
+
+  /* --- KamCat --- */
+  --color-kc-primary: var(--kc-primary);
+  --color-kc-secondary: var(--kc-secondary);
+  --color-kc-accent: var(--kc-accent);
+
+  /* --- Semantic --- */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
 }
 
 @media (prefers-color-scheme: dark) {

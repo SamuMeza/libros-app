@@ -80,7 +80,7 @@ describe('getProducts', () => {
     })
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(queryBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProducts({})
@@ -97,7 +97,7 @@ describe('getProducts', () => {
     const queryBuilder = buildQueryMock({ data: [], error: null, count: 0 })
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(queryBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProducts({})
@@ -114,11 +114,11 @@ describe('getProducts', () => {
     const queryBuilder = buildQueryMock({
       data: null,
       error: { message: 'DB error' },
-      count: null,
+      count: 1,
     })
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(queryBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProducts({})
@@ -137,7 +137,7 @@ describe('getProducts', () => {
     })
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(queryBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProducts({})
@@ -156,7 +156,7 @@ describe('getProducts', () => {
     })
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(queryBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProducts({})
@@ -176,7 +176,7 @@ describe('getProducts', () => {
     })
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(queryBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProducts({})
@@ -191,7 +191,7 @@ describe('getProducts', () => {
     const queryBuilder = buildQueryMock({ data: [], error: null, count: 50 })
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(queryBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProducts({ pageSize: 24 })
@@ -230,7 +230,7 @@ describe('getProductBySlug', () => {
     }
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(singleBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProductBySlug('prod-1')
@@ -250,7 +250,7 @@ describe('getProductBySlug', () => {
     }
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(singleBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProductBySlug('no-existe')
@@ -306,7 +306,7 @@ describe('getProductCategories', () => {
 
     vi.mocked(createClient).mockResolvedValue({
       from: fromMock,
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProductCategories()
@@ -327,7 +327,7 @@ describe('getProductCategories', () => {
     }
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(catBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await getProductCategories()
@@ -355,7 +355,7 @@ describe('calculateProductPrice', () => {
     }
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(singleBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await calculateProductPrice({ productId: 'prod-1' })
@@ -382,7 +382,7 @@ describe('calculateProductPrice', () => {
     }
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(singleBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await calculateProductPrice({
@@ -405,7 +405,7 @@ describe('calculateProductPrice', () => {
     }
     vi.mocked(createClient).mockResolvedValue({
       from: vi.fn().mockReturnValue(singleBuilder),
-    } as unknown as ReturnType<typeof createClient>)
+    } as unknown as Awaited<ReturnType<typeof createClient>>)
 
     // ACT
     const result = await calculateProductPrice({ productId: 'no-existe' })

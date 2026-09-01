@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import type { AdminOrderDetail, SubOrderStatus } from '@/types/admin';
-import { getStatusLabel, getStatusColor, formatAmount, formatDate, getAllowedTransitions, getTransitionError } from '@/lib/utils/order-helpers';
+import { getStatusLabel, formatAmount, getAllowedTransitions, getTransitionError } from '@/lib/utils/order-helpers';
 import { updateOrderStatus } from '@/lib/actions/admin/orders';
 import TrackingForm from './tracking-form';
 
@@ -11,8 +11,17 @@ interface OrderTabsProps {
   onUpdate: () => void;
 }
 
+type TabId = 'productos' | 'pagos' | 'envio' | 'cliente';
+
+const tabs: { id: TabId; label: string }[] = [
+  { id: 'productos', label: 'Productos' },
+  { id: 'pagos', label: 'Pagos' },
+  { id: 'envio', label: 'Envío' },
+  { id: 'cliente', label: 'Cliente' },
+];
+
 export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
-  const [activeTab, setActiveTab] = useState<'productos' | 'pagos' | 'envio' | 'cliente'>('productos');
+  const [activeTab, setActiveTab] = useState<TabId>('productos');
   const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,14 +69,16 @@ export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
       </div>
 
       <div className="p-4 border-b border-[var(--admin-border)]">
-        <label className="block text-sm font-medium text-[var(--admin-text)] mb-2">
+        <label htmlFor="status-select" className="block text-sm font-medium text-[var(--admin-text)] mb-2">
           Estado actual
         </label>
         <select
+          id="status-select"
           value={subOrder.status}
           onChange={(e) => handleStatusChange(e.target.value as SubOrderStatus)}
           disabled={isUpdating || allowedTransitions.length === 0}
           className="admin-select"
+          aria-describedby={error ? 'status-error' : undefined}
         >
           <option value={subOrder.status}>
             {getStatusLabel(subOrder.status)}
@@ -79,40 +90,30 @@ export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
           ))}
         </select>
         {error && (
-          <p className="mt-2 text-sm text-[var(--admin-danger)]">{error}</p>
+          <p id="status-error" className="mt-2 text-sm text-[var(--admin-danger)]" role="alert">{error}</p>
         )}
       </div>
 
-      <div className="admin-tabs px-4">
-        <button
-          className={`admin-tab ${activeTab === 'productos' ? 'active' : ''}`}
-          onClick={() => setActiveTab('productos')}
-        >
-          Productos
-        </button>
-        <button
-          className={`admin-tab ${activeTab === 'pagos' ? 'active' : ''}`}
-          onClick={() => setActiveTab('pagos')}
-        >
-          Pagos
-        </button>
-        <button
-          className={`admin-tab ${activeTab === 'envio' ? 'active' : ''}`}
-          onClick={() => setActiveTab('envio')}
-        >
-          Envío
-        </button>
-        <button
-          className={`admin-tab ${activeTab === 'cliente' ? 'active' : ''}`}
-          onClick={() => setActiveTab('cliente')}
-        >
-          Cliente
-        </button>
+      <div className="admin-tabs px-4" role="tablist" aria-label="Detalle del pedido">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            id={`tab-${tab.id}`}
+            className={`admin-tab ${activeTab === tab.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            aria-controls={`panel-${tab.id}`}
+            tabIndex={activeTab === tab.id ? 0 : -1}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
       <div className="p-4">
         {activeTab === 'productos' && (
-          <div className="space-y-3">
+          <div id="panel-productos" role="tabpanel" aria-labelledby="tab-productos" className="space-y-3">
             {items.length === 0 ? (
               <p className="text-sm text-[var(--admin-text-muted)]">No hay productos</p>
             ) : (
@@ -136,7 +137,7 @@ export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
         )}
 
         {activeTab === 'pagos' && (
-          <div className="space-y-3">
+          <div id="panel-pagos" role="tabpanel" aria-labelledby="tab-pagos" className="space-y-3">
             {payments.length === 0 ? (
               <p className="text-sm text-[var(--admin-text-muted)]">No hay pagos registrados</p>
             ) : (
@@ -168,7 +169,7 @@ export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
         )}
 
         {activeTab === 'envio' && (
-          <div className="space-y-4">
+          <div id="panel-envio" role="tabpanel" aria-labelledby="tab-envio" className="space-y-4">
             <div className="p-3 bg-[var(--admin-bg)] rounded-lg">
               <p className="text-sm font-medium text-[var(--admin-text)] mb-1">Dirección</p>
               <p className="text-sm text-[var(--admin-text-muted)]">
@@ -192,7 +193,7 @@ export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
         )}
 
         {activeTab === 'cliente' && (
-          <div className="space-y-3">
+          <div id="panel-cliente" role="tabpanel" aria-labelledby="tab-cliente" className="space-y-3">
             <div className="p-3 bg-[var(--admin-bg)] rounded-lg">
               <p className="text-sm font-medium text-[var(--admin-text)] mb-1">Nombre</p>
               <p className="text-sm text-[var(--admin-text-muted)]">

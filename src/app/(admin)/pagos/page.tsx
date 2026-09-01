@@ -1,37 +1,39 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { Payment, PaymentFilters as PaymentFiltersType } from '@/types/admin';
+import type { Payment } from '@/types/admin';
 import { getAdminPayments, approvePayment, rejectPayment } from '@/lib/actions/admin/payments';
+import { usePaymentFilters } from '@/lib/hooks/use-payment-filters';
 import PaymentTable from '@/components/admin/payment-table';
 import PaymentModal from '@/components/admin/payment-modal';
 import PaymentFilters from '@/components/admin/payment-filters';
+import TableSkeleton from '@/components/admin/skeletons';
+import ErrorMessage from '@/components/admin/error-message';
 
 export default function PagosPage() {
+  const { filters, setFilters } = usePaymentFilters();
   const [payments, setPayments] = useState<Payment[]>([]);
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filters, setFilters] = useState<PaymentFiltersType>({
-    status: 'all',
-    method: 'all',
-    dateFrom: null,
-    dateTo: null,
-    page: 1,
-    limit: 20,
-  });
 
   const fetchPayments = async () => {
     setIsLoading(true);
+    setError(null);
     try {
       const result = await getAdminPayments(filters);
       if (result.success && result.data) {
         setPayments(result.data.data);
         setTotal(result.data.total);
         setTotalPages(result.data.totalPages);
+      } else {
+        setError(result.error || 'Error al cargar pagos');
       }
+    } catch {
+      setError('Error de conexión');
     } finally {
       setIsLoading(false);
     }
@@ -69,7 +71,7 @@ export default function PagosPage() {
   };
 
   const handlePageChange = (page: number) => {
-    setFilters({ ...filters, page });
+    setFilters({ page });
   };
 
   return (
@@ -85,13 +87,16 @@ export default function PagosPage() {
 
       <PaymentFilters filters={filters} onFiltersChange={setFilters} />
 
+      {error && (
+        <ErrorMessage 
+          message={error} 
+          onRetry={fetchPayments} 
+        />
+      )}
+
       {isLoading ? (
         <div className="admin-card">
-          <div className="space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="admin-skeleton h-12" />
-            ))}
-          </div>
+          <TableSkeleton rows={5} />
         </div>
       ) : (
         <div className="admin-card">
@@ -118,6 +123,7 @@ export default function PagosPage() {
                   onClick={() => handlePageChange(filters.page - 1)}
                   disabled={filters.page === 1}
                   className="admin-button admin-button-ghost"
+                  aria-label="Página anterior"
                 >
                   Anterior
                 </button>
@@ -125,6 +131,7 @@ export default function PagosPage() {
                   onClick={() => handlePageChange(filters.page + 1)}
                   disabled={filters.page === totalPages}
                   className="admin-button admin-button-ghost"
+                  aria-label="Página siguiente"
                 >
                   Siguiente
                 </button>

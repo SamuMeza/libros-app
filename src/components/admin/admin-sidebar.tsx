@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import useUserRole from '@/lib/hooks/use-user-role';
 
 interface NavItem {
   label: string;
@@ -24,10 +25,10 @@ const navItems: NavItem[] = [
 export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const userRole = 'admin_hl';
+  const { role: userRole } = useUserRole();
 
   const filteredItems = navItems.filter(item => 
-    item.roles.includes(userRole)
+    userRole && item.roles.includes(userRole)
   );
 
   return (

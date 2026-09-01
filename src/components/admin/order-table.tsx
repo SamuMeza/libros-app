@@ -11,7 +11,7 @@ interface OrderTableProps {
 export default function OrderTable({ orders, onSelectOrder }: OrderTableProps) {
   if (orders.length === 0) {
     return (
-      <div className="admin-card text-center py-8">
+      <div className="admin-card text-center py-8" role="status">
         <p className="text-[var(--admin-text-muted)]">No hay pedidos para mostrar</p>
       </div>
     );
@@ -19,16 +19,16 @@ export default function OrderTable({ orders, onSelectOrder }: OrderTableProps) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="admin-table">
+      <table className="admin-table" role="table" aria-label="Lista de pedidos">
         <thead>
           <tr>
-            <th>Número</th>
-            <th>Marca</th>
-            <th>Estado</th>
-            <th>Subtotal</th>
-            <th>Tracking</th>
-            <th>Fecha</th>
-            <th>Acciones</th>
+            <th scope="col">Número</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Subtotal</th>
+            <th scope="col">Tracking</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -45,7 +45,7 @@ export default function OrderTable({ orders, onSelectOrder }: OrderTableProps) {
                 </span>
               </td>
               <td>
-                <span className={`admin-badge admin-badge-${getStatusColor(order.status)}`}>
+                <span className={`admin-badge admin-badge-${getStatusColor(order.status)}`} aria-label={`Estado: ${getStatusLabel(order.status)}`}>
                   {getStatusLabel(order.status)}
                 </span>
               </td>
@@ -60,6 +60,7 @@ export default function OrderTable({ orders, onSelectOrder }: OrderTableProps) {
                 <button
                   onClick={() => onSelectOrder(order)}
                   className="admin-button admin-button-primary text-sm"
+                  aria-label={`Ver detalle del pedido ${order.order_number}`}
                 >
                   Ver detalle
                 </button>

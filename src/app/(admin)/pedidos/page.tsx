@@ -1,34 +1,39 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { SubOrder, OrderFilters as OrderFiltersType } from '@/types/admin';
+import type { SubOrder } from '@/types/admin';
 import { getAdminOrders } from '@/lib/actions/admin/orders';
+import { useOrderFilters } from '@/lib/hooks/use-order-filters';
+import { useOrderDrawer } from '@/lib/hooks/use-order-drawer';
 import OrderTable from '@/components/admin/order-table';
 import OrderDrawer from '@/components/admin/order-drawer';
 import OrderFilters from '@/components/admin/order-filters';
+import TableSkeleton from '@/components/admin/skeletons';
+import ErrorMessage from '@/components/admin/error-message';
 
 export default function PedidosPage() {
+  const { filters, setFilters } = useOrderFilters();
+  const { isOpen: isDrawerOpen, selectedOrder, openDrawer, closeDrawer } = useOrderDrawer();
   const [orders, setOrders] = useState<SubOrder[]>([]);
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedOrder, setSelectedOrder] = useState<SubOrder | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [filters, setFilters] = useState<OrderFiltersType>({
-    status: 'all',
-    page: 1,
-    limit: 20,
-  });
+  const [error, setError] = useState<string | null>(null);
 
   const fetchOrders = async () => {
     setIsLoading(true);
+    setError(null);
     try {
       const result = await getAdminOrders(filters);
       if (result.success && result.data) {
         setOrders(result.data.data);
         setTotal(result.data.total);
         setTotalPages(result.data.totalPages);
+      } else {
+        setError(result.error || 'Error al cargar pedidos');
       }
+    } catch {
+      setError('Error de conexión');
     } finally {
       setIsLoading(false);
     }
@@ -39,8 +44,12 @@ export default function PedidosPage() {
   }, [filters]);
 
   const handleSelectOrder = (order: SubOrder) => {
-    setSelectedOrder(order);
-    setIsDrawerOpen(true);
+    openDrawer(order);
+  };
+
+  const handleCloseDrawer = () => {
+    closeDrawer();
+    fetchOrders();
   };
 
   return (
@@ -56,13 +65,16 @@ export default function PedidosPage() {
 
       <OrderFilters filters={filters} onFiltersChange={setFilters} />
 
+      {error && (
+        <ErrorMessage 
+          message={error} 
+          onRetry={fetchOrders} 
+        />
+      )}
+
       {isLoading ? (
         <div className="admin-card">
-          <div className="space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="admin-skeleton h-12" />
-            ))}
-          </div>
+          <TableSkeleton rows={5} />
         </div>
       ) : (
         <div className="admin-card">
@@ -81,16 +93,18 @@ export default function PedidosPage() {
               </p>
               <div className="flex gap-2">
                 <button
-                  onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
+                  onClick={() => setFilters({ page: filters.page - 1 })}
                   disabled={filters.page === 1}
                   className="admin-button admin-button-ghost"
+                  aria-label="Página anterior"
                 >
                   Anterior
                 </button>
                 <button
-                  onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
+                  onClick={() => setFilters({ page: filters.page + 1 })}
                   disabled={filters.page === totalPages}
                   className="admin-button admin-button-ghost"
+                  aria-label="Página siguiente"
                 >
                   Siguiente
                 </button>
@@ -103,11 +117,7 @@ export default function PedidosPage() {
       <OrderDrawer
         order={selectedOrder}
         isOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-          setSelectedOrder(null);
-          fetchOrders();
-        }}
+        onClose={handleCloseDrawer}
       />
     </div>
   );

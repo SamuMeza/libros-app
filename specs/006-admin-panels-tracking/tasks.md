@@ -227,13 +227,13 @@ Con múltiples desarrolladores:
 
 **Purpose**: Cerrar brechas detectadas entre spec/plan y código implementado
 
-- [ ] T056 [CRITICAL] Leer rol de usuario desde contexto de auth en vez de hardcodear 'admin_hl' en src/components/admin/admin-sidebar.tsx:27 (contradicts FR-SB1)
-- [ ] T057 [HIGH] Agregar focus trap, role="dialog" y aria-modal al PaymentModal en src/components/admin/payment-modal.tsx (partial FR-PV3/FR-SB6)
-- [ ] T058 [HIGH] Agregar role="table", scope="col" en th para tablas de admin en src/components/admin/payment-table.tsx y order-table.tsx (partial FR-SB6)
-- [ ] T059 [MEDIUM] Integrar Zustand hooks (use-payment-filters, use-order-filters, use-order-drawer) en páginas admin reemplazando useState local (partial T021/T035/T036)
-- [ ] T060 [MEDIUM] Importar componentes skeletons.tsx y error-message.tsx compartidos en vez de inline skeletons en páginas admin (partial T047)
-- [ ] T061 [MEDIUM] Agregar role="tablist", role="tab", aria-selected a tabs en src/components/admin/order-tabs.tsx (partial FR-SB6)
-- [ ] T062 [MEDIUM] Agregar role="dialog" y aria-modal al OrderDrawer en src/components/admin/order-drawer.tsx (partial FR-SB6)
-- [ ] T063 [MEDIUM] Agregar aria-describedby a selects/inputs en payment-filters.tsx y order-filters.tsx (partial FR-SB6)
-- [ ] T064 [MEDIUM] Agregar controles de zoom a imagen de comprobante en payment-modal.tsx (partial FR-PV3)
-- [ ] T065 [MEDIUM] Ejecutar validación de quickstart.md y documentar resultados (missing T053)
+- [x] T056 [CRITICAL] Leer rol de usuario desde contexto de auth en vez de hardcodear 'admin_hl' en src/components/admin/admin-sidebar.tsx:27 (contradicts FR-SB1)
+- [x] T057 [HIGH] Agregar focus trap, role="dialog" y aria-modal al PaymentModal en src/components/admin/payment-modal.tsx (partial FR-PV3/FR-SB6)
+- [x] T058 [HIGH] Agregar role="table", scope="col" en th para tablas de admin en src/components/admin/payment-table.tsx y order-table.tsx (partial FR-SB6)
+- [x] T059 [MEDIUM] Integrar Zustand hooks (use-payment-filters, use-order-filters, use-order-drawer) en páginas admin reemplazando useState local (partial T021/T035/T036)
+- [x] T060 [MEDIUM] Importar componentes skeletons.tsx y error-message.tsx compartidos en vez de inline skeletons en páginas admin (partial T047)
+- [x] T061 [MEDIUM] Agregar role="tablist", role="tab", aria-selected a tabs en src/components/admin/order-tabs.tsx (partial FR-SB6)
+- [x] T062 [MEDIUM] Agregar role="dialog" y aria-modal al OrderDrawer en src/components/admin/order-drawer.tsx (partial FR-SB6)
+- [x] T063 [MEDIUM] Agregar aria-describedby a selects/inputs en payment-filters.tsx y order-filters.tsx (partial FR-SB6)
+- [x] T064 [MEDIUM] Agregar controles de zoom a imagen de comprobante en payment-modal.tsx (partial FR-PV3)
+- [x] T065 [MEDIUM] Ejecutar validación de quickstart.md y documentar resultados (missing T053)

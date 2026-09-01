@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import type { Payment } from '@/types/admin';
 import { formatPaymentAmount, formatPaymentDate } from '@/lib/utils/payment-helpers';
 
@@ -19,34 +19,91 @@ export default function PaymentModal({
   onApprove,
   onReject,
 }: PaymentModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previousActiveRef = useRef<HTMLElement | null>(null);
+  const [zoom, setZoom] = useState(1);
+
+  const getFocusableElements = useCallback(() => {
+    if (!modalRef.current) return [];
+    return Array.from(
+      modalRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+    );
+  }, []);
+
   useEffect(() => {
     if (isOpen) {
+      previousActiveRef.current = document.activeElement as HTMLElement;
       document.body.style.overflow = 'hidden';
+
+      const timer = setTimeout(() => {
+        const focusable = getFocusableElements();
+        if (focusable.length > 0) {
+          focusable[0].focus();
+        }
+      }, 100);
+
+      return () => clearTimeout(timer);
     } else {
       document.body.style.overflow = '';
+      previousActiveRef.current?.focus();
     }
 
     return () => {
       document.body.style.overflow = '';
     };
+  }, [isOpen, getFocusableElements]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setZoom(1);
+    }
   }, [isOpen]);
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
         onClose();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const focusable = getFocusableElements();
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose]);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose, getFocusableElements]);
 
   if (!isOpen || !payment) return null;
 
   return (
-    <div 
+    <div
+      ref={modalRef}
       className="admin-modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Comprobante de pago"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -57,26 +114,60 @@ export default function PaymentModal({
             <h2 className="text-lg font-semibold text-[var(--admin-text)]">
               Comprobante de Pago
             </h2>
-            <button
-              onClick={onClose}
-              className="admin-button admin-button-ghost p-2"
-              aria-label="Cerrar modal"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            <div className="flex items-center gap-2">
+              {payment.proof_url && (
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setZoom(Math.max(0.5, zoom - 0.25))}
+                    className="admin-button admin-button-ghost p-1"
+                    aria-label="Reducir zoom"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </button>
+                  <span className="text-xs text-[var(--admin-text-muted)] min-w-[3rem] text-center">
+                    {Math.round(zoom * 100)}%
+                  </span>
+                  <button
+                    onClick={() => setZoom(Math.min(3, zoom + 0.25))}
+                    className="admin-button admin-button-ghost p-1"
+                    aria-label="Aumentar zoom"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setZoom(1)}
+                    className="admin-button admin-button-ghost p-1 text-xs"
+                    aria-label="Restablecer zoom"
+                  >
+                    1:1
+                  </button>
+                </div>
+              )}
+              <button
+                onClick={onClose}
+                className="admin-button admin-button-ghost p-2"
+                aria-label="Cerrar modal"
               >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -113,11 +204,12 @@ export default function PaymentModal({
               <p className="text-sm text-[var(--admin-text-muted)] mb-2">
                 Comprobante
               </p>
-              <div className="relative">
+              <div className="relative overflow-auto max-h-[70vh] border border-[var(--admin-border)] rounded-lg">
                 <img
                   src={payment.proof_url}
                   alt="Comprobante de pago"
-                  className="w-full max-h-96 object-contain rounded-lg border border-[var(--admin-border)]"
+                  className="w-full object-contain transition-transform duration-200"
+                  style={{ transform: `scale(${zoom})`, transformOrigin: 'top left' }}
                 />
               </div>
             </div>

@@ -35,6 +35,7 @@ export interface SubmitPaymentParams {
   method: PaymentMethodType;
   proof_url?: string;
   proof_number: string;
+  proof_file?: File;
 }
 
 export interface VerifyPaymentParams {

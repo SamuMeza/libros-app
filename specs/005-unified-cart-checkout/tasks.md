@@ -236,6 +236,6 @@ Con múltiples desarrolladores:
 
 **Purpose**: Cerrar brechas entre especificación e implementación
 
-- [ ] T065 Crear archivo de migración SQL en supabase/migrations/ con tablas cart_items, orders, sub_orders, order_items, payments, payment_schedules según data-model.md (missing)
-- [ ] T066 Crear archivo de migración SQL en supabase/migrations/ con políticas RLS para tablas de carrito y órdenes según DATABASE.md (missing)
-- [ ] T067 Implementar upload de comprobantes a Cloudinary en src/lib/actions/payments.ts para soportar subida real de archivos (missing)
+- [x] T065 Crear archivo de migración SQL en supabase/migrations/ con tablas cart_items, orders, sub_orders, order_items, payments, payment_schedules según data-model.md (missing)
+- [x] T066 Crear archivo de migración SQL en supabase/migrations/ con políticas RLS para tablas de carrito y órdenes según DATABASE.md (missing)
+- [x] T067 Implementar upload de comprobantes a Cloudinary en src/lib/actions/payments.ts para soportar subida real de archivos (missing)

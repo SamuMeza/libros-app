@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { uploadPaymentProof } from '@/lib/utils/cloudinary';
 import type {
   SubmitPaymentParams,
   VerifyPaymentParams,
@@ -43,6 +44,16 @@ export async function submitPayment(params: SubmitPaymentParams): Promise<Paymen
       return { success: false, error: 'Este número de referencia ya fue registrado' };
     }
 
+    let proofUrl = params.proof_url || null;
+
+    if (params.proof_file) {
+      const uploadResult = await uploadPaymentProof(params.proof_file, params.order_id);
+      if (!uploadResult.success) {
+        return { success: false, error: uploadResult.error };
+      }
+      proofUrl = uploadResult.url || null;
+    }
+
     const { data: payment, error: paymentError } = await supabase
       .from('payments')
       .insert({
@@ -50,7 +61,7 @@ export async function submitPayment(params: SubmitPaymentParams): Promise<Paymen
         amount: params.amount,
         method: params.method,
         status: 'pending',
-        proof_url: params.proof_url || null,
+        proof_url: proofUrl,
         proof_number: params.proof_number,
       })
       .select()

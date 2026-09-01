@@ -98,6 +98,15 @@ tests/
 - Usar variables CSS por marca (`--hl-primary`, `--kc-primary`) aplicadas con clases contenedoras (`brand-hl`, `brand-kc`).
 - **NUNCA** mezclar estilos o colores de ambas marcas en el mismo componente específico.
 
+### Excepciones de Unidades CSS
+- `px` permitido únicamente en:
+  - Atributo `sizes` de componentes Image (next/image) para responsive images
+  - Valores arbitrarios de Tailwind: `max-w-[1200px]`, `w-[280px]`, `h-[500px]`
+  - Media queries en CSS: `@media (max-width: 768px)`
+  - Definiciones de sombras: `box-shadow: 0 1px 2px`
+  - Animaciones y transiciones: `height: '0px'`, `transform: translateX(0px)`
+  - Bordes y separadores: `border-width: 2px`, `height: 2px`
+
 ---
 
 ## 🧪 Estrategia de Testing (Vitest & Bun.WebView)

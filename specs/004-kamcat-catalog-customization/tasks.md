@@ -188,3 +188,16 @@ With multiple developers:
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+
+---
+
+## Phase 7: Convergence
+
+**Purpose**: Close gaps between spec/plan and current implementation
+
+- [ ] T032 Create SearchBar component in src/components/shared/search-bar.tsx with debounce (100ms) per spec 3.1 (missing)
+- [ ] T033 Create SortSelector component in src/components/shared/sort-selector.tsx per spec 3.1 (missing)
+- [ ] T034 Fix getProductBySlug to query by id instead of slug in src/lib/actions/products.ts per data-model (missing)
+- [ ] T035 Implement URL-based filter state in src/app/(shop)/kamcat/page.tsx to connect FilterSidebar with search params per spec 3.1 (partial)
+- [ ] T036 Implement URL-based pagination in src/app/(shop)/kamcat/page.tsx to connect Pagination with search params per spec 3.1 (partial)
+- [ ] T037 Add interactive image switching in src/app/(shop)/kamcat/[slug]/page.tsx to make thumbnails switch main image per spec 3.2 (partial)

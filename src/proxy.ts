@@ -5,7 +5,7 @@ const protectedRoutes = ['/perfil', '/checkout']
 const adminRoutes = ['/admin']
 const authRoutes = ['/login', '/register', '/forgot-password']
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { supabase, supabaseResponse } = createClient(request)
 
   const {

@@ -13,21 +13,30 @@ const NAV_ITEMS = [
 
 export default function Header({ cartCount = 0 }: HeaderProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window === 'undefined') return false;
+  const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
     const stored = localStorage.getItem('theme-preference');
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        return parsed.mode === 'dark';
+        setIsDark(parsed.mode === 'dark');
+        document.documentElement.setAttribute('data-theme', parsed.mode);
       } catch {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setIsDark(prefersDark);
+        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
       }
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setIsDark(prefersDark);
+      document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
-  const drawerRef = useRef<HTMLDivElement>(null);
-  const hamburgerRef = useRef<HTMLButtonElement>(null);
+    setMounted(true);
+  }, []);
 
   const toggleDrawer = useCallback(() => {
     setIsDrawerOpen((prev) => !prev);

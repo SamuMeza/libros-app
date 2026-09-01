@@ -6,10 +6,10 @@ vi.mock('@/lib/supabase/middleware', () => ({
   getUserRole: vi.fn(),
 }))
 
-import { middleware } from '@/middleware'
+import { proxy } from '@/proxy'
 import { createClient, getUserRole } from '@/lib/supabase/middleware'
 
-describe('middleware', () => {
+describe('proxy', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -29,7 +29,7 @@ describe('middleware', () => {
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
-    const response = await middleware(mockRequest)
+    const response = await proxy(mockRequest)
     expect(response.status).toBe(302)
   })
 
@@ -48,7 +48,7 @@ describe('middleware', () => {
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
-    const response = await middleware(mockRequest)
+    const response = await proxy(mockRequest)
     expect(response.status).toBe(200)
   })
 
@@ -67,7 +67,7 @@ describe('middleware', () => {
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
-    const response = await middleware(mockRequest)
+    const response = await proxy(mockRequest)
     expect(response.status).toBe(302)
     expect(response.headers.get('location')).toContain('/login')
   })
@@ -87,7 +87,7 @@ describe('middleware', () => {
       supabaseResponse: NextResponse.next({ request: mockRequest }),
     })
 
-    const response = await middleware(mockRequest)
+    const response = await proxy(mockRequest)
     expect(response.status).toBe(200)
   })
 
@@ -108,7 +108,7 @@ describe('middleware', () => {
 
     vi.mocked(getUserRole).mockResolvedValue('customer')
 
-    const response = await middleware(mockRequest)
+    const response = await proxy(mockRequest)
     expect(response.status).toBe(302)
   })
 
@@ -129,7 +129,7 @@ describe('middleware', () => {
 
     vi.mocked(getUserRole).mockResolvedValue('admin_hl')
 
-    const response = await middleware(mockRequest)
+    const response = await proxy(mockRequest)
     expect(response.status).toBe(200)
   })
 
@@ -150,7 +150,7 @@ describe('middleware', () => {
 
     vi.mocked(getUserRole).mockResolvedValue('admin_hl')
 
-    const response = await middleware(mockRequest)
+    const response = await proxy(mockRequest)
     expect(response.status).toBe(302)
   })
 })

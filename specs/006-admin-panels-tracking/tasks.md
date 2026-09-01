@@ -123,15 +123,15 @@
 
 **Purpose**: Mejoras que afectan múltiples user stories
 
-- [ ] T047 [P] Agregar estados de carga (skeletons) para tablas y drawers en src/components/admin/
-- [ ] T048 [P] Agregar mensajes de error específicos por tipo de fallo
-- [ ] T049 [P] Implementar validación de seguridad server-side para transiciones de estado
-- [ ] T050 Implementar accesibilidad WCAG 2.1 AA en todos los componentes interactivos
-- [ ] T051 Optimizar rendimiento (carga de tablas, transiciones de estado)
-- [ ] T052 [P] Documentar API de Server Actions en src/lib/actions/README.md
+- [x] T047 [P] Agregar estados de carga (skeletons) para tablas y drawers en src/components/admin/
+- [x] T048 [P] Agregar mensajes de error específicos por tipo de fallo
+- [x] T049 [P] Implementar validación de seguridad server-side para transiciones de estado
+- [x] T050 Implementar accesibilidad WCAG 2.1 AA en todos los componentes interactivos
+- [x] T051 Optimizar rendimiento (carga de tablas, transiciones de estado)
+- [x] T052 [P] Documentar API de Server Actions en src/lib/actions/README.md
 - [ ] T053 Ejecutar validación de quickstart.md
-- [ ] T054 [P] Crear pruebas unitarias para order-helpers en src/lib/utils/__tests__/order-helpers.test.ts
-- [ ] T055 [P] Crear pruebas unitarias para payment-helpers en src/lib/utils/__tests__/payment-helpers.test.ts
+- [x] T054 [P] Crear pruebas unitarias para order-helpers en src/lib/utils/__tests__/order-helpers.test.ts
+- [x] T055 [P] Crear pruebas unitarias para payment-helpers en src/lib/utils/__tests__/payment-helpers.test.ts
 
 ---
 

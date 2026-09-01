@@ -1,12 +1,36 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 interface SearchBarProps {
   defaultValue?: string;
   onSearch: (value: string) => void;
   placeholder?: string;
   debounceMs?: number;
+}
+
+/**
+ * Hook interno que devuelve una versión debounced del callback recibido.
+ * Usa useRef para el timer — no requiere useEffect porque no sincroniza
+ * estado derivado: el timer es un detalle de implementación del handler.
+ */
+function useDebouncedCallback<T extends (...args: Parameters<T>) => void>(
+  callback: T,
+  delayMs: number
+): T {
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
+
+  return useCallback(
+    ((...args: Parameters<T>) => {
+      if (timerRef.current !== null) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
+        callbackRef.current(...args);
+      }, delayMs);
+    }) as T,
+    [delayMs]
+  );
 }
 
 export default function SearchBar({
@@ -16,21 +40,13 @@ export default function SearchBar({
   debounceMs = 100,
 }: SearchBarProps) {
   const [value, setValue] = useState(defaultValue);
+  const debouncedSearch = useDebouncedCallback(onSearch, debounceMs);
 
-  const debouncedSearch = useCallback(
-    (searchValue: string) => {
-      const timer = setTimeout(() => {
-        onSearch(searchValue);
-      }, debounceMs);
-      return () => clearTimeout(timer);
-    },
-    [onSearch, debounceMs]
-  );
-
-  useEffect(() => {
-    const cleanup = debouncedSearch(value);
-    return cleanup;
-  }, [value, debouncedSearch]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const next = e.target.value;
+    setValue(next);
+    debouncedSearch(next);
+  };
 
   return (
     <div className="relative">
@@ -41,7 +57,7 @@ export default function SearchBar({
         id="search-products"
         type="search"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleChange}
         placeholder={placeholder}
         className="w-full rounded-lg border border-border bg-background px-4 py-2 pl-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-[var(--kc-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--kc-primary)]"
         aria-label={placeholder}

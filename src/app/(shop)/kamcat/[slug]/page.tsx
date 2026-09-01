@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getProductBySlug } from '@/lib/actions/products';
+import ImageGallery from '@/components/products/image-gallery';
 import VariantSelector from '@/components/products/variant-selector';
 import CustomizationForm from '@/components/products/customization-form';
 import PriceDisplay from '@/components/products/price-display';
@@ -86,38 +86,10 @@ export default async function ProductDetailPage({
         </nav>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          <div>
-            <div className="relative mb-4 aspect-[2/3] overflow-hidden rounded-xl shadow-lg">
-              <Image
-                src={product.images[0] || '/placeholder-product.png'}
-                alt={product.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-              />
-            </div>
-            {product.images.length > 1 && (
-              <div className="flex gap-2">
-                {product.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    className="relative h-20 w-20 overflow-hidden rounded-lg border-2 border-border transition-colors hover:border-[var(--kc-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kc-primary)]"
-                    aria-label={`Ver imagen ${idx + 1}`}
-                  >
-                    <Image
-                      src={img}
-                      alt={`${product.name} - imagen ${idx + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          <ImageGallery
+            images={product.images}
+            productName={product.name}
+          />
 
           <div>
             <span className="mb-2 inline-block rounded-full bg-[var(--kc-primary)]/10 px-3 py-1 text-xs font-medium text-[var(--kc-primary)]">

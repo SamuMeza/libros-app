@@ -1,8 +1,6 @@
 import { Suspense } from 'react';
 import { getProducts, getProductCategories } from '@/lib/actions/products';
-import ProductCard from '@/components/products/product-card';
-import FilterSidebar from '@/components/shared/filter-sidebar';
-import Pagination from '@/components/shared/pagination';
+import CatalogFilters from './catalog-filters';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -68,67 +66,17 @@ async function KamCatCatalog({ searchParams }: KamCatPageProps) {
           </p>
         </div>
 
-        <div className="flex gap-8">
-          <FilterSidebar
-            categories={categories.map((c) => ({
-              ...c,
-              brand: 'kc' as const,
-              description: null,
-              image_url: null,
-              created_at: '',
-            }))}
-            selectedCategoryIds={categoryIds}
-            onCategoryChange={() => {}}
-            productCounts={productCounts}
-          />
-
-          <main className="flex-1">
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                Mostrando {products.length} de {total} resultados
-              </p>
-            </div>
-
-            {products.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-16">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="mb-4 h-12 w-12 text-muted-foreground"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-                <h3 className="mb-1 text-lg font-medium text-foreground">
-                  No se encontraron productos
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Intenta ajustar los filtros o la búsqueda
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            )}
-
-            <div className="mt-8">
-              <Pagination
-                currentPage={page}
-                totalPages={totalPages}
-                onPageChange={() => {}}
-              />
-            </div>
-          </main>
-        </div>
+        <CatalogFilters
+          categories={categories}
+          selectedCategoryIds={categoryIds}
+          productCounts={productCounts}
+          currentSort={sort}
+          currentSearch={search}
+          currentPage={page}
+          totalPages={totalPages}
+          total={total}
+          products={products}
+        />
       </div>
     </div>
   );

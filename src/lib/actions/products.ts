@@ -135,7 +135,7 @@ export async function getProductBySlug(
       .select('*, category:categories(*)')
       .eq('brand', 'kc')
       .eq('is_active', true)
-      .eq('slug', slug)
+      .eq('id', slug)
       .single();
 
     if (error || !data) {

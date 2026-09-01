@@ -32,14 +32,20 @@ Implementar el módulo de catálogo y detalle de productos KamCat con soporte de
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-No constitution file exists. Proceeding with standard project conventions from AGENTS.md:
-- Server Components por defecto, 'use client' solo cuando se requiera interactividad
-- SIEMPRE usar export default para componentes principales
-- PROHIBIDO el uso de any — usar tipos explícitos
-- Server Actions en src/lib/actions/[dominio].ts con retorno estándar { success, data?, error? }
-- Validación manual de entradas (sin zod)
-- Variables CSS por marca (--kc-primary, --kc-accent)
-- Unidades relativas CSS (rem, em, vw, vh, %) — PROHIBIDO px
+| Principle | Status | Notes |
+|-----------|--------|-------|
+| Runtime: bun | ✅ PASS | bun como runtime y package manager |
+| Idioma: español | ✅ PASS | Toda documentación en español |
+| Sin zod | ✅ PASS | Validación manual + type guards |
+| CSS relativo (sin px) | ✅ PASS | Tailwind CSS con unidades relativas |
+| Server Components por defecto | ✅ PASS | Páginas de catálogo son Server Components |
+| `use client` solo con hooks/eventos | ✅ PASS | Variant selector y customization form requieren interactividad |
+| `export default` por archivo | ✅ PASS | Componentes principales usan export default |
+| Sin `any` | ✅ PASS | TypeScript estricto |
+| Server Actions retorno estándar | ✅ PASS | { success, data?, error? } en todas las acciones |
+| Validación manual (sin zod) | ✅ PASS | Type guards en server actions |
+| Aislamiento de marcas | ✅ PASS | Solo --kc-primary, --kc-accent |
+| RLS obligatorio | ✅ PASS | products y categories tienen RLS |
 
 ## Project Structure
 
@@ -83,7 +89,7 @@ src/
     └── product.ts                    # Interfaces de productos KamCat
 ```
 
-**Structure Decision**: Next.js App Router con route groups `(shop)`. Componentes en `src/components/products/` para KamCat específicos, `src/components/shared/` para reutilizables. Server Actions en `src/lib/actions/products.ts`. Tipos en `src/types/product.ts`.
+**Structure Decision**: Next.js App Router con route groups `(shop)`. Componentes en `src/components/products/` para KamCat específicos, `src/components/shared/` para reutilizables. Server Actions en `src/lib/actions/products.ts` (múltiples acciones por archivo de dominio — décidé en reconciliación de specs 004-006). Tipos en `src/types/product.ts`.
 
 ## Complexity Tracking
 

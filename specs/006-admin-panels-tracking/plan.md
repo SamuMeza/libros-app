@@ -34,15 +34,18 @@ Panel administrativo para gestión de pagos, pedidos y tracking geográfico. Inc
 
 | Principle | Status | Notes |
 |-----------|--------|-------|
-| Server Components by default | ✅ PASS | Admin pages will use Server Components where possible |
-| `use client` only when needed | ✅ PASS | Drawers, modals, filters require client-side interactivity |
-| `export default` always | ✅ PASS | All components will use export default |
-| No `any` | ✅ PASS | TypeScript strict mode |
-| No zod | ✅ PASS | Manual validation with type guards |
-| Server Actions with { success, data?, error? } | ✅ PASS | All actions follow return pattern |
-| CSS variables per brand | ✅ PASS | Admin uses neutral theme, shop uses brand themes |
-| rem/em/vw/vh/% only (no px) | ✅ PASS | Tailwind CSS with relative units |
-| Spanish communication | ✅ PASS | All UI text in Spanish |
+| Runtime: bun | ✅ PASS | bun como runtime y package manager |
+| Idioma: español | ✅ PASS | Toda documentación y UI en español |
+| Sin zod | ✅ PASS | Validación manual + type guards |
+| CSS relativo (sin px) | ✅ PASS | Tailwind CSS con unidades relativas |
+| Server Components por defecto | ✅ PASS | Admin pages usan Server Components donde sea posible |
+| `use client` solo con hooks/eventos | ✅ PASS | Drawers, modals, filtros requieren interactividad |
+| `export default` por archivo | ✅ PASS | Todos los componentes usan export default |
+| Sin `any` | ✅ PASS | TypeScript estricto |
+| Server Actions retorno estándar | ✅ PASS | { success, data?, error? } en todas las acciones |
+| Validación manual (sin zod) | ✅ PASS | Type guards en server actions |
+| Aislamiento de marcas | ✅ PASS | Admin usa tema neutro, shop usa tokens por marca |
+| RLS obligatorio | ✅ PASS | Todas las tablas tienen RLS |
 
 ## Project Structure
 
@@ -94,9 +97,11 @@ src/
 │   │   ├── client.ts               # Browser client
 │   │   └── middleware.ts           # Auth middleware
 │   ├── actions/
-│   │   ├── payments.ts             # Payment verification actions
-│   │   ├── orders.ts               # Order management actions
-│   │   └── tracking.ts             # Tracking note actions
+│   │   ├── admin/
+│   │   │   ├── payments.ts         # Admin payment verification actions (getAdminPayments, approvePayment, rejectPayment)
+│   │   │   ├── orders.ts           # Admin order management actions (getAdminOrders, getAdminOrder, updateOrderStatus)
+│   │   │   └── tracking.ts         # Admin tracking actions (addTrackingNote, getTrackingNotes)
+│   │   └── orders.ts               # Client order actions (getClientOrders, getClientOrderDetail)
 │   ├── hooks/
 │   │   ├── use-admin-sidebar.ts    # Sidebar state hook
 │   │   └── use-order-filters.ts    # Filter state hook

@@ -40,6 +40,7 @@
   - **Binance (USDT)**: Aplicación de descuento configurado + datos de billetera + subida de comprobante.
   - **Plan de Pagos (solo Libros)**: Cálculo y desglose de cuotas quincenales (2 a 4 cuotas) con monto y tasa de interés configurables por administrador.
 - **RF-CK3**: Generación automática de orden maestra y sub-órdenes por marca (`hl` y `kc`).
+- **RF-CK4**: Subida de comprobantes de pago a Cloudinary con validación de tipo (imagen) y tamaño (máximo 5MB).
 
 ---
 

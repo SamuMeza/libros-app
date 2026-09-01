@@ -29,7 +29,7 @@ export default function CartItem({ item }: CartItemProps) {
           alt={item.item_name}
           fill
           className="object-cover"
-          sizes="96px"
+          sizes="6rem"
         />
       </div>
 

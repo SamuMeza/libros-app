@@ -92,3 +92,41 @@ src/
 - **Testing Unitario (Vitest):** Cálculos de totales, cronogramas de cuotas, formateadores y validadores puros.
 - **Testing de Integración (Vitest + Testing Library):** Formularios, flujo de carrito y componentes interactivos.
 - **Testing E2E (Bun.WebView):** Validación end-to-end de flujos críticos (registro, compra, subida de comprobante y panel admin) compatible con el runtime Bun.
+
+---
+
+## 6. Integraciones Externas
+
+### Cloudinary (Almacenamiento de Imágenes)
+- **Uso:** Upload de comprobantes de pago y gestión de imágenes de productos/libros
+- **Configuración:** Variables de entorno `CLOUDINARY_URL`, `CLOUDINARY_UPLOAD_PRESET`, `CLOUDINARY_CLOUD_NAME`
+- **Ubicación del helper:** `src/lib/utils/cloudinary.ts`
+- **Funciones principales:**
+  - `uploadPaymentProof(file, orderId)` - Sube comprobante de pago a carpeta específica por orden
+  - `getCloudinaryUrl(publicId)` - Genera URL de imagen desde ID público
+
+### Supabase (Base de Datos y Autenticación)
+- **Auth:** Autenticación con email/password, recuperación de contraseña, gestión de sesiones
+- **Database:** PostgreSQL con RLS (Row Level Security) en todas las tablas
+- **Server Actions:** Interacción con base de datos a través de Server Actions en `src/lib/actions/`
+
+---
+
+## 7. Archivos de Migración SQL
+
+Los scripts SQL para la base de datos se encuentran en `supabase/migrations/`:
+
+| Archivo | Contenido |
+|---------|-----------|
+| `20260901000001_cart_checkout_tables.sql` | Tablas: cart_items, orders, sub_orders, order_items, payments, payment_schedules, shipping_rates, exchange_rate, installment_config |
+| `20260901000002_cart_checkout_rls.sql` | Políticas RLS para todas las tablas de carrito y checkout |
+
+### Aplicar migraciones manualmente:
+```bash
+# Usando Supabase CLI
+supabase db push
+
+# O directamente con psql
+psql -f supabase/migrations/20260901000001_cart_checkout_tables.sql
+psql -f supabase/migrations/20260901000002_cart_checkout_rls.sql
+```

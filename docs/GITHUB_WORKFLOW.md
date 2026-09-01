@@ -24,10 +24,14 @@ main (Producción — 100% Estable)
   │
   ├── develop (Integración — staging)
   │     │
-  │     ├── feature/001-catalogo-libros  (PR → develop)
-  │     ├── feature/002-carrito-unificado (PR → develop)
-  │     ├── fix/error-calculo-cuotas     (PR → develop)
-  │     └── refactor/limpieza-server-actions (PR → develop)
+  │     ├── feature/001-layout-design-tokens
+  │     ├── feature/002-auth-roles-profiles
+  │     ├── feature/003-catalog-hecho-letras
+  │     ├── feature/004-kamcat-catalog
+  │     ├── feature/005-unified-cart-checkout
+  │     ├── feature/006-admin-panels-tracking
+  │     ├── fix/*     (correcciones específicas)
+  │     └── refactor/* (mejoras de código sin cambio funcional)
   │
   └── hotfix/parche-urgente (PR directo a main → luego sync a develop)
 ```

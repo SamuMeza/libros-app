@@ -6,7 +6,7 @@ import type { Order, SubOrder } from '@/types/admin';
 import { getClientOrders } from '@/lib/actions/orders';
 import OrderList from '@/components/shop/order-list';
 
-export default function MisPedidosPage() {
+export default function PedidosShopPage() {
   const router = useRouter();
   const [orders, setOrders] = useState<(Order & { subOrders: SubOrder[] })[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +31,7 @@ export default function MisPedidosPage() {
   }, [page]);
 
   const handleSelectOrder = (orderId: string) => {
-    router.push(`/mis-pedidos/${orderId}`);
+    router.push(`/pedidos/${orderId}`);
   };
 
   return (

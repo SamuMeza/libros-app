@@ -11,7 +11,7 @@ interface OrderTableProps {
 export default function OrderTable({ orders, onSelectOrder }: OrderTableProps) {
   if (orders.length === 0) {
     return (
-      <div className="admin-card text-center py-8" role="status">
+      <div className="admin-card text-center py-8">
         <p className="text-[var(--admin-text-muted)]">No hay pedidos para mostrar</p>
       </div>
     );
@@ -19,7 +19,7 @@ export default function OrderTable({ orders, onSelectOrder }: OrderTableProps) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="admin-table" role="table" aria-label="Lista de pedidos">
+      <table className="admin-table" role="table" aria-label="Pedidos">
         <thead>
           <tr>
             <th scope="col">Número</th>
@@ -45,7 +45,7 @@ export default function OrderTable({ orders, onSelectOrder }: OrderTableProps) {
                 </span>
               </td>
               <td>
-                <span className={`admin-badge admin-badge-${getStatusColor(order.status)}`} aria-label={`Estado: ${getStatusLabel(order.status)}`}>
+                <span className={`admin-badge admin-badge-${getStatusColor(order.status)}`}>
                   {getStatusLabel(order.status)}
                 </span>
               </td>
@@ -60,7 +60,6 @@ export default function OrderTable({ orders, onSelectOrder }: OrderTableProps) {
                 <button
                   onClick={() => onSelectOrder(order)}
                   className="admin-button admin-button-primary text-sm"
-                  aria-label={`Ver detalle del pedido ${order.order_number}`}
                 >
                   Ver detalle
                 </button>

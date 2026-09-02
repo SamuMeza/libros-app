@@ -28,14 +28,12 @@ export default function PaymentFilters({ filters, onFiltersChange }: PaymentFilt
             value={filters.status}
             onChange={(e) => handleChange('status', e.target.value)}
             className="admin-select"
-            aria-describedby="filter-status-desc"
           >
             <option value="all">Todos</option>
             <option value="pending">Pendientes</option>
             <option value="verified">Verificados</option>
             <option value="rejected">Rechazados</option>
           </select>
-          <p id="filter-status-desc" className="sr-only">Filtra pagos por estado de verificación</p>
         </div>
 
         <div>
@@ -47,13 +45,11 @@ export default function PaymentFilters({ filters, onFiltersChange }: PaymentFilt
             value={filters.method}
             onChange={(e) => handleChange('method', e.target.value)}
             className="admin-select"
-            aria-describedby="filter-method-desc"
           >
             <option value="all">Todos</option>
             <option value="pago_movil">Pago Móvil</option>
             <option value="binance">Binance USDT</option>
           </select>
-          <p id="filter-method-desc" className="sr-only">Filtra pagos por método de pago</p>
         </div>
 
         <div>
@@ -66,9 +62,7 @@ export default function PaymentFilters({ filters, onFiltersChange }: PaymentFilt
             value={filters.dateFrom || ''}
             onChange={(e) => handleChange('dateFrom', e.target.value || null)}
             className="admin-input"
-            aria-describedby="filter-date-from-desc"
           />
-          <p id="filter-date-from-desc" className="sr-only">Filtra pagos desde esta fecha</p>
         </div>
 
         <div>
@@ -81,9 +75,7 @@ export default function PaymentFilters({ filters, onFiltersChange }: PaymentFilt
             value={filters.dateTo || ''}
             onChange={(e) => handleChange('dateTo', e.target.value || null)}
             className="admin-input"
-            aria-describedby="filter-date-to-desc"
           />
-          <p id="filter-date-to-desc" className="sr-only">Filtra pagos hasta esta fecha</p>
         </div>
       </div>
     </div>

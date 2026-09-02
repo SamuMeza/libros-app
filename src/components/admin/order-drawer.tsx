@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import type { SubOrder, AdminOrderDetail } from '@/types/admin';
 import { getAdminOrder } from '@/lib/actions/admin/orders';
 import OrderTabs from './order-tabs';
@@ -14,17 +14,6 @@ interface OrderDrawerProps {
 export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps) {
   const [orderDetail, setOrderDetail] = useState<AdminOrderDetail | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const drawerRef = useRef<aside>(null);
-  const previousActiveRef = useRef<HTMLElement | null>(null);
-
-  const getFocusableElements = useCallback(() => {
-    if (!drawerRef.current) return [];
-    return Array.from(
-      drawerRef.current.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      )
-    );
-  }, []);
 
   const loadOrderDetail = useCallback(async () => {
     if (!order) return;
@@ -42,60 +31,20 @@ export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps
   useEffect(() => {
     if (isOpen && order) {
       loadOrderDetail();
-      previousActiveRef.current = document.activeElement as HTMLElement;
+    }
+  }, [isOpen, order, loadOrderDetail]);
+
+  useEffect(() => {
+    if (isOpen) {
       document.body.style.overflow = 'hidden';
-
-      const timer = setTimeout(() => {
-        const focusable = getFocusableElements();
-        if (focusable.length > 0) {
-          focusable[0].focus();
-        }
-      }, 100);
-
-      return () => clearTimeout(timer);
     } else {
       document.body.style.overflow = '';
-      previousActiveRef.current?.focus();
     }
 
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen, order, loadOrderDetail, getFocusableElements]);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-        return;
-      }
-
-      if (e.key === 'Tab') {
-        const focusable = getFocusableElements();
-        if (focusable.length === 0) return;
-
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-
-        if (e.shiftKey) {
-          if (document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          }
-        } else {
-          if (document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose, getFocusableElements]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -104,16 +53,9 @@ export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps
       <div 
         className="fixed inset-0 bg-black/50 z-40"
         onClick={onClose}
-        aria-hidden="true"
       />
       
-      <aside 
-        ref={drawerRef}
-        className="admin-drawer open"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Detalle de pedido"
-      >
+      <aside className="admin-drawer open" role="dialog" aria-modal="true" aria-label="Detalle de pedido">
         <div className="p-4 border-b border-[var(--admin-border)]">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-[var(--admin-text)]">
@@ -146,7 +88,7 @@ export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps
           {isLoading ? (
             <div className="p-4 space-y-4">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="admin-skeleton h-24" aria-hidden="true" />
+                <div key={i} className="admin-skeleton h-24" />
               ))}
             </div>
           ) : orderDetail ? (

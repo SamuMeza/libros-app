@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import type { Order, SubOrder, OrderItem, Payment, PaymentSchedule } from '@/types/admin';
 import { getClientOrderDetail } from '@/lib/actions/orders';
 import OrderDetail from '@/components/shop/order-detail';
 
-export default function MisPedidoDetailPage() {
+export default function PedidoDetailPage() {
   const params = useParams();
   const orderId = params.id as string;
   
@@ -18,7 +18,11 @@ export default function MisPedidoDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchOrderDetail = useCallback(async () => {
+  useEffect(() => {
+    fetchOrderDetail();
+  }, [orderId]);
+
+  const fetchOrderDetail = async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -37,11 +41,7 @@ export default function MisPedidoDetailPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [orderId]);
-
-  useEffect(() => {
-    fetchOrderDetail();
-  }, [fetchOrderDetail]);
+  };
 
   if (isLoading) {
     return (

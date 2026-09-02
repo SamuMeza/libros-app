@@ -1,55 +1,44 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { SubOrder } from '@/types/admin';
 import { getAdminOrders } from '@/lib/actions/admin/orders';
 import { useOrderFilters } from '@/lib/hooks/use-order-filters';
-import { useOrderDrawer } from '@/lib/hooks/use-order-drawer';
 import OrderTable from '@/components/admin/order-table';
 import OrderDrawer from '@/components/admin/order-drawer';
 import OrderFilters from '@/components/admin/order-filters';
 import TableSkeleton from '@/components/admin/skeletons';
-import ErrorMessage from '@/components/admin/error-message';
 
 export default function PedidosPage() {
-  const { filters, setFilters } = useOrderFilters();
-  const { isOpen: isDrawerOpen, selectedOrder, openDrawer, closeDrawer } = useOrderDrawer();
   const [orders, setOrders] = useState<SubOrder[]>([]);
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<SubOrder | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { filters, setFilters } = useOrderFilters();
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     setIsLoading(true);
-    setError(null);
     try {
       const result = await getAdminOrders(filters);
       if (result.success && result.data) {
         setOrders(result.data.data);
         setTotal(result.data.total);
         setTotalPages(result.data.totalPages);
-      } else {
-        setError(result.error || 'Error al cargar pedidos');
       }
-    } catch {
-      setError('Error de conexión');
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [filters]);
 
   useEffect(() => {
     fetchOrders();
-  }, [filters]);
+  }, [fetchOrders]);
 
   const handleSelectOrder = (order: SubOrder) => {
-    openDrawer(order);
-  };
-
-  const handleCloseDrawer = () => {
-    closeDrawer();
-    fetchOrders();
+    setSelectedOrder(order);
+    setIsDrawerOpen(true);
   };
 
   return (
@@ -64,13 +53,6 @@ export default function PedidosPage() {
       </div>
 
       <OrderFilters filters={filters} onFiltersChange={setFilters} />
-
-      {error && (
-        <ErrorMessage 
-          message={error} 
-          onRetry={fetchOrders} 
-        />
-      )}
 
       {isLoading ? (
         <div className="admin-card">
@@ -96,7 +78,6 @@ export default function PedidosPage() {
                   onClick={() => setFilters({ page: filters.page - 1 })}
                   disabled={filters.page === 1}
                   className="admin-button admin-button-ghost"
-                  aria-label="Página anterior"
                 >
                   Anterior
                 </button>
@@ -104,7 +85,6 @@ export default function PedidosPage() {
                   onClick={() => setFilters({ page: filters.page + 1 })}
                   disabled={filters.page === totalPages}
                   className="admin-button admin-button-ghost"
-                  aria-label="Página siguiente"
                 >
                   Siguiente
                 </button>
@@ -117,7 +97,11 @@ export default function PedidosPage() {
       <OrderDrawer
         order={selectedOrder}
         isOpen={isDrawerOpen}
-        onClose={handleCloseDrawer}
+        onClose={() => {
+          setIsDrawerOpen(false);
+          setSelectedOrder(null);
+          fetchOrders();
+        }}
       />
     </div>
   );

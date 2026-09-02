@@ -202,7 +202,7 @@ export default async function ConfirmationPage({ searchParams }: ConfirmationPag
 
       <div className="mt-6 flex justify-center gap-4">
         <Link
-          href="/mis-pedidos"
+          href="/pedidos"
           className="rounded-lg border border-border px-6 py-3 font-semibold text-foreground transition-colors hover:bg-muted"
         >
           Ver Mis Pedidos

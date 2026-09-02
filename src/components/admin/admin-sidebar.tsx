@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import useUserRole from '@/lib/hooks/use-user-role';
+import { createClient } from '@/lib/supabase/client';
+import type { UserRole } from '@/types/auth';
 
 interface NavItem {
   label: string;
   href: string;
-  roles: string[];
+  roles: UserRole[];
 }
 
 const navItems: NavItem[] = [
@@ -24,12 +25,28 @@ const navItems: NavItem[] = [
 
 export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
   const pathname = usePathname();
-  const { role: userRole } = useUserRole();
 
-  const filteredItems = navItems.filter(item => 
-    userRole && item.roles.includes(userRole)
-  );
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single()
+          .then(({ data: profile }) => {
+            setUserRole((profile?.role as UserRole) ?? null);
+          });
+      }
+    });
+  }, []);
+
+  const filteredItems = userRole
+    ? navItems.filter(item => item.roles.includes(userRole))
+    : [];
 
   return (
     <>
@@ -72,7 +89,7 @@ export default function AdminSidebar() {
           </p>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex-1 p-4 space-y-1" aria-label="Navegación administrativa">
           {filteredItems.map((item) => (
             <Link
               key={item.href}

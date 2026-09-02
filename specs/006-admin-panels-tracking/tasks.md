@@ -237,3 +237,24 @@ Con múltiples desarrolladores:
 - [x] T063 [MEDIUM] Agregar aria-describedby a selects/inputs en payment-filters.tsx y order-filters.tsx (partial FR-SB6)
 - [x] T064 [MEDIUM] Agregar controles de zoom a imagen de comprobante en payment-modal.tsx (partial FR-PV3)
 - [x] T065 [MEDIUM] Ejecutar validación de quickstart.md y documentar resultados (missing T053)
+
+---
+
+## Phase 8: Convergence
+
+**Purpose**: Cerrar brechas adicionales detectadas en segunda ronda de convergencia
+
+- [ ] T066 [CRITICAL] Corregir approvePayment para actualizar sub-orden específica en vez de todas por parent order_id en src/lib/actions/admin/payments.ts (contradicts FR-PV7)
+- [ ] T067 [CRITICAL] Obtener y mostrar nombre/teléfono del cliente en tabla de pagos en src/components/admin/payment-table.tsx y src/lib/actions/admin/payments.ts (missing FR-PV1)
+- [ ] T068 [HIGH] Agregar sufijo de marca "(HL)"/"(KC)" a labels de navegación en src/components/admin/admin-sidebar.tsx según rol (missing FR-SB2/SB3)
+- [ ] T069 [HIGH] Mostrar warning de diferencia de monto al aprobar pago usando validatePaymentAmount en src/components/admin/payment-modal.tsx (missing Edge Case 1)
+- [ ] T070 [HIGH] Agregar thumbnail/enlace de comprobante en pestaña Pagos del drawer en src/components/admin/order-tabs.tsx (missing FR-PM4)
+- [ ] T071 [HIGH] Mostrar empresa de envío y costo en pestaña Envío del drawer en src/components/admin/order-tabs.tsx (missing FR-PV5)
+- [ ] T072 [HIGH] Agregar filtro de marca basado en rol del admin en getAdminOrders/getAdminPayments en src/lib/actions/admin/orders.ts y payments.ts (missing Edge Case 5)
+- [ ] T073 [HIGH] Agregar focus trap, Escape key y gestión de foco al OrderDrawer en src/components/admin/order-drawer.tsx (missing FR-SB6)
+- [ ] T074 [MEDIUM] Agregar opción "Cuotas" al filtro de métodos de pago en src/components/admin/payment-filters.tsx y src/types/admin.ts (missing FR-PV2)
+- [ ] T075 [MEDIUM] Agregar diálogo de confirmación antes de aprobar pago en src/components/admin/payment-modal.tsx (partial FR-PV5)
+- [ ] T076 [MEDIUM] Mostrar precio unitario (item_price) en pestaña Productos del drawer en src/components/admin/order-tabs.tsx (missing FR-PM3)
+- [ ] T077 [MEDIUM] Obtener y mostrar email del cliente en pestaña Cliente del drawer en src/components/admin/order-tabs.tsx (partial FR-PM6)
+- [ ] T078 [MEDIUM] Agregar dirección del cliente en pestaña Cliente del drawer en src/components/admin/order-tabs.tsx (missing FR-PM6)
+- [ ] T079 [MEDIUM] Agregar Escape key y gestión de foco al sidebar móvil en src/components/admin/admin-sidebar.tsx (missing FR-SB6)

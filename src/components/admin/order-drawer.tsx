@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import type { SubOrder, AdminOrderDetail } from '@/types/admin';
 import { getAdminOrder } from '@/lib/actions/admin/orders';
 import OrderTabs from './order-tabs';
@@ -14,6 +14,9 @@ interface OrderDrawerProps {
 export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps) {
   const [orderDetail, setOrderDetail] = useState<AdminOrderDetail | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const loadOrderDetail = useCallback(async () => {
     if (!order) return;
@@ -36,9 +39,12 @@ export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps
 
   useEffect(() => {
     if (isOpen) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
       document.body.style.overflow = 'hidden';
+      setTimeout(() => closeButtonRef.current?.focus(), 0);
     } else {
       document.body.style.overflow = '';
+      previousFocusRef.current?.focus();
     }
 
     return () => {
@@ -46,22 +52,61 @@ export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (e.key === 'Tab' && drawerRef.current) {
+        const focusable = Array.from(
+          drawerRef.current.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          )
+        );
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
     <>
-      <div 
+      <div
         className="fixed inset-0 bg-black/50 z-40"
         onClick={onClose}
       />
-      
-      <aside className="admin-drawer open" role="dialog" aria-modal="true" aria-label="Detalle de pedido">
+
+      <aside className="admin-drawer open" role="dialog" aria-modal="true" aria-label="Detalle de pedido" ref={drawerRef}>
         <div className="p-4 border-b border-[var(--admin-border)]">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-[var(--admin-text)]">
               Detalle de Pedido
             </h2>
             <button
+              ref={closeButtonRef}
               onClick={onClose}
               className="admin-button admin-button-ghost p-2"
               aria-label="Cerrar drawer"

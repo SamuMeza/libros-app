@@ -23,6 +23,7 @@ export default function PaymentModal({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const [zoom, setZoom] = useState(1);
+  const [showConfirmApprove, setShowConfirmApprove] = useState(false);
 
   const getFocusableElements = useCallback(() => {
     if (!modalRef.current) return [];
@@ -214,12 +215,33 @@ export default function PaymentModal({
             >
               Rechazar
             </button>
-            <button
-              onClick={() => onApprove(payment)}
-              className="admin-button admin-button-success"
-            >
-              Aprobar
-            </button>
+            {showConfirmApprove ? (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-[var(--admin-text-muted)]">¿Confirmar?</span>
+                <button
+                  onClick={() => {
+                    setShowConfirmApprove(false);
+                    onApprove(payment);
+                  }}
+                  className="admin-button admin-button-success"
+                >
+                  Sí, aprobar
+                </button>
+                <button
+                  onClick={() => setShowConfirmApprove(false)}
+                  className="admin-button admin-button-ghost"
+                >
+                  Cancelar
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowConfirmApprove(true)}
+                className="admin-button admin-button-success"
+              >
+                Aprobar
+              </button>
+            )}
           </div>
         )}
       </div>

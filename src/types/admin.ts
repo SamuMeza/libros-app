@@ -11,12 +11,13 @@ export type SubOrderStatus =
 
 export type PaymentStatus = 'pending' | 'verified' | 'rejected';
 
-export type PaymentMethod = 'pago_movil' | 'binance';
+export type PaymentMethod = 'pago_movil' | 'binance' | 'cuotas';
 
 export interface AdminProfile {
   id: string;
   full_name: string | null;
   phone: string | null;
+  email?: string | null;
   avatar_url: string | null;
   role: AdminRole;
   created_at: string;
@@ -48,6 +49,8 @@ export interface Payment {
   verified_by: string | null;
   verified_at: string | null;
   created_at: string;
+  customer_name?: string | null;
+  customer_phone?: string | null;
 }
 
 export interface TrackingNote {
@@ -161,4 +164,5 @@ export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
 export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
   pago_movil: 'Pago Móvil',
   binance: 'Binance USDT',
+  cuotas: 'Cuotas',
 };

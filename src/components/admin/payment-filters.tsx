@@ -49,6 +49,7 @@ export default function PaymentFilters({ filters, onFiltersChange }: PaymentFilt
             <option value="all">Todos</option>
             <option value="pago_movil">Pago Móvil</option>
             <option value="binance">Binance USDT</option>
+            <option value="cuotas">Cuotas</option>
           </select>
         </div>
 

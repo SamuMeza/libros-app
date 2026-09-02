@@ -48,6 +48,27 @@ export default function AdminSidebar() {
     ? navItems.filter(item => item.roles.includes(userRole))
     : [];
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen]);
+
+  const getLabel = (item: NavItem) => {
+    if (item.label === 'Pedidos' || item.label === 'Pagos') {
+      if (userRole === 'admin_hl') return `${item.label} (HL)`;
+      if (userRole === 'admin_kc') return `${item.label} (KC)`;
+    }
+    return item.label;
+  };
+
   return (
     <>
       <button
@@ -99,7 +120,7 @@ export default function AdminSidebar() {
               }`}
               onClick={() => setIsOpen(false)}
             >
-              {item.label}
+              {getLabel(item)}
             </Link>
           ))}
         </nav>

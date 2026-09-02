@@ -9,6 +9,7 @@ const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
 const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
   pago_movil: 'Pago Móvil',
   binance: 'Binance USDT',
+  cuotas: 'Cuotas',
 };
 
 export function getPaymentStatusLabel(status: PaymentStatus): string {

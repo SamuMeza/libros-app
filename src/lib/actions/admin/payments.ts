@@ -35,9 +35,15 @@ export async function getAdminPayments(
       return { success: false, error: 'No tiene permisos para esta acción' };
     }
 
+    const adminBrand = profile.role === 'admin_hl' ? 'hl' : profile.role === 'admin_kc' ? 'kc' : null;
+
     let query = supabase
       .from('payments')
-      .select('*', { count: 'exact' });
+      .select('*, sub_orders!inner(id, brand, order_id, orders!inner(user_id, profiles!inner(full_name, phone)))', { count: 'exact' });
+
+    if (adminBrand) {
+      query = query.eq('sub_orders.brand', adminBrand);
+    }
 
     if (filters.status !== 'all') {
       query = query.eq('status', filters.status);
@@ -69,10 +75,22 @@ export async function getAdminPayments(
     const total = count || 0;
     const totalPages = Math.ceil(total / filters.limit);
 
+    const payments = (data || []).map((p: Record<string, unknown>) => {
+      const subOrders = p.sub_orders as Record<string, unknown> | null;
+      const orders = subOrders?.orders as Record<string, unknown> | null;
+      const profiles = orders?.profiles as Record<string, unknown> | null;
+      return {
+        ...p,
+        customer_name: profiles?.full_name ?? null,
+        customer_phone: profiles?.phone ?? null,
+        sub_orders: undefined,
+      };
+    });
+
     return {
       success: true,
       data: {
-        data: data || [],
+        data: payments,
         total,
         page: filters.page,
         totalPages,
@@ -94,9 +112,21 @@ export async function approvePayment(
       return { success: false, error: 'Debe iniciar sesión' };
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile || !['admin_hl', 'admin_kc', 'superadmin'].includes(profile.role)) {
+      return { success: false, error: 'No tiene permisos para esta acción' };
+    }
+
+    const adminBrand = profile.role === 'admin_hl' ? 'hl' : profile.role === 'admin_kc' ? 'kc' : null;
+
     const { data: payment, error: paymentError } = await supabase
       .from('payments')
-      .select('*')
+      .select('*, sub_orders(id, brand, order_id)')
       .eq('id', paymentId)
       .single();
 
@@ -106,6 +136,15 @@ export async function approvePayment(
 
     if (payment.status !== 'pending') {
       return { success: false, error: 'Este pago ya fue verificado' };
+    }
+
+    const subOrderData = payment.sub_orders as { id: string; brand: string; order_id: string } | null;
+    if (!subOrderData) {
+      return { success: false, error: 'No se encontró la sub-orden asociada al pago' };
+    }
+
+    if (adminBrand && subOrderData.brand !== adminBrand) {
+      return { success: false, error: 'No tiene permisos para verificar pagos de otra marca' };
     }
 
     const { data: updatedPayment, error: updateError } = await supabase
@@ -123,10 +162,10 @@ export async function approvePayment(
       return { success: false, error: 'Error al actualizar pago' };
     }
 
-    const { data: subOrder, error: subOrderError } = await supabase
+    const { data: updatedSubOrder, error: subOrderError } = await supabase
       .from('sub_orders')
       .update({ status: 'payment_verified' })
-      .eq('order_id', payment.order_id)
+      .eq('id', subOrderData.id)
       .select()
       .single();
 
@@ -138,7 +177,7 @@ export async function approvePayment(
       success: true,
       data: {
         payment: updatedPayment,
-        subOrder,
+        subOrder: updatedSubOrder,
       },
     };
   } catch {

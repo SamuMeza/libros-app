@@ -45,8 +45,8 @@ export default function PaymentTable({
               <td className="font-medium">{payment.order_id.slice(0, 8)}...</td>
               <td>
                 <div className="text-sm">
-                  <div className="font-medium">Cliente</div>
-                  <div className="text-[var(--admin-text-muted)]">N/A</div>
+                  <div className="font-medium">{payment.customer_name || 'Sin nombre'}</div>
+                  <div className="text-[var(--admin-text-muted)]">{payment.customer_phone || 'Sin teléfono'}</div>
                 </div>
               </td>
               <td>{getPaymentMethodLabel(payment.method)}</td>

@@ -138,7 +138,7 @@ export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
                     <div>
                       <p className="font-medium text-[var(--admin-text)]">{item.item_name}</p>
                       <p className="text-sm text-[var(--admin-text-muted)]">
-                        Cantidad: {item.quantity}
+                        Cantidad: {item.quantity} | Precio: {formatAmount(item.item_price)}
                       </p>
                     </div>
                     <p className="font-medium text-[var(--admin-text)]">
@@ -161,11 +161,21 @@ export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
                   <div className="flex justify-between">
                     <div>
                       <p className="font-medium text-[var(--admin-text)]">
-                        {payment.method === 'pago_movil' ? 'Pago Móvil' : 'Binance USDT'}
+                        {payment.method === 'pago_movil' ? 'Pago Móvil' : payment.method === 'binance' ? 'Binance USDT' : 'Cuotas'}
                       </p>
                       <p className="text-sm text-[var(--admin-text-muted)]">
                         Ref: {payment.proof_number || 'N/A'}
                       </p>
+                      {payment.proof_url && (
+                        <a
+                          href={payment.proof_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-[var(--admin-primary)] hover:underline"
+                        >
+                          Ver comprobante
+                        </a>
+                      )}
                     </div>
                     <div className="text-right">
                       <p className="font-medium text-[var(--admin-text)]">
@@ -191,7 +201,14 @@ export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
                 {address ? `${address.street}, ${address.city}, ${address.state}` : 'Sin dirección'}
               </p>
             </div>
-            
+
+            <div className="p-3 bg-[var(--admin-bg)] rounded-lg">
+              <p className="text-sm font-medium text-[var(--admin-text)] mb-1">Empresa de envío</p>
+              <p className="text-sm text-[var(--admin-text-muted)]">
+                {subOrder.notes || 'No especificada'}
+              </p>
+            </div>
+
             <div className="p-3 bg-[var(--admin-bg)] rounded-lg">
               <p className="text-sm font-medium text-[var(--admin-text)] mb-1">Tracking</p>
               <p className="text-sm text-[var(--admin-text-muted)]">
@@ -224,7 +241,13 @@ export default function OrderTabs({ orderDetail, onUpdate }: OrderTabsProps) {
             <div className="p-3 bg-[var(--admin-bg)] rounded-lg">
               <p className="text-sm font-medium text-[var(--admin-text)] mb-1">Email</p>
               <p className="text-sm text-[var(--admin-text-muted)]">
-                No disponible
+                {client?.email || 'No disponible'}
+              </p>
+            </div>
+            <div className="p-3 bg-[var(--admin-bg)] rounded-lg">
+              <p className="text-sm font-medium text-[var(--admin-text)] mb-1">Dirección</p>
+              <p className="text-sm text-[var(--admin-text-muted)]">
+                {address ? `${address.street}, ${address.city}, ${address.state}` : 'Sin dirección registrada'}
               </p>
             </div>
           </div>

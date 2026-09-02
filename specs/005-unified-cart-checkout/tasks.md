@@ -229,3 +229,13 @@ Con múltiples desarrolladores:
 - Commit después de cada task o grupo lógico
 - Parar en cualquier checkpoint para validar story independientemente
 - Evitar: tasks vagos, conflictos de mismo archivo, dependencias cross-story que rompan independencia
+
+---
+
+## Phase 7: Convergence
+
+**Purpose**: Cerrar brechas entre especificación e implementación
+
+- [x] T065 Crear archivo de migración SQL en supabase/migrations/ con tablas cart_items, orders, sub_orders, order_items, payments, payment_schedules según data-model.md (missing)
+- [x] T066 Crear archivo de migración SQL en supabase/migrations/ con políticas RLS para tablas de carrito y órdenes según DATABASE.md (missing)
+- [x] T067 Implementar upload de comprobantes a Cloudinary en src/lib/actions/payments.ts para soportar subida real de archivos (missing)

@@ -373,3 +373,29 @@ CREATE POLICY "Users view own order_items" ON order_items FOR SELECT USING (
   )
 );
 ```
+
+---
+
+## 3. Archivos de Migración SQL
+
+Los scripts SQL anteriores también están disponibles en la carpeta `supabase/migrations/`:
+
+| Archivo | Descripción |
+|---------|-------------|
+| `20260901000001_cart_checkout_tables.sql` | Creación de tablas para carrito, checkout, pagos y configuración |
+| `20260901000002_cart_checkout_rls.sql` | Políticas RLS para todas las tablas de carrito y checkout |
+
+### Aplicar migraciones manualmente:
+```bash
+# Usando Supabase CLI (recomendado)
+supabase db push
+
+# O directamente con psql
+psql -h <HOST> -U <USER> -d <DATABASE> -f supabase/migrations/20260901000001_cart_checkout_tables.sql
+psql -h <HOST> -U <USER> -d <DATABASE> -f supabase/migrations/20260901000002_cart_checkout_rls.sql
+```
+
+### Datos de ejemplo incluidos:
+- **Tarifas de envío:** MRW y Zoom por rangos de peso
+- **Tasa de cambio:** 36.5 VES/USD (configurable)
+- **Configuración de cuotas:** 2-4 cuotas quincenales

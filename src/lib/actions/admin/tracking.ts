@@ -22,6 +22,16 @@ export async function addTrackingNote(
       return { success: false, error: 'Debe iniciar sesión' };
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile || !['admin_hl', 'admin_kc', 'superadmin'].includes(profile.role)) {
+      return { success: false, error: 'No tiene permisos para esta acción' };
+    }
+
     if (!location || location.trim().length < 2) {
       return { success: false, error: 'La ubicación es requerida (mínimo 2 caracteres)' };
     }
@@ -59,6 +69,16 @@ export async function getTrackingNotes(
 
     if (!user) {
       return { success: false, error: 'Debe iniciar sesión' };
+    }
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile || !['admin_hl', 'admin_kc', 'superadmin'].includes(profile.role)) {
+      return { success: false, error: 'No tiene permisos para esta acción' };
     }
 
     const { data: notes, error } = await supabase

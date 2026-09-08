@@ -3,8 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getProductBySlug } from '@/lib/actions/products';
 import ImageGallery from '@/components/products/image-gallery';
-import VariantSelector from '@/components/products/variant-selector';
-import CustomizationForm from '@/components/products/customization-form';
+import KamCatProductActions from '@/components/products/kamcat-product-actions';
 import PriceDisplay from '@/components/products/price-display';
 
 interface ProductDetailPageProps {
@@ -116,35 +115,11 @@ export default async function ProductDetailPage({
               variants={product.variants}
             />
 
-            <VariantSelector variants={product.variants} />
-
-            {hasCustomization && (
-              <CustomizationForm
-                options={product.customization_options}
-              />
-            )}
-
-            <button
-              type="button"
-              className="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--kc-primary)] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[var(--kc-primary)]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kc-primary)] focus-visible:ring-offset-2"
-              aria-label="Agregar al carrito"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-              Agregar al carrito
-            </button>
+            <KamCatProductActions
+              productId={product.id}
+              variants={product.variants}
+              customizationOptions={product.customization_options}
+            />
 
             <div className="mt-6 rounded-lg border border-border p-4">
               <h3 className="mb-2 text-sm font-semibold text-foreground">

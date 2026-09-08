@@ -1,44 +1,35 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import type { Payment } from '@/types/admin';
-import { getAdminPayments, approvePayment, rejectPayment } from '@/lib/actions/admin/payments';
+import { useEffect } from 'react';
 import { usePaymentFilters } from '@/lib/hooks/use-payment-filters';
+import { approvePayment, rejectPayment } from '@/lib/actions/admin/payments';
+import type { Payment } from '@/types/admin';
 import PaymentTable from '@/components/admin/payment-table';
 import PaymentModal from '@/components/admin/payment-modal';
 import PaymentFilters from '@/components/admin/payment-filters';
 import TableSkeleton from '@/components/admin/skeletons';
 
-export default function PagosPage() {
-  const [payments, setPayments] = useState<Payment[]>([]);
-  const [total, setTotal] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { filters, setFilters } = usePaymentFilters();
-
-  const fetchPayments = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const result = await getAdminPayments(filters);
-      if (result.success && result.data) {
-        setPayments(result.data.data);
-        setTotal(result.data.total);
-        setTotalPages(result.data.totalPages);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  }, [filters]);
+export default function PagosAdminPage() {
+  const {
+    filters,
+    payments,
+    total,
+    totalPages,
+    isLoading,
+    selectedPayment,
+    isModalOpen,
+    setFilters,
+    fetchPayments,
+    openModal,
+    closeModal,
+  } = usePaymentFilters();
 
   useEffect(() => {
     fetchPayments();
-  }, [fetchPayments]);
+  }, [filters, fetchPayments]);
 
   const handleViewProof = (payment: Payment) => {
-    setSelectedPayment(payment);
-    setIsModalOpen(true);
+    openModal(payment);
   };
 
   const handleApprove = async (payment: Payment) => {
@@ -48,23 +39,16 @@ export default function PagosPage() {
     }
   };
 
-  const handleReject = async (payment: Payment) => {
-    setSelectedPayment(payment);
-    setIsModalOpen(true);
+  const handleReject = (payment: Payment) => {
+    openModal(payment);
   };
 
-  const handleRejectConfirm = async (reason: string) => {
-    if (!selectedPayment) return;
-    const result = await rejectPayment(selectedPayment.id, reason);
+  const handleRejectConfirm = async (payment: Payment) => {
+    const result = await rejectPayment(payment.id, 'Rechazado por el administrador');
     if (result.success) {
-      setIsModalOpen(false);
-      setSelectedPayment(null);
+      closeModal();
       fetchPayments();
     }
-  };
-
-  const handlePageChange = (page: number) => {
-    setFilters({ page });
   };
 
   return (
@@ -106,14 +90,14 @@ export default function PagosPage() {
               </p>
               <div className="flex gap-2">
                 <button
-                  onClick={() => handlePageChange(filters.page - 1)}
+                  onClick={() => setFilters({ page: filters.page - 1 })}
                   disabled={filters.page === 1}
                   className="admin-button admin-button-ghost"
                 >
                   Anterior
                 </button>
                 <button
-                  onClick={() => handlePageChange(filters.page + 1)}
+                  onClick={() => setFilters({ page: filters.page + 1 })}
                   disabled={filters.page === totalPages}
                   className="admin-button admin-button-ghost"
                 >
@@ -128,10 +112,7 @@ export default function PagosPage() {
       <PaymentModal
         payment={selectedPayment}
         isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedPayment(null);
-        }}
+        onClose={closeModal}
         onApprove={handleApprove}
         onReject={handleRejectConfirm}
       />

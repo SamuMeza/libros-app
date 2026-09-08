@@ -101,3 +101,60 @@ export function formatShortDate(dateString: string): string {
     day: 'numeric',
   });
 }
+
+export function validateShippingAddress(address: {
+  full_name: string;
+  cedula: string;
+  phone: string;
+  state: string;
+  city: string;
+  address: string;
+  reference?: string;
+}): string[] {
+  const errors: string[] = [];
+
+  if (!address.full_name || address.full_name.trim().length < 3) {
+    errors.push('El nombre completo debe tener al menos 3 caracteres.');
+  }
+
+  if (!address.cedula || address.cedula.trim().length < 6) {
+    errors.push('La cédula de identidad es obligatoria y debe ser válida.');
+  }
+
+  if (!address.phone || address.phone.trim().length < 10) {
+    errors.push('El teléfono de contacto debe tener al menos 10 dígitos.');
+  }
+
+  if (!address.state || address.state.trim().length === 0) {
+    errors.push('El estado es obligatorio.');
+  }
+
+  if (!address.city || address.city.trim().length === 0) {
+    errors.push('La ciudad es obligatoria.');
+  }
+
+  if (!address.address || address.address.trim().length < 8) {
+    errors.push('La dirección detallada debe tener al menos 8 caracteres.');
+  }
+
+  return errors;
+}
+
+export function getDeliveryDays(method: 'mrw' | 'zoom' | string): { min: number; max: number; toString(): string } {
+  if (method === 'zoom') {
+    return {
+      min: 1,
+      max: 3,
+      toString() {
+        return '1 a 3 días hábiles';
+      },
+    };
+  }
+  return {
+    min: 2,
+    max: 4,
+    toString() {
+      return '2 a 4 días hábiles';
+    },
+  };
+}

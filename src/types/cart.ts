@@ -45,15 +45,6 @@ export interface CartSummary {
   total_items: number;
 }
 
-export interface CartState {
-  items: CartItemWithDetails[];
-  brands: CartBrandGroup[];
-  total: number;
-  total_items: number;
-  loading: boolean;
-  error: string | null;
-}
-
 export interface AddToCartParams {
   item_type: 'book' | 'product';
   item_id: string;

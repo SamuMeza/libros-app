@@ -14,13 +14,14 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Dashboard', href: '/admin', roles: ['admin_hl', 'admin_kc', 'superadmin'] },
-  { label: 'Libros', href: '/admin/libros', roles: ['admin_hl', 'superadmin'] },
-  { label: 'Productos', href: '/admin/productos', roles: ['admin_kc', 'superadmin'] },
+  // TODO: Descomentar cuando las páginas estén implementadas
+  // { label: 'Libros', href: '/admin/libros', roles: ['admin_hl', 'superadmin'] },
+  // { label: 'Productos', href: '/admin/productos', roles: ['admin_kc', 'superadmin'] },
   { label: 'Pedidos', href: '/admin/pedidos', roles: ['admin_hl', 'admin_kc', 'superadmin'] },
   { label: 'Pagos', href: '/admin/pagos', roles: ['admin_hl', 'admin_kc', 'superadmin'] },
-  { label: 'Solicitudes', href: '/admin/solicitudes', roles: ['admin_hl', 'superadmin'] },
-  { label: 'Reportes', href: '/admin/reportes', roles: ['superadmin'] },
-  { label: 'Usuarios', href: '/admin/usuarios', roles: ['superadmin'] },
+  // { label: 'Solicitudes', href: '/admin/solicitudes', roles: ['admin_hl', 'superadmin'] },
+  // { label: 'Reportes', href: '/admin/reportes', roles: ['superadmin'] },
+  // { label: 'Usuarios', href: '/admin/usuarios', roles: ['superadmin'] },
 ];
 
 export default function AdminSidebar() {

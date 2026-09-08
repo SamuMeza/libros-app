@@ -33,7 +33,8 @@ Los agentes de IA deben consultar y mantener sincronizada la documentación en r
 - **Requerimientos y Módulos:** [docs/REQUIREMENTS.md](./docs/REQUIREMENTS.md)
 - **Base de Datos y RLS:** [docs/DATABASE.md](./docs/DATABASE.md)
 - **Flujo Git/GitHub y SDD:** [docs/GITHUB_WORKFLOW.md](./docs/GITHUB_WORKFLOW.md)
-- **Sistema de Diseño y Mockups:** [docs/DESIGN_SYSTEM.md](./docs/DESIGN_SYSTEM.md) | [docs/MOCKUPS_SHARED.md](./docs/MOCKUPS_SHARED.md)
+- **Sistema de Diseño y Mockups:** [docs/DESIGN_SYSTEM.md](./docs/DESIGN_SYSTEM.md) | [docs/MOCKUPS_SHARED.md](./docs/MOCKUPS_SHARED.md) | [docs/MOCKUPS_SHOP.md](./docs/MOCKUPS_SHOP.md) | [docs/MOCKUPS_CHECKOUT.md](./docs/MOCKUPS_CHECKOUT.md) | [docs/MOCKUPS_ADMIN.md](./docs/MOCKUPS_ADMIN.md) | [docs/MOCKUPS_MISSING.md](./docs/MOCKUPS_MISSING.md)
+- **Variables de Entorno:** [docs/ENV_VARIABLES.md](./docs/ENV_VARIABLES.md)
 
 
 ---
@@ -53,21 +54,26 @@ src/
 │   ├── auth/             # Componentes de autenticación (auth-form, loading-overlay, error-page)
 │   ├── profile/          # Componentes de perfil (address-form)
 │   ├── books/            # Componentes de Hecho Letras
-│   ├── products/         # Componentes de KamCat
+│   ├── products/         # Componentes de KamCat (cards, variants, customization, gallery)
+│   ├── shop/             # Componentes de pedidos del cliente (order-history, order-detail)
 │   ├── cart/             # Carrito unificado
 │   ├── checkout/         # Checkout, pagos manuales y plan de cuotas
-│   ├── admin/            # Dashboard y paneles por marca
-│   └── shared/           # Buscador, paginación, skeletons
+│   ├── admin/            # Dashboard y paneles por marca (sidebar, tables, modals, skeletons)
+│   └── shared/           # Buscador, paginación, skeletons, filter-sidebar, sort-selector
 ├── lib/
 │   ├── supabase/         # Clientes Supabase (server, client, middleware)
 │   ├── actions/          # Server Actions por dominio (auth, books, products, orders, payments)
+│   │   └── admin/        # Server Actions administrativas
 │   ├── hooks/            # Custom hooks
 │   └── utils/            # Funciones puras, helpers de cálculo, formateo y validadores
 ├── types/                # Interfaces y tipos de TypeScript por dominio
 └── styles/               # Tokens y variables CSS por marca
 tests/
 ├── unit/                 # Tests unitarios (Vitest)
-└── integration/          # Tests de integración (Vitest)
+├── integration/          # Tests de integración (Vitest)
+└── e2e/                  # Tests E2E con Bun.WebView
+supabase/
+└── migrations/           # Migraciones SQL (archivos timestamped)
 ```
 
 ---
@@ -106,6 +112,25 @@ tests/
   - Definiciones de sombras: `box-shadow: 0 1px 2px`
   - Animaciones y transiciones: `height: '0px'`, `transform: translateX(0px)`
   - Bordes y separadores: `border-width: 2px`, `height: 2px`
+
+### Gestión de Estado Global (Zustand)
+- **USAR** Zustand para estado global compartido entre componentes (carrito, autenticación, filtros globales).
+- **NO USAR** Zustand para estado local de componentes (usar `useState`/`useReducer`).
+- Stores en `src/lib/hooks/` con nombre `use[Domain]Store.ts`.
+- Cada store debe ser ligero y enfocado en un dominio específico.
+
+### Migraciones SQL (Supabase)
+- Ubicación: `supabase/migrations/`.
+- Formato: `YYYYMMDDHHMMSS_descripcion.sql` (timestamp + snake_case).
+- **PROHIBIDO** modificar migraciones ya aplicadas. Crear nueva migración para correcciones.
+- Incluir `IF NOT EXISTS` / `IF EXISTS` para idempotencia.
+- Revisar `docs/DATABASE.md` antes de crear migraciones para entender RLS y políticas existentes.
+
+### Helpers de Cloudinary
+- Ubicación: `src/lib/utils/cloudinary.ts`.
+- Transformaciones de imagen: `cloudinary.url()` con `transformation` para redimensión.
+- Formatos de entrega: WebP preferido, fallback a JPEG/PNG.
+- Patrón: helper `uploadImage()` que retorne URL optimizada.
 
 ---
 

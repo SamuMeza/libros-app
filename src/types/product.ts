@@ -1,10 +1,12 @@
 export interface Product {
   id: string;
+  slug: string;
   name: string;
   description: string | null;
   price: number;
   images: string[];
   category_id: string | null;
+  category?: Category | null;
   brand: 'kc';
   variants: Variant[];
   customization_options: CustomizationOption[];

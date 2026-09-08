@@ -62,7 +62,7 @@
 - [x] T018 [US1] Implementar Server Action rejectPayment en src/lib/actions/admin/payments.ts
 - [x] T019 [US1] Implementar lógica de transición de estado en src/lib/utils/order-helpers.ts
 - [ ] T020 [US1] Implementar envío de email de notificación en src/lib/actions/admin/payments.ts
-- [ ] T021 [US1] Crear Zustand store para filtros de pagos en src/lib/hooks/use-payment-filters.ts
+- [X] T021 [US1] Crear Zustand store para filtros de pagos en src/lib/hooks/use-payment-filters.ts
 
 **Checkpoint**: En este punto, User Story 1 debe estar completamente funcional y testeable independientemente
 
@@ -89,8 +89,8 @@
 - [x] T032 [US2] Implementar Server Action getTrackingNotes en src/lib/actions/admin/tracking.ts
 - [x] T033 [US2] Implementar validación de transiciones de estado en src/lib/utils/order-helpers.ts
 - [ ] T034 [US2] Implementar envío de email de notificación en src/lib/actions/admin/orders.ts
-- [ ] T035 [US2] Crear Zustand store para filtros de pedidos en src/lib/hooks/use-order-filters.ts
-- [ ] T036 [US2] Crear Zustand store para drawer en src/lib/hooks/use-order-drawer.ts
+- [X] T035 [US2] Crear Zustand store para filtros de pedidos en src/lib/hooks/use-order-filters.ts
+- [X] T036 [US2] Crear Zustand store para drawer en src/lib/hooks/use-order-drawer.ts
 
 **Checkpoint**: En este punto, User Stories 1 Y 2 deben funcionar independientemente
 

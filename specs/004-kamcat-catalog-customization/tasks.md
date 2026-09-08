@@ -17,9 +17,9 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan (src/components/products/, src/lib/actions/, src/types/)
-- [ ] T002 [P] Create TypeScript interfaces in src/types/product.ts (Product, Category, Variant, CustomizationOption)
-- [ ] T003 [P] Create Supabase client helpers in src/lib/supabase/server.ts and client.ts (if not exists)
+- [X] T001 Create project structure per implementation plan (src/components/products/, src/lib/actions/, src/types/)
+- [X] T002 [P] Create TypeScript interfaces in src/types/product.ts (Product, Category, Variant, CustomizationOption)
+- [X] T003 [P] Create Supabase client helpers in src/lib/supabase/server.ts and client.ts (if not exists)
 
 ---
 
@@ -27,11 +27,11 @@
 
 **Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
 
-- [ ] T004 Implement Server Action getProducts in src/lib/actions/products.ts
-- [ ] T005 [P] Implement Server Action getProductBySlug in src/lib/actions/products.ts
-- [ ] T006 [P] Implement Server Action getProductCategories in src/lib/actions/products.ts
-- [ ] T007 [P] Implement Server Action calculateProductPrice in src/lib/actions/products.ts
-- [ ] T008 [P] Create price calculation helper in src/lib/utils/product-helpers.ts
+- [X] T004 Implement Server Action getProducts in src/lib/actions/products.ts
+- [X] T005 [P] Implement Server Action getProductBySlug in src/lib/actions/products.ts
+- [X] T006 [P] Implement Server Action getProductCategories in src/lib/actions/products.ts
+- [X] T007 [P] Implement Server Action calculateProductPrice in src/lib/actions/products.ts
+- [X] T008 [P] Create price calculation helper in src/lib/utils/product-helpers.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -45,13 +45,13 @@
 
 ### Implementation for User Story 1
 
-- [ ] T009 [P] [US1] Create ProductCard component in src/components/products/product-card.tsx
-- [ ] T010 [P] [US1] Create FilterSidebar component in src/components/shared/filter-sidebar.tsx (reutilizable para futuras features)
-- [ ] T011 [P] [US1] Create Pagination component in src/components/shared/pagination.tsx
-- [ ] T012 [US1] Create catalog page in src/app/(shop)/kamcat/page.tsx (Server Component)
-- [ ] T013 [US1] Integrate filters with URL search params in src/app/(shop)/kamcat/page.tsx
-- [ ] T014 [US1] Add skeleton loading states in src/app/(shop)/kamcat/page.tsx
-- [ ] T015 [US1] Add empty state message in src/app/(shop)/kamcat/page.tsx
+- [X] T009 [P] [US1] Create ProductCard component in src/components/products/product-card.tsx
+- [X] T010 [P] [US1] Create FilterSidebar component in src/components/shared/filter-sidebar.tsx (reutilizable para futuras features)
+- [X] T011 [P] [US1] Create Pagination component in src/components/shared/pagination.tsx
+- [X] T012 [US1] Create catalog page in src/app/(shop)/kamcat/page.tsx (Server Component)
+- [X] T013 [US1] Integrate filters with URL search params in src/app/(shop)/kamcat/page.tsx
+- [X] T014 [US1] Add skeleton loading states in src/app/(shop)/kamcat/page.tsx
+- [X] T015 [US1] Add empty state message in src/app/(shop)/kamcat/page.tsx
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -65,11 +65,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T016 [P] [US2] Create VariantSelector component in src/components/products/variant-selector.tsx
-- [ ] T017 [US2] Create product detail page in src/app/(shop)/kamcat/[slug]/page.tsx (Server Component)
-- [ ] T018 [US2] Add dynamic metadata generation in src/app/(shop)/kamcat/[slug]/page.tsx
-- [ ] T019 [US2] Add breadcrumb navigation in src/app/(shop)/kamcat/[slug]/page.tsx
-- [ ] T020 [US2] Add image gallery with thumbnails in src/app/(shop)/kamcat/[slug]/page.tsx
+- [X] T016 [P] [US2] Create VariantSelector component in src/components/products/variant-selector.tsx
+- [X] T017 [US2] Create product detail page in src/app/(shop)/kamcat/[slug]/page.tsx (Server Component)
+- [X] T018 [US2] Add dynamic metadata generation in src/app/(shop)/kamcat/[slug]/page.tsx
+- [X] T019 [US2] Add breadcrumb navigation in src/app/(shop)/kamcat/[slug]/page.tsx
+- [X] T020 [US2] Add image gallery with thumbnails in src/app/(shop)/kamcat/[slug]/page.tsx
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -83,11 +83,11 @@
 
 ### Implementation for User Story 3
 
-- [ ] T021 [P] [US3] Create CustomizationForm component in src/components/products/customization-form.tsx
-- [ ] T022 [P] [US3] Create PriceDisplay component in src/components/products/price-display.tsx
-- [ ] T023 [US3] Integrate VariantSelector with price calculation in src/app/(shop)/kamcat/[slug]/page.tsx
-- [ ] T024 [US3] Integrate CustomizationForm in src/app/(shop)/kamcat/[slug]/page.tsx
-- [ ] T025 [US3] Add "Add to Cart" button in src/app/(shop)/kamcat/[slug]/page.tsx
+- [X] T021 [P] [US3] Create CustomizationForm component in src/components/products/customization-form.tsx
+- [X] T022 [P] [US3] Create PriceDisplay component in src/components/products/price-display.tsx
+- [X] T023 [US3] Integrate VariantSelector with price calculation in src/app/(shop)/kamcat/[slug]/page.tsx
+- [X] T024 [US3] Integrate CustomizationForm in src/app/(shop)/kamcat/[slug]/page.tsx
+- [X] T025 [US3] Add "Add to Cart" button in src/app/(shop)/kamcat/[slug]/page.tsx
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -97,12 +97,12 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T026 [P] Add WCAG 2.1 AA accessibility attributes across all components (aria-labels, roles, keyboard nav)
-- [ ] T027 [P] Add responsive design for mobile (sidebar drawer overlay, grid columns)
-- [ ] T028 [P] Add error boundary for failed price calculations with visual fallback
-- [ ] T029 [P] Run performance validation: search <500ms, catalog <2s, detail <1.5s, price calc <100ms
-- [ ] T030 [P] Run WCAG 2.1 AA audit with keyboard navigation and screen reader testing
-- [ ] T031 Run quickstart.md validation scenarios
+- [X] T026 [P] Add WCAG 2.1 AA accessibility attributes across all components (aria-labels, roles, keyboard nav)
+- [X] T027 [P] Add responsive design for mobile (sidebar drawer overlay, grid columns)
+- [X] T028 [P] Add error boundary for failed price calculations with visual fallback
+- [x] T029 [P] Run performance validation: search <500ms, catalog <2s, detail <1.5s, price calc <100ms
+- [x] T030 [P] Run WCAG 2.1 AA audit with keyboard navigation and screen reader testing
+- [x] T031 Run quickstart.md validation scenarios
 
 ---
 
@@ -195,9 +195,9 @@ With multiple developers:
 
 **Purpose**: Close gaps between spec/plan and current implementation
 
-- [ ] T032 Create SearchBar component in src/components/shared/search-bar.tsx with debounce (100ms) per spec 3.1 (missing)
-- [ ] T033 Create SortSelector component in src/components/shared/sort-selector.tsx per spec 3.1 (missing)
-- [ ] T034 Fix getProductBySlug to query by id instead of slug in src/lib/actions/products.ts per data-model (missing)
-- [ ] T035 Implement URL-based filter state in src/app/(shop)/kamcat/page.tsx to connect FilterSidebar with search params per spec 3.1 (partial)
-- [ ] T036 Implement URL-based pagination in src/app/(shop)/kamcat/page.tsx to connect Pagination with search params per spec 3.1 (partial)
-- [ ] T037 Add interactive image switching in src/app/(shop)/kamcat/[slug]/page.tsx to make thumbnails switch main image per spec 3.2 (partial)
+- [X] T032 Create SearchBar component in src/components/shared/search-bar.tsx with debounce (100ms) per spec 3.1 (missing)
+- [X] T033 Create SortSelector component in src/components/shared/sort-selector.tsx per spec 3.1 (missing)
+- [X] T034 Fix getProductBySlug to query by id instead of slug in src/lib/actions/products.ts per data-model (missing)
+- [X] T035 Implement URL-based filter state in src/app/(shop)/kamcat/page.tsx to connect FilterSidebar with search params per spec 3.1 (partial)
+- [X] T036 Implement URL-based pagination in src/app/(shop)/kamcat/page.tsx to connect Pagination with search params per spec 3.1 (partial)
+- [X] T037 Add interactive image switching in src/app/(shop)/kamcat/[slug]/page.tsx to make thumbnails switch main image per spec 3.2 (partial)

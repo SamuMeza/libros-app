@@ -5,14 +5,17 @@ import type { CustomizationOption } from '@/types/product';
 
 interface CustomizationFormProps {
   options: CustomizationOption[];
+  onValuesChange?: (values: Record<string, string>) => void;
 }
 
-export default function CustomizationForm({ options }: CustomizationFormProps) {
+export default function CustomizationForm({ options, onValuesChange }: CustomizationFormProps) {
   const [values, setValues] = useState<Record<string, string>>({});
 
   const handleChange = (label: string, value: string, maxLength: number) => {
     if (value.length <= maxLength) {
-      setValues((prev) => ({ ...prev, [label]: value }));
+      const next = { ...values, [label]: value };
+      setValues(next);
+      onValuesChange?.(next);
     }
   };
 

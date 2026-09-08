@@ -8,7 +8,7 @@ interface PaymentFiltersProps {
 }
 
 export default function PaymentFilters({ filters, onFiltersChange }: PaymentFiltersProps) {
-  const handleChange = (key: keyof PaymentFiltersType, value: string | number) => {
+  const handleChange = (key: keyof PaymentFiltersType, value: string | number | null) => {
     onFiltersChange({
       ...filters,
       [key]: value,

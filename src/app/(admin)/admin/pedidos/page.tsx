@@ -1,44 +1,37 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import type { SubOrder } from '@/types/admin';
-import { getAdminOrders } from '@/lib/actions/admin/orders';
+import { useEffect } from 'react';
 import { useOrderFilters } from '@/lib/hooks/use-order-filters';
+import { useOrderDrawer } from '@/lib/hooks/use-order-drawer';
 import OrderTable from '@/components/admin/order-table';
 import OrderDrawer from '@/components/admin/order-drawer';
 import OrderFilters from '@/components/admin/order-filters';
 import TableSkeleton from '@/components/admin/skeletons';
 
-export default function PedidosPage() {
-  const [orders, setOrders] = useState<SubOrder[]>([]);
-  const [total, setTotal] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedOrder, setSelectedOrder] = useState<SubOrder | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { filters, setFilters } = useOrderFilters();
+export default function PedidosAdminPage() {
+  const {
+    filters,
+    orders,
+    total,
+    totalPages,
+    isLoading,
+    setFilters,
+    fetchOrders,
+  } = useOrderFilters();
 
-  const fetchOrders = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const result = await getAdminOrders(filters);
-      if (result.success && result.data) {
-        setOrders(result.data.data);
-        setTotal(result.data.total);
-        setTotalPages(result.data.totalPages);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  }, [filters]);
+  const { openDrawer, closeDrawer } = useOrderDrawer();
 
   useEffect(() => {
     fetchOrders();
-  }, [fetchOrders]);
+  }, [filters, fetchOrders]);
 
-  const handleSelectOrder = (order: SubOrder) => {
-    setSelectedOrder(order);
-    setIsDrawerOpen(true);
+  const handleSelectOrder = (order: Parameters<typeof openDrawer>[0]) => {
+    openDrawer(order);
+  };
+
+  const handleCloseDrawer = () => {
+    closeDrawer();
+    fetchOrders();
   };
 
   return (
@@ -94,15 +87,7 @@ export default function PedidosPage() {
         </div>
       )}
 
-      <OrderDrawer
-        order={selectedOrder}
-        isOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-          setSelectedOrder(null);
-          fetchOrders();
-        }}
-      />
+      <OrderDrawer onClose={handleCloseDrawer} />
     </div>
   );
 }

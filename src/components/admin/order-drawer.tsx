@@ -1,22 +1,27 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
-import type { SubOrder, AdminOrderDetail } from '@/types/admin';
+import type { AdminOrderDetail } from '@/types/admin';
 import { getAdminOrder } from '@/lib/actions/admin/orders';
+import { useOrderDrawer } from '@/lib/hooks/use-order-drawer';
 import OrderTabs from './order-tabs';
 
 interface OrderDrawerProps {
-  order: SubOrder | null;
-  isOpen: boolean;
   onClose: () => void;
 }
 
-export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps) {
+export default function OrderDrawer({ onClose }: OrderDrawerProps) {
+  const { selectedOrder: order, isOpen, closeDrawer } = useOrderDrawer();
   const [orderDetail, setOrderDetail] = useState<AdminOrderDetail | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  const handleClose = () => {
+    closeDrawer();
+    onClose();
+  };
 
   const loadOrderDetail = useCallback(async () => {
     if (!order) return;
@@ -57,7 +62,7 @@ export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose();
+        handleClose();
         return;
       }
 
@@ -88,7 +93,7 @@ export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
   if (!isOpen) return null;
 
@@ -96,7 +101,7 @@ export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps
     <>
       <div
         className="fixed inset-0 bg-black/50 z-40"
-        onClick={onClose}
+        onClick={handleClose}
       />
 
       <aside className="admin-drawer open" role="dialog" aria-modal="true" aria-label="Detalle de pedido" ref={drawerRef}>
@@ -107,7 +112,7 @@ export default function OrderDrawer({ order, isOpen, onClose }: OrderDrawerProps
             </h2>
             <button
               ref={closeButtonRef}
-              onClick={onClose}
+              onClick={handleClose}
               className="admin-button admin-button-ghost p-2"
               aria-label="Cerrar drawer"
             >

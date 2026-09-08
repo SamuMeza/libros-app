@@ -135,15 +135,7 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
-export const SUB_ORDER_STATUS_TRANSITIONS: Record<SubOrderStatus, SubOrderStatus[]> = {
-  pending_payment: ['payment_verified', 'cancelled'],
-  payment_verified: ['preparing', 'cancelled'],
-  preparing: ['shipped', 'cancelled'],
-  shipped: ['in_transit', 'cancelled'],
-  in_transit: ['delivered', 'cancelled'],
-  delivered: [],
-  cancelled: [],
-};
+export type { PaymentSchedule } from './payment';
 
 export const SUB_ORDER_STATUS_LABELS: Record<SubOrderStatus, string> = {
   pending_payment: 'Pendiente de Pago',
@@ -153,16 +145,4 @@ export const SUB_ORDER_STATUS_LABELS: Record<SubOrderStatus, string> = {
   in_transit: 'En Tránsito',
   delivered: 'Entregado',
   cancelled: 'Cancelado',
-};
-
-export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
-  pending: 'Pendiente',
-  verified: 'Verificado',
-  rejected: 'Rechazado',
-};
-
-export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
-  pago_movil: 'Pago Móvil',
-  binance: 'Binance USDT',
-  cuotas: 'Cuotas',
 };

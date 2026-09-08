@@ -80,12 +80,6 @@ export interface InstallmentConfig {
   is_active: boolean;
 }
 
-export interface CalculateInstallmentsParams {
-  total: number;
-  num_installments: number;
-  order_date: string;
-}
-
 export interface InstallmentSchedule {
   installment_number: number;
   amount: number;

@@ -128,7 +128,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
               </dl>
             </div>
 
-            <BookDetailClient extras={extras} bookStatus={book.status} />
+            <BookDetailClient bookId={book.id} extras={extras} bookStatus={book.status} />
 
             <BookAccordions />
           </div>

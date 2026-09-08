@@ -75,16 +75,17 @@ export async function getAdminPayments(
     const total = count || 0;
     const totalPages = Math.ceil(total / filters.limit);
 
-    const payments = (data || []).map((p: Record<string, unknown>) => {
-      const subOrders = p.sub_orders as Record<string, unknown> | null;
-      const orders = subOrders?.orders as Record<string, unknown> | null;
-      const profiles = orders?.profiles as Record<string, unknown> | null;
+    const payments: Payment[] = (data || []).map((item: unknown) => {
+      const p = item as Payment & { sub_orders?: { orders?: { profiles?: { full_name?: string; phone?: string } } } };
+      const subOrders = p.sub_orders;
+      const orders = subOrders?.orders;
+      const profiles = orders?.profiles;
+      const { sub_orders, ...rest } = p;
       return {
-        ...p,
-        customer_name: profiles?.full_name ?? null,
-        customer_phone: profiles?.phone ?? null,
-        sub_orders: undefined,
-      };
+        ...rest,
+        customer_name: profiles?.full_name ?? p.customer_name ?? null,
+        customer_phone: profiles?.phone ?? p.customer_phone ?? null,
+      } as Payment;
     });
 
     return {
@@ -195,6 +196,16 @@ export async function rejectPayment(
 
     if (!user) {
       return { success: false, error: 'Debe iniciar sesión' };
+    }
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile || !['admin_hl', 'admin_kc', 'superadmin'].includes(profile.role)) {
+      return { success: false, error: 'No tiene permisos para esta acción' };
     }
 
     if (!reason || reason.trim().length < 5) {

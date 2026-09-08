@@ -87,6 +87,16 @@ export async function getAdminOrder(
       return { success: false, error: 'Debe iniciar sesión' };
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile || !['admin_hl', 'admin_kc', 'superadmin'].includes(profile.role)) {
+      return { success: false, error: 'No tiene permisos para esta acción' };
+    }
+
     const { data: subOrder, error: subOrderError } = await supabase
       .from('sub_orders')
       .select('*')
@@ -95,7 +105,7 @@ export async function getAdminOrder(
 
     if (subOrderError || !subOrder) {
       return { success: false, error: 'Sub-orden no encontrada' };
-    }
+    };
 
     const { data: items } = await supabase
       .from('order_items')
@@ -168,6 +178,16 @@ export async function updateOrderStatus(
 
     if (!user) {
       return { success: false, error: 'Debe iniciar sesión' };
+    }
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile || !['admin_hl', 'admin_kc', 'superadmin'].includes(profile.role)) {
+      return { success: false, error: 'No tiene permisos para esta acción' };
     }
 
     const { data: subOrder, error: fetchError } = await supabase

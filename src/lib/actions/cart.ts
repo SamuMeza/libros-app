@@ -29,58 +29,61 @@ export async function getCart(): Promise<CartActionResponse> {
       return { success: false, error: 'Error al consultar el carrito' };
     }
 
-    const itemsWithDetails: CartItemWithDetails[] = await Promise.all(
-      (cartItems || []).map(async (item) => {
-        let itemName = '';
-        let itemPrice = 0;
-        let itemImage = '';
-        let brand: 'hl' | 'kc' = 'kc';
+    const bookIds = (cartItems || []).filter((i) => i.item_type === 'book').map((i) => i.item_id);
+    const productIds = (cartItems || []).filter((i) => i.item_type !== 'book').map((i) => i.item_id);
 
-        if (item.item_type === 'book') {
-          const { data: book } = await supabase
-            .from('books')
-            .select('name, price, image, brand')
-            .eq('id', item.item_id)
-            .single();
+    const [booksResult, productsResult] = await Promise.all([
+      bookIds.length > 0
+        ? supabase.from('books').select('id, title, price, images').in('id', bookIds)
+        : { data: [], error: null },
+      productIds.length > 0
+        ? supabase.from('products').select('id, name, price, images').in('id', productIds)
+        : { data: [], error: null },
+    ]);
 
-          if (book) {
-            itemName = book.name;
-            itemPrice = book.price;
-            itemImage = book.image;
-            brand = book.brand || 'hl';
-          }
-        } else {
-          const { data: product } = await supabase
-            .from('products')
-            .select('name, price, images')
-            .eq('id', item.item_id)
-            .single();
+    const booksMap = new Map((booksResult.data || []).map((b) => [b.id, b]));
+    const productsMap = new Map((productsResult.data || []).map((p) => [p.id, p]));
 
-          if (product) {
-            itemName = product.name;
-            itemPrice = product.price;
-            itemImage = product.images?.[0] || '';
-            brand = 'kc';
-          }
+    const itemsWithDetails: CartItemWithDetails[] = (cartItems || []).map((item) => {
+      let itemName = '';
+      let itemPrice = 0;
+      let itemImage = '';
+      let brand: 'hl' | 'kc' = 'kc';
+
+      if (item.item_type === 'book') {
+        const book = booksMap.get(item.item_id);
+        if (book) {
+          itemName = book.title;
+          itemPrice = book.price;
+          itemImage = book.images?.[0] || '';
+          brand = 'hl';
         }
+      } else {
+        const product = productsMap.get(item.item_id);
+        if (product) {
+          itemName = product.name;
+          itemPrice = product.price;
+          itemImage = product.images?.[0] || '';
+          brand = 'kc';
+        }
+      }
 
-        const extrasTotal = (item.extras || []).reduce(
-          (sum: number, extra: { price: number; quantity: number }) =>
-            sum + extra.price * extra.quantity,
-          0
-        );
-        const subtotal = (itemPrice + extrasTotal) * item.quantity;
+      const extrasTotal = (item.extras || []).reduce(
+        (sum: number, extra: { price: number; quantity: number }) =>
+          sum + extra.price * extra.quantity,
+        0
+      );
+      const subtotal = (itemPrice + extrasTotal) * item.quantity;
 
-        return {
-          ...item,
-          item_name: itemName,
-          item_price: itemPrice,
-          item_image: itemImage,
-          brand,
-          subtotal,
-        };
-      })
-    );
+      return {
+        ...item,
+        item_name: itemName,
+        item_price: itemPrice,
+        item_image: itemImage,
+        brand,
+        subtotal,
+      };
+    });
 
     const summary = calculateCartSummary(itemsWithDetails);
 

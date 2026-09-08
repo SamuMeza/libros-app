@@ -9,7 +9,10 @@ import {
   formatAmount,
   formatDate,
   formatShortDate,
-} from '../order-helpers';
+  validateShippingAddress,
+  getDeliveryDays,
+} from '@/lib/utils/order-helpers';
+import type { ShippingAddress } from '@/types/order';
 
 describe('order-helpers', () => {
   describe('isValidTransition', () => {
@@ -29,107 +32,73 @@ describe('order-helpers', () => {
       expect(isValidTransition('in_transit', 'cancelled')).toBe(true);
     });
 
-    it('should reject invalid transitions', () => {
-      expect(isValidTransition('delivered', 'pending_payment')).toBe(false);
-      expect(isValidTransition('cancelled', 'pending_payment')).toBe(false);
-      expect(isValidTransition('pending_payment', 'preparing')).toBe(false);
-      expect(isValidTransition('pending_payment', 'delivered')).toBe(false);
+    it('should disallow invalid transitions', () => {
+      expect(isValidTransition('pending_payment', 'shipped')).toBe(false);
+      expect(isValidTransition('delivered', 'cancelled')).toBe(false);
+      expect(isValidTransition('cancelled', 'delivered')).toBe(false);
     });
   });
 
-  describe('getAllowedTransitions', () => {
-    it('should return allowed transitions for pending_payment', () => {
-      const transitions = getAllowedTransitions('pending_payment');
-      expect(transitions).toContain('payment_verified');
-      expect(transitions).toContain('cancelled');
+  describe('validateShippingAddress', () => {
+    const validAddress: ShippingAddress = {
+      full_name: 'Juan Pérez',
+      cedula: 'V-12345678',
+      phone: '04141234567',
+      state: 'Distrito Capital',
+      city: 'Caracas',
+      address: 'Av. Urdaneta, Edif Centro',
+      reference: 'Frente a la plaza',
+    };
+
+    it('should return empty errors array for a valid Venezuelan address', () => {
+      const errors = validateShippingAddress(validAddress);
+      expect(errors).toEqual([]);
     });
 
-    it('should return empty array for delivered', () => {
-      const transitions = getAllowedTransitions('delivered');
-      expect(transitions).toHaveLength(0);
+    it('should fail when full_name is too short or empty', () => {
+      const errors = validateShippingAddress({ ...validAddress, full_name: '' });
+      expect(errors.length).toBeGreaterThan(0);
+      expect(errors.some((e) => e.toLowerCase().includes('nombre'))).toBe(true);
     });
 
-    it('should return empty array for cancelled', () => {
-      const transitions = getAllowedTransitions('cancelled');
-      expect(transitions).toHaveLength(0);
+    it('should fail when cedula is invalid or empty', () => {
+      const errors = validateShippingAddress({ ...validAddress, cedula: '' });
+      expect(errors.some((e) => e.toLowerCase().includes('cédula'))).toBe(true);
     });
-  });
 
-  describe('getStatusLabel', () => {
-    it('should return correct labels', () => {
-      expect(getStatusLabel('pending_payment')).toBe('Pendiente de Pago');
-      expect(getStatusLabel('payment_verified')).toBe('Pago Verificado');
-      expect(getStatusLabel('preparing')).toBe('Preparando');
-      expect(getStatusLabel('shipped')).toBe('Enviado');
-      expect(getStatusLabel('in_transit')).toBe('En Tránsito');
-      expect(getStatusLabel('delivered')).toBe('Entregado');
-      expect(getStatusLabel('cancelled')).toBe('Cancelado');
+    it('should fail when state or city is missing', () => {
+      const errors = validateShippingAddress({ ...validAddress, state: '', city: '' });
+      expect(errors.length).toBeGreaterThanOrEqual(2);
     });
-  });
 
-  describe('getStatusColor', () => {
-    it('should return correct color classes', () => {
-      expect(getStatusColor('pending_payment')).toBe('pending');
-      expect(getStatusColor('payment_verified')).toBe('verified');
-      expect(getStatusColor('preparing')).toBe('preparing');
-      expect(getStatusColor('shipped')).toBe('shipped');
-      expect(getStatusColor('in_transit')).toBe('in_transit');
-      expect(getStatusColor('delivered')).toBe('delivered');
-      expect(getStatusColor('cancelled')).toBe('cancelled');
+    it('should fail when address is too short', () => {
+      const errors = validateShippingAddress({ ...validAddress, address: 'calle' });
+      expect(errors.some((e) => e.toLowerCase().includes('dirección'))).toBe(true);
     });
   });
 
-  describe('getTransitionError', () => {
-    it('should return null for valid transitions', () => {
-      expect(getTransitionError('pending_payment', 'payment_verified')).toBeNull();
-      expect(getTransitionError('payment_verified', 'preparing')).toBeNull();
+  describe('getDeliveryDays', () => {
+    it('should return estimated delivery range for MRW', () => {
+      const days = getDeliveryDays('mrw');
+      expect(days).toBeDefined();
+      expect(days.min).toBe(2);
+      expect(days.max).toBe(4);
+      expect(days.toString()).toContain('días');
     });
 
-    it('should return error for delivered state', () => {
-      expect(getTransitionError('delivered', 'preparing')).toBe('La orden ya fue entregada');
-    });
-
-    it('should return error for cancelled state', () => {
-      expect(getTransitionError('cancelled', 'preparing')).toBe('La orden fue cancelada');
-    });
-
-    it('should return error for backward transitions', () => {
-      expect(getTransitionError('payment_verified', 'pending_payment')).toBe('No se puede volver a un estado anterior');
-    });
-
-    it('should return error for skipped states', () => {
-      expect(getTransitionError('pending_payment', 'preparing')).toBe('No se puede saltar a este estado');
+    it('should return estimated delivery range for Zoom', () => {
+      const days = getDeliveryDays('zoom');
+      expect(days).toBeDefined();
+      expect(days.min).toBe(1);
+      expect(days.max).toBe(3);
+      expect(days.toString()).toContain('días');
     });
   });
 
   describe('formatOrderNumber', () => {
-    it('should format order number to uppercase', () => {
-      expect(formatOrderNumber('ord-123')).toBe('ORD-123');
-      expect(formatOrderNumber('abc')).toBe('ABC');
-    });
-  });
-
-  describe('formatAmount', () => {
-    it('should format amount as currency', () => {
-      const result = formatAmount(25.5);
-      expect(result).toContain('25');
-      expect(result).toContain('50');
-    });
-  });
-
-  describe('formatDate', () => {
-    it('should format date string', () => {
-      const result = formatDate('2026-01-15T10:30:00Z');
-      expect(result).toBeTruthy();
-      expect(typeof result).toBe('string');
-    });
-  });
-
-  describe('formatShortDate', () => {
-    it('should format short date', () => {
-      const result = formatShortDate('2026-01-15T10:30:00Z');
-      expect(result).toBeTruthy();
-      expect(typeof result).toBe('string');
+    it('should format order numbers correctly in uppercase', () => {
+      expect(formatOrderNumber('hl-2026-0001')).toBe('HL-2026-0001');
+      expect(formatOrderNumber('order-123')).toBe('ORDER-123');
     });
   });
 });

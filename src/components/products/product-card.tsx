@@ -15,7 +15,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link
-      href={`/kamcat/${product.id}`}
+      href={`/kamcat/${product.slug}`}
       className="group block rounded-xl border border-border bg-card p-4 transition-shadow hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kc-primary)]"
     >
       <div className="relative mb-4 aspect-[2/3] overflow-hidden rounded-lg">

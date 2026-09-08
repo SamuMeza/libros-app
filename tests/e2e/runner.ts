@@ -7,6 +7,24 @@ export interface E2EHelperOptions {
   baseURL?: string;
 }
 
+export interface NavigationResult {
+  url: string;
+  status: number;
+  ok: boolean;
+}
+
+interface WebViewInstance {
+  navigate(url: string): Promise<void>;
+  url: string;
+  title: string;
+  loading: boolean;
+  close(): void;
+  scroll(pos: { x: number; y: number }): Promise<void>;
+  evaluate(expression: string): Promise<unknown>;
+  click(selector: string): Promise<void>;
+  type(selector: string, text: string): Promise<void>;
+}
+
 export class E2ERunner {
   private baseURL: string;
 
@@ -15,12 +33,19 @@ export class E2ERunner {
   }
 
   /**
-   * Ejecuta una prueba de interacción evaluando la disponibilidad y estructura de una ruta.
+   * Verifica si Bun.WebView está disponible en el runtime.
    */
-  async navigate(path: string): Promise<{ url: string; status: number; ok: boolean }> {
+  static isWebViewAvailable(): boolean {
+    return typeof (globalThis as unknown as { Bun?: { WebView?: new (options?: unknown) => unknown } }).Bun?.WebView === 'function';
+  }
+
+  /**
+   * Navega a una ruta y retorna el resultado HTTP.
+   */
+  async navigate(path: string): Promise<NavigationResult> {
     const targetUrl = `${this.baseURL}${path.startsWith('/') ? path : `/${path}`}`;
     try {
-      const response = await fetch(targetUrl);
+      const response = await fetch(targetUrl, { redirect: 'manual' });
       return {
         url: targetUrl,
         status: response.status,
@@ -36,13 +61,13 @@ export class E2ERunner {
   }
 
   /**
-   * Crea una instancia de Bun.WebView si está disponible en el runtime para pruebas completas.
+   * Crea una instancia de Bun.WebView para pruebas de navegador completas.
    */
-  createWebView(initialHtml?: string) {
-    if (typeof (globalThis as unknown as { Bun?: { WebView?: new (options?: unknown) => unknown } }).Bun?.WebView !== 'function') {
+  createWebView(initialHtml?: string): WebViewInstance {
+    if (!E2ERunner.isWebViewAvailable()) {
       throw new Error('Bun.WebView no está disponible en este entorno.');
     }
-    const BunRef = (globalThis as unknown as { Bun: { WebView: new (options?: unknown) => unknown } }).Bun;
+    const BunRef = (globalThis as unknown as { Bun: { WebView: new (options?: unknown) => WebViewInstance } }).Bun;
     return new BunRef.WebView({
       html: initialHtml || '<html><body><div id="root"></div></body></html>',
     });

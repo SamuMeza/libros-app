@@ -5,7 +5,8 @@ import type { Variant } from '@/types/product';
 
 interface VariantSelectorProps {
   variants: Variant[];
-  onSelectionChange?: (selection: { size?: string; color?: string }) => void;
+  selectedVariants?: Record<string, string>;
+  onSelectionChange?: (selection: Record<string, string>) => void;
 }
 
 export default function VariantSelector({
@@ -25,13 +26,19 @@ export default function VariantSelector({
   const handleSizeChange = (value: string) => {
     const newSize = selectedSize === value ? undefined : value;
     setSelectedSize(newSize);
-    onSelectionChange?.({ size: newSize, color: selectedColor });
+    const result: Record<string, string> = {};
+    if (newSize) result.size = newSize;
+    if (selectedColor) result.color = selectedColor;
+    onSelectionChange?.(result);
   };
 
   const handleColorChange = (value: string) => {
     const newColor = selectedColor === value ? undefined : value;
     setSelectedColor(newColor);
-    onSelectionChange?.({ size: selectedSize, color: newColor });
+    const result: Record<string, string> = {};
+    if (selectedSize) result.size = selectedSize;
+    if (newColor) result.color = newColor;
+    onSelectionChange?.(result);
   };
 
   return (

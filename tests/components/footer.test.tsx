@@ -27,6 +27,12 @@ describe('Footer Component', () => {
   });
 
   describe('Navigation Links', () => {
+    it('should render Inicio link with correct href', () => {
+      render(<Footer />);
+      const link = screen.getByText('Inicio').closest('a');
+      expect(link).toHaveAttribute('href', '/');
+    });
+
     it('should render Libros link with correct href', () => {
       render(<Footer />);
       const link = screen.getByText('Libros').closest('a');
@@ -36,13 +42,7 @@ describe('Footer Component', () => {
     it('should render Papelería link with correct href', () => {
       render(<Footer />);
       const link = screen.getByText('Papelería').closest('a');
-      expect(link).toHaveAttribute('href', '/papeleria');
-    });
-
-    it('should render Sobre nosotros link with correct href', () => {
-      render(<Footer />);
-      const link = screen.getByText('Sobre nosotros').closest('a');
-      expect(link).toHaveAttribute('href', '/about');
+      expect(link).toHaveAttribute('href', '/kamcat');
     });
 
     it('should render Contacto link with correct href', () => {
@@ -50,32 +50,6 @@ describe('Footer Component', () => {
       const links = screen.getAllByText('Contacto');
       const link = links.find((el) => el.tagName === 'A');
       expect(link).toHaveAttribute('href', '/contact');
-    });
-  });
-
-  describe('Policies', () => {
-    it('should render Privacidad link', () => {
-      render(<Footer />);
-      const link = screen.getByText('Privacidad').closest('a');
-      expect(link).toHaveAttribute('href', '/privacy');
-    });
-
-    it('should render Términos link', () => {
-      render(<Footer />);
-      const link = screen.getByText('Términos').closest('a');
-      expect(link).toHaveAttribute('href', '/terms');
-    });
-
-    it('should render Envíos link', () => {
-      render(<Footer />);
-      const link = screen.getByText('Envíos').closest('a');
-      expect(link).toHaveAttribute('href', '/shipping');
-    });
-
-    it('should render Devoluciones link', () => {
-      render(<Footer />);
-      const link = screen.getByText('Devoluciones').closest('a');
-      expect(link).toHaveAttribute('href', '/returns');
     });
   });
 

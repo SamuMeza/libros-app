@@ -6,7 +6,7 @@ interface SortOption {
 }
 
 interface SortSelectorProps {
-  options: SortOption[];
+  options?: SortOption[];
   value: string;
   onChange: (value: string) => void;
 }

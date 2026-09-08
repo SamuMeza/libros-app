@@ -6,9 +6,10 @@ import type { HeaderProps, Brand } from '@/types';
 
 const NAV_ITEMS = [
   { label: 'Libros', href: '/libros', brand: 'hl' as Brand },
-  { label: 'Papelería', href: '/papeleria', brand: 'kc' as Brand },
-  { label: 'Novedades', href: '/novedades', brand: null },
-  { label: 'Ofertas', href: '/ofertas', brand: null },
+  { label: 'Papelería', href: '/kamcat', brand: 'kc' as Brand },
+  // TODO: Descomentar cuando las páginas estén implementadas
+  // { label: 'Novedades', href: '/novedades', brand: null },
+  // { label: 'Ofertas', href: '/ofertas', brand: null },
 ];
 
 export default function Header({ cartCount = 0 }: HeaderProps) {
@@ -207,6 +208,30 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
 
       {/* Action Buttons */}
       <div className="flex items-center gap-3">
+        {/* TODO: Descomentar cuando se implemente la búsqueda
+        <button
+          className="flex items-center justify-center transition-colors hidden sm:flex"
+          style={{ width: '2.5rem', height: '2.5rem', color: 'var(--text-secondary)' }}
+          aria-label="Buscar"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </button>
+        */}
+
+        {/* TODO: Descomentar cuando se implementen favoritos
+        <button
+          className="flex items-center justify-center transition-colors hidden sm:flex"
+          style={{ width: '2.5rem', height: '2.5rem', color: 'var(--text-secondary)' }}
+          aria-label="Favoritos"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+        </button>
+        */}
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
@@ -233,31 +258,9 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
           )}
         </button>
 
-        {/* Search */}
-        <button
-          className="flex items-center justify-center transition-colors hidden sm:flex"
-          style={{ width: '2.5rem', height: '2.5rem', color: 'var(--text-secondary)' }}
-          aria-label="Buscar"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-        </button>
-
-        {/* Favorites */}
-        <button
-          className="flex items-center justify-center transition-colors hidden sm:flex"
-          style={{ width: '2.5rem', height: '2.5rem', color: 'var(--text-secondary)' }}
-          aria-label="Favoritos"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>
-        </button>
-
         {/* Account */}
-        <button
+        <Link
+          href="/perfil"
           className="flex items-center justify-center transition-colors hidden sm:flex"
           style={{ width: '2.5rem', height: '2.5rem', color: 'var(--text-secondary)' }}
           aria-label="Mi cuenta"
@@ -266,10 +269,11 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
-        </button>
+        </Link>
 
         {/* Cart */}
-        <button
+        <Link
+          href="/carrito"
           className="relative flex items-center justify-center transition-colors"
           style={{ width: '2.5rem', height: '2.5rem', color: 'var(--text-secondary)' }}
           aria-label={`Carrito de compras, ${cartCount} artículos`}
@@ -298,7 +302,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
               {cartCount}
             </span>
           )}
-        </button>
+        </Link>
       </div>
 
       {/* Mobile Drawer Overlay */}

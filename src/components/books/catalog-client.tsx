@@ -93,18 +93,27 @@ export default function CatalogClient({ filters, result, categories }: CatalogCl
     <>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="w-full sm:max-w-md">
-          <SearchBar value={filters.search ?? ''} onSearch={handleSearch} />
+          <SearchBar defaultValue={filters.search ?? ''} onSearch={handleSearch} />
         </div>
-        <SortSelector value={filters.sort ?? 'relevance'} onChange={handleSort} />
+        <SortSelector value={filters.sort ?? 'relevance'} onChange={(val) => handleSort(val as BookSort)} />
       </div>
 
       <div className="flex gap-8">
         <FilterSidebar
-          categories={categories}
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          isOpen={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
+          categories={categories.map((cat) => ({
+            id: cat.id,
+            name: cat.name,
+            slug: cat.id,
+            brand: 'hl' as const,
+            description: null,
+            image_url: null,
+            sort_order: 0,
+            is_active: true,
+            created_at: '',
+          }))}
+          selectedCategoryIds={filters.categoryIds ?? []}
+          onCategoryChange={(ids) => handleFilterChange({ ...filters, categoryIds: ids })}
+          productCounts={new Map(categories.map((c) => [c.id, c.count]))}
         />
 
         <main className="flex-1">
@@ -117,11 +126,9 @@ export default function CatalogClient({ filters, result, categories }: CatalogCl
           {result.books.length > 0 && (
             <div className="mt-8">
               <Pagination
-                page={result.page}
+                currentPage={result.page}
                 totalPages={result.totalPages}
                 onPageChange={handlePageChange}
-                total={result.total}
-                pageSize={result.pageSize}
               />
             </div>
           )}

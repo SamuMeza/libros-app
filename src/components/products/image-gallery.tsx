@@ -10,7 +10,15 @@ interface ImageGalleryProps {
 
 export default function ImageGallery({ images, productName }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const mainImage = images[selectedIndex] || '/placeholder-product.png';
+  const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
+
+  const mainImage = failedImages.has(selectedIndex)
+    ? '/placeholder-product.png'
+    : images[selectedIndex] || '/placeholder-product.png';
+
+  function handleImageError(index: number) {
+    setFailedImages((prev) => new Set(prev).add(index));
+  }
 
   return (
     <div>
@@ -22,6 +30,7 @@ export default function ImageGallery({ images, productName }: ImageGalleryProps)
           className="object-cover transition-opacity duration-200"
           sizes="(max-width: 1024px) 100vw, 50vw"
           priority
+          onError={() => handleImageError(selectedIndex)}
         />
       </div>
       {images.length > 1 && (
@@ -40,11 +49,12 @@ export default function ImageGallery({ images, productName }: ImageGalleryProps)
               aria-pressed={selectedIndex === idx}
             >
               <Image
-                src={img}
+                src={failedImages.has(idx) ? '/placeholder-product.png' : img}
                 alt={`${productName} - miniatura ${idx + 1}`}
                 fill
                 className="object-cover"
                 sizes="80px"
+                onError={() => handleImageError(idx)}
               />
             </button>
           ))}

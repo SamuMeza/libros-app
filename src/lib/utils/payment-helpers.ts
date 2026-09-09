@@ -98,28 +98,72 @@ const DEFAULT_EXCHANGE_RATE: ExchangeRate = {
   updated_at: new Date().toISOString(),
 };
 
-export function calculateInstallments(
-  params: CalculateInstallmentsParams
-): InstallmentSchedule[] {
-  const { total, num_installments, order_date } = params;
+export const DEFAULT_BCV_RATE = 36.5;
 
-  if (num_installments < 2 || num_installments > 4) {
-    return [];
+export function calculateInstallments(
+  paramsOrTotal: CalculateInstallmentsParams | number,
+  numInstallments?: number,
+  orderDate?: string,
+  config?: { min_installments?: number; max_installments?: number; fortnight_days?: number }
+): InstallmentSchedule[] {
+  if (typeof paramsOrTotal === 'object') {
+    const { total, num_installments, order_date } = paramsOrTotal;
+
+    if (num_installments < 2 || num_installments > 4) {
+      return [];
+    }
+
+    const amountPerInstallment = total / num_installments;
+    const schedule: InstallmentSchedule[] = [];
+    const startDate = new Date(order_date);
+
+    for (let i = 0; i < num_installments; i++) {
+      const dueDate = new Date(startDate);
+      dueDate.setDate(dueDate.getDate() + (i + 1) * 15);
+
+      schedule.push({
+        installment_number: i + 1,
+        amount: Math.round(amountPerInstallment * 100) / 100,
+        due_date: dueDate.toISOString().split('T')[0],
+      });
+    }
+
+    return schedule;
   }
 
-  const amountPerInstallment = total / num_installments;
-  const schedule: InstallmentSchedule[] = [];
-  const startDate = new Date(order_date);
+  const total = paramsOrTotal;
+  const installments = numInstallments!;
+  const orderDateStr = orderDate!;
+  const min = config?.min_installments ?? 2;
+  const max = config?.max_installments ?? 4;
+  const fortnightDays = config?.fortnight_days ?? 15;
 
-  for (let i = 0; i < num_installments; i++) {
-    const dueDate = new Date(startDate);
-    dueDate.setDate(dueDate.getDate() + (i + 1) * 15);
+  if (installments < min || installments > max) {
+    throw new Error(`El número de cuotas debe estar entre ${min} y ${max}`);
+  }
+
+  const baseAmount = Math.round((total / installments) * 100) / 100;
+  const baseDate = new Date(orderDateStr + 'T00:00:00');
+
+  const schedule: InstallmentSchedule[] = [];
+  let accumulated = 0;
+
+  for (let i = 0; i < installments; i++) {
+    const isLast = i === installments - 1;
+    const amount = isLast
+      ? Math.round((total - accumulated) * 100) / 100
+      : baseAmount;
+
+    const dueDate = new Date(baseDate);
+    dueDate.setDate(dueDate.getDate() + (i + 1) * fortnightDays);
 
     schedule.push({
       installment_number: i + 1,
-      amount: Math.round(amountPerInstallment * 100) / 100,
+      amount,
       due_date: dueDate.toISOString().split('T')[0],
     });
+
+    accumulated += amount;
   }
 
   return schedule;
@@ -127,8 +171,11 @@ export function calculateInstallments(
 
 export function convertUsdToVes(
   amountUsd: number,
-  exchangeRate: ExchangeRate = DEFAULT_EXCHANGE_RATE
+  exchangeRate: ExchangeRate | number = DEFAULT_EXCHANGE_RATE
 ): number {
+  if (typeof exchangeRate === 'number') {
+    return Math.round(amountUsd * exchangeRate * 100) / 100;
+  }
   return Math.round(amountUsd * exchangeRate.rate_usd_to_ves * 100) / 100;
 }
 
@@ -138,14 +185,14 @@ export function applyBinanceDiscount(total: number, discountPercent: number = 5)
 }
 
 export function validatePaymentProof(file: File): { valid: boolean; error?: string } {
-  const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
   const maxSizeMB = 5;
   const maxSizeBytes = maxSizeMB * 1024 * 1024;
 
   if (!allowedTypes.includes(file.type)) {
     return {
       valid: false,
-      error: 'Formato no permitido. Use JPG, PNG o PDF.',
+      error: 'Formato no permitido. Use JPG, PNG, WEBP o PDF.',
     };
   }
 

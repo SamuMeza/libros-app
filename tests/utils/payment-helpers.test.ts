@@ -54,7 +54,7 @@ describe('payment-helpers', () => {
 
   describe('convertUsdToVes', () => {
     it('should convert USD to VES using provided exchange rate', () => {
-      const ves = convertUsdToVes(10, 36.5);
+      const ves = convertUsdToVes(10, { id: '1', rate_usd_to_ves: 36.5, updated_by: '', updated_at: '' });
       expect(ves).toBe(365);
     });
 
@@ -64,7 +64,7 @@ describe('payment-helpers', () => {
     });
 
     it('should round correctly to two decimal places', () => {
-      const ves = convertUsdToVes(15.55, 36.5);
+      const ves = convertUsdToVes(15.55, { id: '1', rate_usd_to_ves: 36.5, updated_by: '', updated_at: '' });
       expect(ves).toBe(567.58);
     });
   });
@@ -115,7 +115,7 @@ describe('payment-helpers', () => {
 
   describe('calculateInstallments', () => {
     it('should split total into 2 equal fortnightly installments', () => {
-      const result = calculateInstallments(20, 2, '2026-09-01');
+      const result = calculateInstallments({ total: 20, num_installments: 2, order_date: '2026-09-01' });
 
       expect(result).toHaveLength(2);
       expect(result[0].installment_number).toBe(1);
@@ -127,7 +127,7 @@ describe('payment-helpers', () => {
     });
 
     it('should split total into 3 equal fortnightly installments', () => {
-      const result = calculateInstallments(30, 3, '2026-09-01');
+      const result = calculateInstallments({ total: 30, num_installments: 3, order_date: '2026-09-01' });
 
       expect(result).toHaveLength(3);
       expect(result[0].amount).toBe(10);
@@ -139,7 +139,7 @@ describe('payment-helpers', () => {
     });
 
     it('should split total into 4 equal fortnightly installments', () => {
-      const result = calculateInstallments(40, 4, '2026-09-01');
+      const result = calculateInstallments({ total: 40, num_installments: 4, order_date: '2026-09-01' });
 
       expect(result).toHaveLength(4);
       result.forEach((item, i) => {
@@ -149,7 +149,7 @@ describe('payment-helpers', () => {
     });
 
     it('should make last installment absorb rounding difference', () => {
-      const result = calculateInstallments(10, 3, '2026-09-01');
+      const result = calculateInstallments({ total: 10, num_installments: 3, order_date: '2026-09-01' });
 
       expect(result).toHaveLength(3);
       expect(result[0].amount).toBe(3.33);
@@ -160,7 +160,7 @@ describe('payment-helpers', () => {
     });
 
     it('should handle odd totals correctly', () => {
-      const result = calculateInstallments(25, 2, '2026-09-01');
+      const result = calculateInstallments({ total: 25, num_installments: 2, order_date: '2026-09-01' });
 
       expect(result).toHaveLength(2);
       expect(result[0].amount).toBe(12.5);
@@ -168,15 +168,15 @@ describe('payment-helpers', () => {
     });
 
     it('should throw for numInstallments less than 2', () => {
-      expect(() => calculateInstallments(20, 1, '2026-09-01')).toThrow();
+      expect(() => calculateInstallments({ total: 20, num_installments: 1, order_date: '2026-09-01' })).toThrow();
     });
 
     it('should throw for numInstallments greater than 4', () => {
-      expect(() => calculateInstallments(20, 5, '2026-09-01')).toThrow();
+      expect(() => calculateInstallments({ total: 20, num_installments: 5, order_date: '2026-09-01' })).toThrow();
     });
 
     it('should handle decimal totals with proper rounding', () => {
-      const result = calculateInstallments(33.33, 3, '2026-09-01');
+      const result = calculateInstallments({ total: 33.33, num_installments: 3, order_date: '2026-09-01' });
 
       expect(result).toHaveLength(3);
       expect(result[0].amount).toBe(11.11);
@@ -187,7 +187,7 @@ describe('payment-helpers', () => {
     });
 
     it('should generate correct dates from any starting date', () => {
-      const result = calculateInstallments(20, 2, '2026-12-25');
+      const result = calculateInstallments({ total: 20, num_installments: 2, order_date: '2026-12-25' });
 
       expect(result[0].due_date).toBe('2027-01-09');
       expect(result[1].due_date).toBe('2027-01-24');

@@ -88,7 +88,7 @@ describe('Performance Benchmarks (SC-002, SC-004)', () => {
     it('should calculate installments in under 10ms', () => {
       const start = performance.now();
       for (let i = 0; i < 1000; i++) {
-        calculateInstallments(30, 3, '2026-09-01');
+        calculateInstallments({ total: 30, num_installments: 3, order_date: '2026-09-01' });
       }
       const elapsed = performance.now() - start;
 
@@ -108,7 +108,7 @@ describe('Performance Benchmarks (SC-002, SC-004)', () => {
     it('should convert USD to VES in under 10ms', () => {
       const start = performance.now();
       for (let i = 0; i < 1000; i++) {
-        convertUsdToVes(100, 36.5);
+        convertUsdToVes(100, { id: '1', rate_usd_to_ves: 36.5, updated_by: '', updated_at: '' });
       }
       const elapsed = performance.now() - start;
 

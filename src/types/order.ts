@@ -82,3 +82,28 @@ export interface OrderItemCustomization {
 export interface SubOrderWithItems extends SubOrder {
   items: OrderItem[];
 }
+
+export interface CreateOrderParams {
+  shipping_address: ShippingAddress;
+  shipping_method: ShippingMethod;
+  payment_method: PaymentMethod;
+  notes?: string;
+}
+
+export type OrderActionResponse = {
+  success: boolean;
+  data?: Order;
+  error?: string;
+};
+
+export type OrdersActionResponse = {
+  success: boolean;
+  data?: {
+    orders: Order[];
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+  };
+  error?: string;
+};

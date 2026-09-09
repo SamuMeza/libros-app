@@ -85,3 +85,9 @@ export interface InstallmentSchedule {
   amount: number;
   due_date: string;
 }
+
+export interface CalculateInstallmentsParams {
+  total: number;
+  num_installments: number;
+  order_date: string;
+}

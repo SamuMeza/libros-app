@@ -39,7 +39,6 @@ export default function BookExtras({ extras, selectedExtras, onSelectionChange }
               type="checkbox"
               checked={selectedExtras.includes(extra.id)}
               onChange={() => toggle(extra.id)}
-              defaultChecked={extra.is_default}
               className="h-4 w-4 rounded border-hl-primary/30 text-hl-accent accent-hl-accent"
             />
             <div className="flex-1">

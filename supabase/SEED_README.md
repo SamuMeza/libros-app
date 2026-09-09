@@ -7,7 +7,8 @@ Guia paso a paso para poblar la base de datos con datos de prueba.
 ## Prerrequisitos
 
 - Proyecto Supabase activo: `uymzhsautlyiavajyzqc.supabase.co`
-- Migraciones ya aplicadas (tablas + RLS):
+- Migraciones ya aplicadas (en orden):
+  - `20260901000000_initial_schema.sql` ← **nueva, ejecutar primero**
   - `20260901000001_cart_checkout_tables.sql`
   - `20260901000002_cart_checkout_rls.sql`
 - Acceso al **SQL Editor** del dashboard de Supabase
@@ -179,16 +180,18 @@ TRUNCATE profiles CASCADE;
 ```
 supabase/
 ├── migrations/
-│   ├── 20260901000001_cart_checkout_tables.sql   # Tablas + datos de config
-│   └── 20260901000002_cart_checkout_rls.sql      # Politicas RLS
+│   ├── 20260901000000_initial_schema.sql         # Tablas base: profiles, books, products, etc.
+│   ├── 20260901000001_cart_checkout_tables.sql   # Tablas carrito, ordenes, pagos + config
+│   └── 20260901000002_cart_checkout_rls.sql      # Politicas RLS para carrito y checkout
 ├── seeds/
-│   └── 001_initial_seed.sql                      # Datos de prueba (este archivo)
+│   └── 001_initial_seed.sql                      # Datos de prueba
 └── SEED_README.md                                # Este documento
 ```
 
 **Orden de ejecucion:**
-1. `migrations/..._tables.sql` → crea tablas
-2. `migrations/..._rls.sql` → habilita RLS y politicas
-3. Crear usuarios en Auth (Paso 1 de esta guia)
-4. Insertar profiles con roles (Paso 2 de esta guia)
-5. `seeds/001_initial_seed.sql` → datos de prueba (Paso 3 de esta guia)
+1. `migrations/20260901000000_initial_schema.sql` → crea tablas base (profiles, books, products, etc.) + RLS
+2. `migrations/20260901000001_cart_checkout_tables.sql` → crea tablas de carrito y checkout
+3. `migrations/20260901000002_cart_checkout_rls.sql` → habilita RLS para carrito y checkout
+4. Crear usuarios en Auth (Paso 1 de esta guia)
+5. Insertar profiles con roles (Paso 2 de esta guia)
+6. `seeds/001_initial_seed.sql` → datos de prueba (Paso 3 de esta guia)

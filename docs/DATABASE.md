@@ -382,6 +382,7 @@ Los scripts SQL anteriores también están disponibles en la carpeta `supabase/m
 
 | Archivo | Descripción |
 |---------|-------------|
+| `20260901000000_initial_schema.sql` | Tablas base: `profiles`, `addresses`, `categories`, `books`, `products`, `book_extras`, `contact_requests` + RLS + trigger `handle_new_user` |
 | `20260901000001_cart_checkout_tables.sql` | Creación de tablas para carrito, checkout, pagos y configuración |
 | `20260901000002_cart_checkout_rls.sql` | Políticas RLS para todas las tablas de carrito y checkout |
 
@@ -390,7 +391,8 @@ Los scripts SQL anteriores también están disponibles en la carpeta `supabase/m
 # Usando Supabase CLI (recomendado)
 supabase db push
 
-# O directamente con psql
+# O directamente con psql (respetar el orden)
+psql -h <HOST> -U <USER> -d <DATABASE> -f supabase/migrations/20260901000000_initial_schema.sql
 psql -h <HOST> -U <USER> -d <DATABASE> -f supabase/migrations/20260901000001_cart_checkout_tables.sql
 psql -h <HOST> -U <USER> -d <DATABASE> -f supabase/migrations/20260901000002_cart_checkout_rls.sql
 ```
